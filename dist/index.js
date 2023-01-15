@@ -21,6 +21,7 @@ const { errorHandler } = require("./middleware/errorMiddleware");
 const { asyncWrapper } = require("./helpers/asyncWrapper");
 // configs
 require("dotenv").config();
+require("./utils/mongoConnection");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)("tiny"));

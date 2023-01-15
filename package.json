@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "swagger": "node dist/utils/swagger.js",
-    "start": "concurrently \"npx tsc\" \"nodemon dist/index.js --watch\"",
+    "start": "concurrently \"npx tsc --watch\" \"nodemon dist/index.js --watch\"",
     "build": "npx tsc",
     "lint": "eslint . --ext .js .ts --fix"
   },

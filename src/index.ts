@@ -11,6 +11,7 @@ const { asyncWrapper } = require("./helpers/asyncWrapper");
 
 // configs
 require("dotenv").config();
+require("./utils/mongoConnection");
 
 const app: Express = express();
 
