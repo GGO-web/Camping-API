@@ -11,4 +11,5 @@ const router = express_1.default.Router();
 router.get("/all", (0, asyncWrapper_1.asyncWrapper)(UserController_1.getAllUsers));
 router.patch("/", (0, asyncWrapper_1.asyncWrapper)(UserController_1.updateUserProfile));
 router.get("/:id", (0, asyncWrapper_1.asyncWrapper)(UserController_1.getUserById));
+router.patch("/avatar", (0, asyncWrapper_1.asyncWrapper)(UserController_1.updateUserAvatar));
 exports.UserRouter = router;

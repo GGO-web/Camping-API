@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
-import { IUser, User } from "../models/User.model";
 
 import { firebaseApp } from "../utils/firebase";
+
+import { IUser, User } from "../models/User.model";
+
+const isBase64 = require("is-base64");
 
 export const getAllUsers = async (req: Request, res: Response) => {
   const listUsersResult = await firebaseApp.auth().listUsers();
@@ -48,5 +51,31 @@ export const updateUserProfile = async (req: Request, res: Response) => {
 
   return res.json({
     message: "User profile has successfully updated",
+  });
+};
+
+export const updateUserAvatar = async (req: Request, res: Response) => {
+  const { uid, avatar } = req.body as IUser;
+
+  if (
+    !isBase64(avatar, {
+      mimeRequired: true,
+      allowEmpty: false,
+    })
+  ) {
+    res.status(400).json({
+      message: "Avatar format is not allowed or incorrect. Use base64 instead",
+    });
+  }
+
+  await User.findOneAndUpdate(
+    { uid },
+    {
+      avatar: avatar,
+    }
+  );
+
+  return res.json({
+    message: "User avatar was changed",
   });
 };

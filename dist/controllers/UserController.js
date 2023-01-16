@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserProfile = exports.getUserById = exports.getAllUsers = void 0;
-const User_model_1 = require("../models/User.model");
+exports.updateUserAvatar = exports.updateUserProfile = exports.getUserById = exports.getAllUsers = void 0;
 const firebase_1 = require("../utils/firebase");
+const User_model_1 = require("../models/User.model");
+const isBase64 = require("is-base64");
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listUsersResult = yield firebase_1.firebaseApp.auth().listUsers();
     return res.json(listUsersResult.users);
@@ -45,3 +46,21 @@ const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, functi
     });
 });
 exports.updateUserProfile = updateUserProfile;
+const updateUserAvatar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { uid, avatar } = req.body;
+    if (!isBase64(avatar, {
+        mimeRequired: true,
+        allowEmpty: false,
+    })) {
+        res.status(400).json({
+            message: "Avatar format is not allowed or incorrect. Use base64 instead",
+        });
+    }
+    yield User_model_1.User.findOneAndUpdate({ uid }, {
+        avatar: avatar,
+    });
+    return res.json({
+        message: "User avatar was changed",
+    });
+});
+exports.updateUserAvatar = updateUserAvatar;
