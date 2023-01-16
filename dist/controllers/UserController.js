@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserById = exports.getAllUsers = void 0;
+const User_model_1 = require("../models/User.model");
 const firebase_1 = require("../utils/firebase");
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listUsersResult = yield firebase_1.firebaseApp.auth().listUsers();
@@ -18,7 +19,17 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllUsers = getAllUsers;
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const user = yield firebase_1.firebaseApp.auth().getUser(id);
-    return res.json(user);
+    const userDB = yield User_model_1.User.findOne({ uid: id });
+    if (!userDB) {
+        const user = yield firebase_1.firebaseApp.auth().getUser(id);
+        const createdDBUser = new User_model_1.User({
+            uid: id,
+            fullname: user.displayName,
+        });
+        const savedUser = yield createdDBUser.save();
+        return res.json(savedUser);
+    }
+    console.log("User is already created");
+    return res.json(userDB);
 });
 exports.getUserById = getUserById;

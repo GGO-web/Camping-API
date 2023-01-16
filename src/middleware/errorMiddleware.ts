@@ -4,7 +4,7 @@ import { Response } from "express";
 
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err: Error, req: any, res: Response, next: any) {
-  console.log(err.name);
+  console.log(err);
 
   if (
     err.name === "MongoServerError" ||
@@ -19,5 +19,5 @@ function errorHandler(err: Error, req: any, res: Response, next: any) {
 }
 
 module.exports = {
-  errorHandler
+  errorHandler,
 };

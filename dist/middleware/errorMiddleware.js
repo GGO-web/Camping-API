@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
-    console.log(err.name);
+    console.log(err);
     if (err.name === "MongoServerError" ||
         err.name === "ValidationError" ||
         err.name === "TypeError" ||
@@ -13,5 +13,5 @@ function errorHandler(err, req, res, next) {
     return res.status(500).send({ message: "Server error" });
 }
 module.exports = {
-    errorHandler
+    errorHandler,
 };
