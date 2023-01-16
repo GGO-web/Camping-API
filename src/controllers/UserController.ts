@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
-import { errorMessages } from "../constants";
-import { User } from "../models/User.model";
+import { IUser, User } from "../models/User.model";
 
 import { firebaseApp } from "../utils/firebase";
 
@@ -33,4 +32,21 @@ export const getUserById = async (req: Request, res: Response) => {
   console.log("User is already created");
 
   return res.json(userDB);
+};
+
+export const updateUserProfile = async (req: Request, res: Response) => {
+  const { uid, fullname, occupation, bio } = req.body as IUser;
+
+  await User.findOneAndUpdate(
+    { uid },
+    {
+      fullname,
+      occupation,
+      bio,
+    }
+  );
+
+  return res.json({
+    message: "User profile has successfully updated",
+  });
 };

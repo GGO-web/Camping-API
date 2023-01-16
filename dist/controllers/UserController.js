@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserById = exports.getAllUsers = void 0;
+exports.updateUserProfile = exports.getUserById = exports.getAllUsers = void 0;
 const User_model_1 = require("../models/User.model");
 const firebase_1 = require("../utils/firebase");
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -33,3 +33,15 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     return res.json(userDB);
 });
 exports.getUserById = getUserById;
+const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { uid, fullname, occupation, bio } = req.body;
+    yield User_model_1.User.findOneAndUpdate({ uid }, {
+        fullname,
+        occupation,
+        bio,
+    });
+    return res.json({
+        message: "User profile has successfully updated",
+    });
+});
+exports.updateUserProfile = updateUserProfile;
