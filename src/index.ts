@@ -4,6 +4,7 @@ import morgan from "morgan";
 
 // routers
 import { UserRouter } from "./routers/UserRouter";
+import { TripRouter } from "./routers/TripRouter";
 
 // middlewares
 const { errorHandler } = require("./middleware/errorMiddleware");
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // using routers
 app.use("/api/user", UserRouter);
+app.use("/api/trip", TripRouter);
 
 // listening server startup
 (async () => {

@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 // routers
 const UserRouter_1 = require("./routers/UserRouter");
+const TripRouter_1 = require("./routers/TripRouter");
 // middlewares
 const { errorHandler } = require("./middleware/errorMiddleware");
 const { asyncWrapper } = require("./helpers/asyncWrapper");
@@ -28,6 +29,7 @@ app.use((0, morgan_1.default)("tiny"));
 app.use(express_1.default.urlencoded({ extended: true }));
 // using routers
 app.use("/api/user", UserRouter_1.UserRouter);
+app.use("/api/trip", TripRouter_1.TripRouter);
 // listening server startup
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
