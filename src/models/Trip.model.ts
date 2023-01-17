@@ -1,4 +1,7 @@
 import { model, Schema } from "mongoose";
+
+import crypto from "crypto";
+
 import { IBagItem } from "./Bag.model";
 import { IUser } from "./User.model";
 
@@ -34,7 +37,17 @@ const tripSchema = new Schema<ITrip>({
     },
     required: true,
   },
-  bagItems: { type: Array<IBagItem>(), default: [], required: true },
+  bagItems: {
+    type: [
+      {
+        id: { type: String, default: crypto.randomUUID() },
+        description: { type: String, required: true },
+        count: { type: Number, default: 1, required: true },
+      },
+    ],
+    default: [],
+    required: true,
+  },
   // trip is completed when user add all items to bag or skip this step
   completed: { type: Boolean, default: false },
   // trip is activated when user post trip data request
