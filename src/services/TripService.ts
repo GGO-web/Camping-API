@@ -7,11 +7,19 @@ export class TripService {
   public static getActivatedTrip = async (userId: string) => {
     const activatedTrip = await Trip.findOne({ userId, activated: true });
 
+    if (!activatedTrip) {
+      throw new Error("User has no activated trip");
+    }
+
     return activatedTrip;
   };
 
   public static getDontCompletedTrip = async (userId: string) => {
     const dontCompletedTrip = await Trip.findOne({ userId, completed: false });
+
+    if (!dontCompletedTrip) {
+      throw new Error("User has no trips which is not completed yet");
+    }
 
     return dontCompletedTrip;
   };
@@ -21,10 +29,6 @@ export class TripService {
     const dontCompletedTrip = await this.getDontCompletedTrip(userId);
 
     const trip = activatedTrip || dontCompletedTrip;
-
-    if (!trip) {
-      throw new Error("User has no active or completed trip or user not found");
-    }
 
     // add bagItem to trip.bagItems array
     trip?.bagItems.push(bagItem);

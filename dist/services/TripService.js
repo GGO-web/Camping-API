@@ -18,19 +18,22 @@ exports.TripService = TripService;
 _a = TripService;
 TripService.getActivatedTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield Trip_model_1.Trip.findOne({ userId, activated: true });
+    if (!activatedTrip) {
+        throw new Error("User has no activated trip");
+    }
     return activatedTrip;
 });
 TripService.getDontCompletedTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const dontCompletedTrip = yield Trip_model_1.Trip.findOne({ userId, completed: false });
+    if (!dontCompletedTrip) {
+        throw new Error("User has no trips which is not completed yet");
+    }
     return dontCompletedTrip;
 });
 TripService.addBagItem = (userId, bagItem) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield _a.getActivatedTrip(userId);
     const dontCompletedTrip = yield _a.getDontCompletedTrip(userId);
     const trip = activatedTrip || dontCompletedTrip;
-    if (!trip) {
-        throw new Error("User has no active or completed trip or user not found");
-    }
     // add bagItem to trip.bagItems array
     trip === null || trip === void 0 ? void 0 : trip.bagItems.push(bagItem);
     const savedTrip = yield (trip === null || trip === void 0 ? void 0 : trip.save());

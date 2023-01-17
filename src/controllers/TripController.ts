@@ -47,20 +47,27 @@ export const completeTrip = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
   const trip = await TripService.getDontCompletedTrip(userId);
-
   trip?.set({ completed: true });
 
   const savedTrip = await trip?.save();
 
   TripService.activateTrip(userId, savedTrip?.get("_id") as ObjectId);
 
-  return res.json(savedTrip);
+  return res.json({
+    message: `Trip with id ${savedTrip?.get("_id")} completed successfully`,
+  });
 };
 
 export const deleteTrip = async (req: Request, res: Response) => {
   const { tripId } = req.params;
 
-  await Trip.findByIdAndDelete(tripId);
+  const removedTrip = await Trip.findByIdAndDelete(tripId);
+
+  if (!removedTrip) {
+    return res
+      .status(404)
+      .json({ message: "Trip is not found or already removed" });
+  }
 
   return res.json({ message: "Trip deleted successfully" });
 };

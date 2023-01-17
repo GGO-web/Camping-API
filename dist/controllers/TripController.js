@@ -44,12 +44,19 @@ const completeTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     trip === null || trip === void 0 ? void 0 : trip.set({ completed: true });
     const savedTrip = yield (trip === null || trip === void 0 ? void 0 : trip.save());
     TripService_1.TripService.activateTrip(userId, savedTrip === null || savedTrip === void 0 ? void 0 : savedTrip.get("_id"));
-    return res.json(savedTrip);
+    return res.json({
+        message: `Trip with id ${savedTrip === null || savedTrip === void 0 ? void 0 : savedTrip.get("_id")} completed successfully`,
+    });
 });
 exports.completeTrip = completeTrip;
 const deleteTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { tripId } = req.params;
-    yield Trip_model_1.Trip.findByIdAndDelete(tripId);
+    const removedTrip = yield Trip_model_1.Trip.findByIdAndDelete(tripId);
+    if (!removedTrip) {
+        return res
+            .status(404)
+            .json({ message: "Trip is not found or already removed" });
+    }
     return res.json({ message: "Trip deleted successfully" });
 });
 exports.deleteTrip = deleteTrip;
