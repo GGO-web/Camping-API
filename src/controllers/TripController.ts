@@ -7,6 +7,7 @@ import { TripService } from "../services/TripService";
 
 import { IBagItem } from "../models/Bag.model";
 import { ITrip, Trip } from "../models/Trip.model";
+import { isValidImageFormat } from "../helpers/isValidImageFormat";
 
 export const getAllTrips = async (req: Request, res: Response) => {
   const trips = await Trip.find();
@@ -61,13 +62,15 @@ export const completeTrip = async (req: Request, res: Response) => {
 export const deleteTrip = async (req: Request, res: Response) => {
   const { tripId } = req.params;
 
-  const removedTrip = await Trip.findByIdAndDelete(tripId);
-
-  if (!removedTrip) {
-    return res
-      .status(404)
-      .json({ message: "Trip is not found or already removed" });
-  }
+  await TripService.deleteTrip(tripId);
 
   return res.json({ message: "Trip deleted successfully" });
+};
+
+export const updateBagImage = async (req: Request, res: Response) => {
+  const { userId, bagItemId, image } = req.body;
+
+  await TripService.updateBagImage(userId, bagItemId, image);
+
+  return res.json({ message: "Bag item image updated successfully" });
 };

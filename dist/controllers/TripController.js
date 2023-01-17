@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteTrip = exports.completeTrip = exports.addBagItem = exports.getActivatedTrip = exports.createTrip = exports.getAllTrips = void 0;
+exports.updateBagImage = exports.deleteTrip = exports.completeTrip = exports.addBagItem = exports.getActivatedTrip = exports.createTrip = exports.getAllTrips = void 0;
 const TripService_1 = require("../services/TripService");
 const Trip_model_1 = require("../models/Trip.model");
 const getAllTrips = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -51,12 +51,13 @@ const completeTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.completeTrip = completeTrip;
 const deleteTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { tripId } = req.params;
-    const removedTrip = yield Trip_model_1.Trip.findByIdAndDelete(tripId);
-    if (!removedTrip) {
-        return res
-            .status(404)
-            .json({ message: "Trip is not found or already removed" });
-    }
+    yield TripService_1.TripService.deleteTrip(tripId);
     return res.json({ message: "Trip deleted successfully" });
 });
 exports.deleteTrip = deleteTrip;
+const updateBagImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, bagItemId, image } = req.body;
+    yield TripService_1.TripService.updateBagImage(userId, bagItemId, image);
+    return res.json({ message: "Bag item image updated successfully" });
+});
+exports.updateBagImage = updateBagImage;

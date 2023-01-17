@@ -12,6 +12,7 @@ router.get("/all", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getAllTrips
 router.post("/create", (0, asyncWrapper_1.asyncWrapper)(TripController_1.createTrip));
 router.get("/activated/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getActivatedTrip));
 router.post("/bag/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.addBagItem));
+router.patch("/bag/image", (0, asyncWrapper_1.asyncWrapper)(TripController_1.updateBagImage));
 router.patch("/complete/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.completeTrip));
 router.delete("/:tripId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.deleteTrip));
 exports.TripRouter = router;
