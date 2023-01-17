@@ -33,8 +33,21 @@ TripService.getDontCompletedTrip = (userId) => __awaiter(void 0, void 0, void 0,
     return dontCompletedTrip;
 });
 TripService.addBagItem = (userId, bagItem) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = (yield _a.getActivatedTrip(userId)) ||
-        (yield _a.getDontCompletedTrip(userId));
+    // fidn trip if is not completed or is activated
+    const trip = yield Trip_model_1.Trip.findOne({
+        userId,
+        $or: [
+            {
+                activated: true,
+            },
+            {
+                completed: false,
+            },
+        ],
+    });
+    if (!trip) {
+        throw new Error_model_1.AppError("User has no trips yet", 404);
+    }
     // add bagItem to trip.bagItems array
     trip === null || trip === void 0 ? void 0 : trip.bagItems.push(bagItem);
     const savedTrip = yield (trip === null || trip === void 0 ? void 0 : trip.save());
@@ -56,20 +69,35 @@ TripService.deleteTrip = (tripId) => __awaiter(void 0, void 0, void 0, function*
         throw new Error_model_1.AppError("Trip is not found or already removed", 404);
     }
 });
-TripService.updateBagImage = (userId, bagItemId, image) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield _a.getActivatedTrip(userId);
-    console.log(trip);
+TripService.getBagItem = (trip, bagItemId) => __awaiter(void 0, void 0, void 0, function* () {
     const currentBagItem = trip === null || trip === void 0 ? void 0 : trip.bagItems.find((bagItem) => bagItem.id === bagItemId);
+    console.log(currentBagItem);
     if (!currentBagItem) {
         throw new Error_model_1.AppError(`Bag item with id ${bagItemId || "undefined"} is not found`, 404);
     }
+    return currentBagItem;
+});
+TripService.updateBagImage = (userId, bagItemId, image) => __awaiter(void 0, void 0, void 0, function* () {
+    const trip = yield _a.getActivatedTrip(userId);
+    // check if bag item with ID is present in trip
+    yield _a.getBagItem(trip, bagItemId);
     if (!(0, isValidImageFormat_1.isValidImageFormat)(image)) {
         throw new Error_model_1.AppError("Image format is not allowed or incorrect. Use base64 instead", 404);
     }
     // format is valid set bag image
     trip.set({
         bagItems: trip.bagItems.map((bagItem) => bagItem.id === bagItemId
-            ? Object.assign(Object.assign({}, currentBagItem), { image: image }) : bagItem),
+            ? Object.assign(Object.assign({}, bagItem), { image: image }) : bagItem),
+    });
+    yield trip.save();
+});
+TripService.updateBagItemCount = (userId, bagItemId, count) => __awaiter(void 0, void 0, void 0, function* () {
+    const trip = yield _a.getActivatedTrip(userId);
+    // check if bag item with ID is present in trip
+    yield _a.getBagItem(trip, bagItemId);
+    trip.set({
+        bagItems: trip.bagItems.map((bagItem) => bagItem.id === bagItemId
+            ? Object.assign(Object.assign({}, bagItem), { count }) : bagItem),
     });
     yield trip.save();
 });

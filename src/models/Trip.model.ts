@@ -40,8 +40,9 @@ const tripSchema = new Schema<ITrip>({
   bagItems: {
     type: [
       {
-        id: { type: String, default: crypto.randomUUID() },
+        id: { type: String, default: crypto.randomBytes(16).toString("hex") },
         description: { type: String, required: true },
+        image: { type: String },
         count: { type: Number, default: 1, required: true },
       },
     ],

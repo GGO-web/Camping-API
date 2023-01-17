@@ -23,8 +23,9 @@ const tripSchema = new mongoose_1.Schema({
     bagItems: {
         type: [
             {
-                id: { type: String, default: crypto_1.default.randomUUID() },
+                id: { type: String, default: crypto_1.default.randomBytes(16).toString("hex") },
                 description: { type: String, required: true },
+                image: { type: String },
                 count: { type: Number, default: 1, required: true },
             },
         ],

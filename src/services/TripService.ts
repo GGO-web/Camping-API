@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 
 import { IBagItem } from "../models/Bag.model";
-import { Trip } from "../models/Trip.model";
+import { ITrip, Trip } from "../models/Trip.model";
 
 import { isValidImageFormat } from "../helpers/isValidImageFormat";
 import { AppError } from "../models/Error.model";
@@ -28,9 +28,22 @@ export class TripService {
   };
 
   public static addBagItem = async (userId: string, bagItem: IBagItem) => {
-    const trip =
-      (await this.getActivatedTrip(userId)) ||
-      (await this.getDontCompletedTrip(userId));
+    // fidn trip if is not completed or is activated
+    const trip = await Trip.findOne({
+      userId,
+      $or: [
+        {
+          activated: true,
+        },
+        {
+          completed: false,
+        },
+      ],
+    });
+
+    if (!trip) {
+      throw new AppError("User has no trips yet", 404);
+    }
 
     // add bagItem to trip.bagItems array
     trip?.bagItems.push(bagItem);
@@ -62,18 +75,12 @@ export class TripService {
     }
   };
 
-  public static updateBagImage = async (
-    userId: string,
-    bagItemId: string,
-    image: string
-  ) => {
-    const trip = await this.getActivatedTrip(userId);
-
-    console.log(trip);
-
+  private static getBagItem = async (trip: ITrip, bagItemId: string) => {
     const currentBagItem = trip?.bagItems.find(
       (bagItem) => bagItem.id === bagItemId
     );
+
+    console.log(currentBagItem);
 
     if (!currentBagItem) {
       throw new AppError(
@@ -81,6 +88,19 @@ export class TripService {
         404
       );
     }
+
+    return currentBagItem;
+  };
+
+  public static updateBagImage = async (
+    userId: string,
+    bagItemId: string,
+    image: string
+  ) => {
+    const trip = await this.getActivatedTrip(userId);
+
+    // check if bag item with ID is present in trip
+    await this.getBagItem(trip, bagItemId);
 
     if (!isValidImageFormat(image)) {
       throw new AppError(
@@ -94,8 +114,32 @@ export class TripService {
       bagItems: trip.bagItems.map((bagItem) =>
         bagItem.id === bagItemId
           ? {
-              ...currentBagItem,
+              ...bagItem,
               image: image,
+            }
+          : bagItem
+      ),
+    });
+
+    await trip.save();
+  };
+
+  public static updateBagItemCount = async (
+    userId: string,
+    bagItemId: string,
+    count: number
+  ) => {
+    const trip = await this.getActivatedTrip(userId);
+
+    // check if bag item with ID is present in trip
+    await this.getBagItem(trip, bagItemId);
+
+    trip.set({
+      bagItems: trip.bagItems.map((bagItem) =>
+        bagItem.id === bagItemId
+          ? {
+              ...bagItem,
+              count,
             }
           : bagItem
       ),

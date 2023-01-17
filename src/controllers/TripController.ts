@@ -74,3 +74,11 @@ export const updateBagImage = async (req: Request, res: Response) => {
 
   return res.json({ message: "Bag item image updated successfully" });
 };
+
+export const updateBagItemCount = async (req: Request, res: Response) => {
+  const { userId, bagItemId, count } = req.body;
+
+  await TripService.updateBagItemCount(userId, bagItemId, count);
+
+  return res.json({ message: "Bag item count has been updated successfully" });
+};
