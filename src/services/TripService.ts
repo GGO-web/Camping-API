@@ -147,4 +147,17 @@ export class TripService {
 
     await trip.save();
   };
+
+  public static deleteBagItem = async (userId: string, bagItemId: string) => {
+    const trip = await this.getActivatedTrip(userId);
+
+    // check if bag item with ID is present in trip
+    await this.getBagItem(trip, bagItemId);
+
+    trip.set({
+      bagItems: trip.bagItems.filter((bagItem) => bagItem.id !== bagItemId),
+    });
+
+    await trip.save();
+  };
 }

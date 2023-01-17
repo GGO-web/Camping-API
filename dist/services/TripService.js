@@ -101,3 +101,12 @@ TripService.updateBagItemCount = (userId, bagItemId, count) => __awaiter(void 0,
     });
     yield trip.save();
 });
+TripService.deleteBagItem = (userId, bagItemId) => __awaiter(void 0, void 0, void 0, function* () {
+    const trip = yield _a.getActivatedTrip(userId);
+    // check if bag item with ID is present in trip
+    yield _a.getBagItem(trip, bagItemId);
+    trip.set({
+        bagItems: trip.bagItems.filter((bagItem) => bagItem.id !== bagItemId),
+    });
+    yield trip.save();
+});

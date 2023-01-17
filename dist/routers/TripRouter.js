@@ -18,4 +18,5 @@ router.delete("/:tripId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.dele
 router.post("/bag/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.addBagItem));
 router.patch("/bag/image", (0, asyncWrapper_1.asyncWrapper)(TripController_1.updateBagImage));
 router.patch("/bag/count", (0, asyncWrapper_1.asyncWrapper)(TripController_1.updateBagItemCount));
+router.delete("/bag/delete", (0, asyncWrapper_1.asyncWrapper)(TripController_1.deleteBagItem));
 exports.TripRouter = router;

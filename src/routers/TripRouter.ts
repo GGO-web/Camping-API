@@ -9,6 +9,7 @@ import {
   deleteTrip,
   updateBagImage,
   updateBagItemCount,
+  deleteBagItem,
 } from "../controllers/TripController";
 
 import { asyncWrapper } from "../helpers/asyncWrapper";
@@ -26,5 +27,6 @@ router.delete("/:tripId", asyncWrapper(deleteTrip));
 router.post("/bag/:userId", asyncWrapper(addBagItem));
 router.patch("/bag/image", asyncWrapper(updateBagImage));
 router.patch("/bag/count", asyncWrapper(updateBagItemCount));
+router.delete("/bag/delete", asyncWrapper(deleteBagItem));
 
 export const TripRouter: Router = router;

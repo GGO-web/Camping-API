@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateBagItemCount = exports.updateBagImage = exports.deleteTrip = exports.completeTrip = exports.addBagItem = exports.getActivatedTrip = exports.createTrip = exports.getAllTrips = void 0;
+exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.deleteTrip = exports.completeTrip = exports.addBagItem = exports.getActivatedTrip = exports.createTrip = exports.getAllTrips = void 0;
 const TripService_1 = require("../services/TripService");
 const Trip_model_1 = require("../models/Trip.model");
 const getAllTrips = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -67,3 +67,9 @@ const updateBagItemCount = (req, res) => __awaiter(void 0, void 0, void 0, funct
     return res.json({ message: "Bag item count has been updated successfully" });
 });
 exports.updateBagItemCount = updateBagItemCount;
+const deleteBagItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, bagItemId } = req.body;
+    yield TripService_1.TripService.deleteBagItem(userId, bagItemId);
+    return res.json({ message: "Bag item has been deleted successfully" });
+});
+exports.deleteBagItem = deleteBagItem;

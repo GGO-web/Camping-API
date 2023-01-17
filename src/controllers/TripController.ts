@@ -82,3 +82,11 @@ export const updateBagItemCount = async (req: Request, res: Response) => {
 
   return res.json({ message: "Bag item count has been updated successfully" });
 };
+
+export const deleteBagItem = async (req: Request, res: Response) => {
+  const { userId, bagItemId } = req.body;
+
+  await TripService.deleteBagItem(userId as string, bagItemId as string);
+
+  return res.json({ message: "Bag item has been deleted successfully" });
+};
