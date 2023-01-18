@@ -4,6 +4,7 @@ import crypto from "crypto";
 
 import { IBagItem } from "./Bag.model";
 import { IUser } from "./User.model";
+import { IActivity } from "./Activity.model";
 
 export interface ITripPeriod {
   startDate: Date;
@@ -19,6 +20,7 @@ export interface ITrip {
   tripPeriod: ITripPeriod;
   bagItems: IBagItem[];
   userId: string;
+  activities: IActivity[];
   completed: boolean;
   activated: boolean;
 }
@@ -48,6 +50,17 @@ const tripSchema = new Schema<ITrip>({
     ],
     default: [],
     required: true,
+  },
+  activities: {
+    type: [
+      {
+        // activity _id field is predefined by mongoose
+        heading: { type: String, required: true },
+        description: { type: String, required: true },
+        completed: { type: Boolean, default: false },
+      },
+    ],
+    default: [],
   },
   // trip is completed when user add all items to bag or skip this step
   completed: { type: Boolean, default: false },
