@@ -31,10 +31,9 @@ const getActivatedTrip = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getActivatedTrip = getActivatedTrip;
 const addBagItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId } = req.params;
+    const { tripId } = req.params;
     const bagItem = req.body;
-    const trip = yield TripService_1.TripService.addBagItem(userId, bagItem);
-    console.log(trip);
+    yield TripService_1.TripService.addBagItem(tripId, bagItem);
     return res.json({ message: "Bag item added successfully" });
 });
 exports.addBagItem = addBagItem;

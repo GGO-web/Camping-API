@@ -34,12 +34,10 @@ export const getActivatedTrip = async (req: Request, res: Response) => {
 };
 
 export const addBagItem = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const { tripId } = req.params;
   const bagItem = req.body as IBagItem;
 
-  const trip = await TripService.addBagItem(userId, bagItem);
-
-  console.log(trip);
+  await TripService.addBagItem(tripId, bagItem);
 
   return res.json({ message: "Bag item added successfully" });
 };

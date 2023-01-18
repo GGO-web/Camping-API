@@ -7,6 +7,16 @@ import { isValidImageFormat } from "../helpers/isValidImageFormat";
 import { AppError } from "../models/Error.model";
 
 export class TripService {
+  private static getTrip = async (tripId: string) => {
+    const trip = await Trip.findById(tripId);
+
+    if (!trip) {
+      throw new AppError("Trip is not found", 404);
+    }
+
+    return trip;
+  };
+
   public static getActivatedTrip = async (userId: string) => {
     const activatedTrip = await Trip.findOne({ userId, activated: true });
 
@@ -27,19 +37,9 @@ export class TripService {
     return dontCompletedTrip;
   };
 
-  public static addBagItem = async (userId: string, bagItem: IBagItem) => {
-    // fidn trip if is not completed or is activated
-    const trip = await Trip.findOne({
-      userId,
-      $or: [
-        {
-          activated: true,
-        },
-        {
-          completed: false,
-        },
-      ],
-    });
+  public static addBagItem = async (tripId: string, bagItem: IBagItem) => {
+    // find trip by id because we can add item to trip which is not activated and not completed
+    const trip = await this.getTrip(tripId);
 
     if (!trip) {
       throw new AppError("User has no trips yet", 404);

@@ -24,7 +24,7 @@ router.patch("/complete/:userId", asyncWrapper(completeTrip));
 router.delete("/:tripId", asyncWrapper(deleteTrip));
 
 // Bag routes
-router.post("/bag/:userId", asyncWrapper(addBagItem));
+router.post("/bag/:tripId", asyncWrapper(addBagItem));
 router.patch("/bag/image", asyncWrapper(updateBagImage));
 router.patch("/bag/count", asyncWrapper(updateBagItemCount));
 router.delete("/bag/delete", asyncWrapper(deleteBagItem));

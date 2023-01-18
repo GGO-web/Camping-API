@@ -18,6 +18,13 @@ class TripService {
 }
 exports.TripService = TripService;
 _a = TripService;
+TripService.getTrip = (tripId) => __awaiter(void 0, void 0, void 0, function* () {
+    const trip = yield Trip_model_1.Trip.findById(tripId);
+    if (!trip) {
+        throw new Error_model_1.AppError("Trip is not found", 404);
+    }
+    return trip;
+});
 TripService.getActivatedTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield Trip_model_1.Trip.findOne({ userId, activated: true });
     if (!activatedTrip) {
@@ -32,19 +39,9 @@ TripService.getDontCompletedTrip = (userId) => __awaiter(void 0, void 0, void 0,
     }
     return dontCompletedTrip;
 });
-TripService.addBagItem = (userId, bagItem) => __awaiter(void 0, void 0, void 0, function* () {
-    // fidn trip if is not completed or is activated
-    const trip = yield Trip_model_1.Trip.findOne({
-        userId,
-        $or: [
-            {
-                activated: true,
-            },
-            {
-                completed: false,
-            },
-        ],
-    });
+TripService.addBagItem = (tripId, bagItem) => __awaiter(void 0, void 0, void 0, function* () {
+    // find trip by id because we can add item to trip which is not activated and not completed
+    const trip = yield _a.getTrip(tripId);
     if (!trip) {
         throw new Error_model_1.AppError("User has no trips yet", 404);
     }
