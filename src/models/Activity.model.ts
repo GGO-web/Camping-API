@@ -1,5 +1,5 @@
 export interface IActivity {
-  // activity _id field is predefined by mongoose
+  id?: string;
   heading: string;
   description: string;
   completed: boolean;

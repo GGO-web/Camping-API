@@ -54,7 +54,7 @@ const tripSchema = new Schema<ITrip>({
   activities: {
     type: [
       {
-        // activity _id field is predefined by mongoose
+        id: { type: String, default: crypto.randomBytes(16).toString("hex") },
         heading: { type: String, required: true },
         description: { type: String, required: true },
         completed: { type: Boolean, default: false },

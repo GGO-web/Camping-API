@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import { ObjectId } from "mongoose";
 
-import crypto from "crypto";
-
 import { TripService } from "../services/TripService";
 
 import { IBagItem } from "../models/Bag.model";
 import { ITrip, Trip } from "../models/Trip.model";
-import { isValidImageFormat } from "../helpers/isValidImageFormat";
+import { IActivity } from "../models/Activity.model";
 
+// Trip endpoints
 export const getAllTrips = async (req: Request, res: Response) => {
   const trips = await Trip.find();
 
@@ -31,15 +30,6 @@ export const getActivatedTrip = async (req: Request, res: Response) => {
   const trip = await TripService.getActivatedTrip(userId);
 
   return res.json(trip);
-};
-
-export const addBagItem = async (req: Request, res: Response) => {
-  const { tripId } = req.params;
-  const bagItem = req.body as IBagItem;
-
-  await TripService.addBagItem(tripId, bagItem);
-
-  return res.json({ message: "Bag item added successfully" });
 };
 
 export const completeTrip = async (req: Request, res: Response) => {
@@ -65,6 +55,16 @@ export const deleteTrip = async (req: Request, res: Response) => {
   return res.json({ message: "Trip deleted successfully" });
 };
 
+// Bag endpoints
+export const addBagItem = async (req: Request, res: Response) => {
+  const { tripId } = req.params;
+  const bagItem = req.body as IBagItem;
+
+  await TripService.addBagItem(tripId, bagItem);
+
+  return res.json({ message: "Bag item added successfully" });
+};
+
 export const updateBagImage = async (req: Request, res: Response) => {
   const { userId, bagItemId, image } = req.body;
 
@@ -87,4 +87,34 @@ export const deleteBagItem = async (req: Request, res: Response) => {
   await TripService.deleteBagItem(userId as string, bagItemId as string);
 
   return res.json({ message: "Bag item has been deleted successfully" });
+};
+
+// Activity endpoints
+export const addActivity = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const activity = req.body as IActivity;
+
+  await TripService.addActivity(userId, activity);
+
+  return res.json({ message: "Activity added successfully" });
+};
+
+export const setActivityCompleted = async (req: Request, res: Response) => {
+  const { userId, activityId } = req.body;
+
+  await TripService.setActivityCompleted(userId, activityId);
+
+  return res.json({
+    message: `Activity with id ${activityId} has been completed successfully`,
+  });
+};
+
+export const deleteActivity = async (req: Request, res: Response) => {
+  const { userId, activityId } = req.body;
+
+  await TripService.deleteActivity(userId, activityId);
+
+  return res.json({
+    message: `Activity with id ${activityId} has been deleted successfully`,
+  });
 };

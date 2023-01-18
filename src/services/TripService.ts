@@ -2,9 +2,10 @@ import { ObjectId } from "mongoose";
 
 import { IBagItem } from "../models/Bag.model";
 import { ITrip, Trip } from "../models/Trip.model";
+import { AppError } from "../models/Error.model";
+import { IActivity } from "../models/Activity.model";
 
 import { isValidImageFormat } from "../helpers/isValidImageFormat";
-import { AppError } from "../models/Error.model";
 
 export class TripService {
   private static getTrip = async (tripId: string) => {
@@ -156,6 +157,73 @@ export class TripService {
 
     trip.set({
       bagItems: trip.bagItems.filter((bagItem) => bagItem.id !== bagItemId),
+    });
+
+    await trip.save();
+  };
+
+  private static getActivityItem = async (trip: ITrip, activityId: string) => {
+    const currentActivity = trip?.activities.find(
+      (activity) => activity.id === activityId
+    );
+
+    console.log(currentActivity);
+
+    if (!currentActivity) {
+      throw new AppError(
+        `Activity item with id ${activityId || "undefined"} is not found`,
+        404
+      );
+    }
+
+    return currentActivity;
+  };
+
+  public static addActivity = async (userId: string, activity: IActivity) => {
+    const activatedTrip = await this.getActivatedTrip(userId);
+
+    activatedTrip?.activities.push(activity);
+
+    await activatedTrip?.save();
+  };
+
+  public static setActivityCompleted = async (
+    userId: string,
+    activityId: string
+  ) => {
+    const trip = await this.getActivatedTrip(userId);
+
+    // check if activity with ID is present in trip
+    const activity = await this.getActivityItem(trip, activityId);
+
+    if (activity.completed) {
+      throw new AppError("Activity has been already completed", 400);
+    }
+
+    trip.set({
+      activities: trip.activities.map((activity) =>
+        activity.id === activityId
+          ? {
+              ...activity,
+              completed: true,
+            }
+          : activity
+      ),
+    });
+
+    await trip.save();
+  };
+
+  public static deleteActivity = async (userId: string, activityId: string) => {
+    const trip = await this.getActivatedTrip(userId);
+
+    // check if activity with ID is present in trip
+    await this.getActivityItem(trip, activityId);
+
+    trip.set({
+      activities: trip.activities.filter(
+        (activity) => activity.id !== activityId
+      ),
     });
 
     await trip.save();

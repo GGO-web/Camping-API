@@ -32,6 +32,17 @@ const tripSchema = new mongoose_1.Schema({
         default: [],
         required: true,
     },
+    activities: {
+        type: [
+            {
+                id: { type: String, default: crypto_1.default.randomBytes(16).toString("hex") },
+                heading: { type: String, required: true },
+                description: { type: String, required: true },
+                completed: { type: Boolean, default: false },
+            },
+        ],
+        default: [],
+    },
     // trip is completed when user add all items to bag or skip this step
     completed: { type: Boolean, default: false },
     // trip is activated when user post trip data request

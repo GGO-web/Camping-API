@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.deleteTrip = exports.completeTrip = exports.addBagItem = exports.getActivatedTrip = exports.createTrip = exports.getAllTrips = void 0;
+exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.createTrip = exports.getAllTrips = void 0;
 const TripService_1 = require("../services/TripService");
 const Trip_model_1 = require("../models/Trip.model");
+// Trip endpoints
 const getAllTrips = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const trips = yield Trip_model_1.Trip.find();
     return res.json(trips);
@@ -30,13 +31,6 @@ const getActivatedTrip = (req, res) => __awaiter(void 0, void 0, void 0, functio
     return res.json(trip);
 });
 exports.getActivatedTrip = getActivatedTrip;
-const addBagItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { tripId } = req.params;
-    const bagItem = req.body;
-    yield TripService_1.TripService.addBagItem(tripId, bagItem);
-    return res.json({ message: "Bag item added successfully" });
-});
-exports.addBagItem = addBagItem;
 const completeTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     const trip = yield TripService_1.TripService.getDontCompletedTrip(userId);
@@ -54,6 +48,14 @@ const deleteTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     return res.json({ message: "Trip deleted successfully" });
 });
 exports.deleteTrip = deleteTrip;
+// Bag endpoints
+const addBagItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { tripId } = req.params;
+    const bagItem = req.body;
+    yield TripService_1.TripService.addBagItem(tripId, bagItem);
+    return res.json({ message: "Bag item added successfully" });
+});
+exports.addBagItem = addBagItem;
 const updateBagImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, bagItemId, image } = req.body;
     yield TripService_1.TripService.updateBagImage(userId, bagItemId, image);
@@ -72,3 +74,27 @@ const deleteBagItem = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     return res.json({ message: "Bag item has been deleted successfully" });
 });
 exports.deleteBagItem = deleteBagItem;
+// Activity endpoints
+const addActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    const activity = req.body;
+    yield TripService_1.TripService.addActivity(userId, activity);
+    return res.json({ message: "Activity added successfully" });
+});
+exports.addActivity = addActivity;
+const setActivityCompleted = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, activityId } = req.body;
+    yield TripService_1.TripService.setActivityCompleted(userId, activityId);
+    return res.json({
+        message: `Activity with id ${activityId} has been completed successfully`,
+    });
+});
+exports.setActivityCompleted = setActivityCompleted;
+const deleteActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, activityId } = req.body;
+    yield TripService_1.TripService.deleteActivity(userId, activityId);
+    return res.json({
+        message: `Activity with id ${activityId} has been deleted successfully`,
+    });
+});
+exports.deleteActivity = deleteActivity;
