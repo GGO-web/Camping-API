@@ -12,6 +12,7 @@ const router = express_1.default.Router();
 router.get("/all", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getAllTrips));
 router.post("/create", (0, asyncWrapper_1.asyncWrapper)(TripController_1.createTrip));
 router.get("/activated/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getActivatedTrip));
+router.patch("/activate", (0, asyncWrapper_1.asyncWrapper)(TripController_1.activateTrip));
 router.patch("/complete/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.completeTrip));
 router.delete("/:tripId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.deleteTrip));
 // Bag routes

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.createTrip = exports.getAllTrips = void 0;
+exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.activateTrip = exports.createTrip = exports.getAllTrips = void 0;
 const TripService_1 = require("../services/TripService");
 const Trip_model_1 = require("../models/Trip.model");
 // Trip endpoints
@@ -25,6 +25,12 @@ const createTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     return res.json(savedTrip);
 });
 exports.createTrip = createTrip;
+const activateTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, tripId } = req.body;
+    yield TripService_1.TripService.activateTrip(userId, tripId);
+    return res.json({ message: "Trip activated successfully" });
+});
+exports.activateTrip = activateTrip;
 const getActivatedTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     const trip = yield TripService_1.TripService.getActivatedTrip(userId);

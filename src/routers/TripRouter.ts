@@ -4,6 +4,7 @@ import {
   addBagItem,
   completeTrip,
   createTrip,
+  activateTrip,
   getActivatedTrip,
   getAllTrips,
   deleteTrip,
@@ -23,6 +24,7 @@ const router: Router = express.Router();
 router.get("/all", asyncWrapper(getAllTrips));
 router.post("/create", asyncWrapper(createTrip));
 router.get("/activated/:userId", asyncWrapper(getActivatedTrip));
+router.patch("/activate", asyncWrapper(activateTrip));
 router.patch("/complete/:userId", asyncWrapper(completeTrip));
 router.delete("/:tripId", asyncWrapper(deleteTrip));
 

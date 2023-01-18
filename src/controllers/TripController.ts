@@ -24,6 +24,14 @@ export const createTrip = async (req: Request, res: Response) => {
   return res.json(savedTrip);
 };
 
+export const activateTrip = async (req: Request, res: Response) => {
+  const { userId, tripId } = req.body;
+
+  await TripService.activateTrip(userId, tripId);
+
+  return res.json({ message: "Trip activated successfully" });
+};
+
 export const getActivatedTrip = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
