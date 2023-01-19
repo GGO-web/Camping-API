@@ -98,7 +98,6 @@ const setActivityCompleted = (req, res) => __awaiter(void 0, void 0, void 0, fun
 exports.setActivityCompleted = setActivityCompleted;
 const deleteActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, activityId } = req.query;
-    console.log(userId, activityId);
     yield TripService_1.TripService.deleteActivity(userId, activityId);
     return res.json({
         message: `Activity with id ${activityId} has been deleted successfully`,
