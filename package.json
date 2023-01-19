@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "swagger": "node dist/utils/swagger.js",
     "start": "concurrently \"npx tsc --watch\" \"nodemon dist/index.js --watch\"",
     "build": "concurrently \"npm run lint\" \"npx tsc\"",
     "server": "node dist/index.js",

@@ -20,15 +20,18 @@ const UserRouter_1 = require("./routers/UserRouter");
 const TripRouter_1 = require("./routers/TripRouter");
 // middlewares
 const { errorHandler } = require("./middleware/errorMiddleware");
-const { asyncWrapper } = require("./helpers/asyncWrapper");
 // configs
 require("dotenv").config();
 require("./utils/mongoConnection");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("../openapi.json");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)("tiny"));
 app.use(express_1.default.urlencoded({ extended: true }));
+// swagger api documentation route: http://localhost:8080/api-docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // using routers
 app.use("/api/user", UserRouter_1.UserRouter);
 app.use("/api/trip", TripRouter_1.TripRouter);

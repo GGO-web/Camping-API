@@ -10,11 +10,13 @@ import { TripRouter } from "./routers/TripRouter";
 
 // middlewares
 const { errorHandler } = require("./middleware/errorMiddleware");
-const { asyncWrapper } = require("./helpers/asyncWrapper");
 
 // configs
 require("dotenv").config();
 require("./utils/mongoConnection");
+
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("../openapi.json");
 
 const app: Express = express();
 
@@ -22,6 +24,9 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(express.urlencoded({ extended: true }));
+
+// swagger api documentation route: http://localhost:8080/api-docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // using routers
 app.use("/api/user", UserRouter);
