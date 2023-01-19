@@ -2,6 +2,8 @@ import express, { Express } from "express";
 
 import morgan from "morgan";
 
+import cors from "cors";
+
 // routers
 import { UserRouter } from "./routers/UserRouter";
 import { TripRouter } from "./routers/TripRouter";
@@ -16,6 +18,7 @@ require("./utils/mongoConnection");
 
 const app: Express = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(express.urlencoded({ extended: true }));
