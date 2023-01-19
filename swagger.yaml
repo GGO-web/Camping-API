@@ -272,13 +272,20 @@ paths:
       responses:
         '200':
           description: ''
-  /trip/all:
+  /trip/all/{userId}:
     get:
       tags:
         - Trip
       summary: Get all trips
       description: Get all trips from Camping DB
       operationId: getAllTrips
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
+            example: 1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1
       responses:
         '200':
           description: ''

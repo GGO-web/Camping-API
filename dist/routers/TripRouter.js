@@ -9,7 +9,7 @@ const TripController_1 = require("../controllers/TripController");
 const asyncWrapper_1 = require("../helpers/asyncWrapper");
 const router = express_1.default.Router();
 // Trip routes
-router.get("/all", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getAllTrips));
+router.get("/all/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getAllUserTrips));
 router.post("/create", (0, asyncWrapper_1.asyncWrapper)(TripController_1.createTrip));
 router.get("/activated/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getActivatedTrip));
 router.patch("/activate", (0, asyncWrapper_1.asyncWrapper)(TripController_1.activateTrip));

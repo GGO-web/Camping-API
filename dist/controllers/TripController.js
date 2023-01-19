@@ -9,15 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.activateTrip = exports.createTrip = exports.getAllTrips = void 0;
+exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.activateTrip = exports.createTrip = exports.getAllUserTrips = void 0;
 const TripService_1 = require("../services/TripService");
 const Trip_model_1 = require("../models/Trip.model");
 // Trip endpoints
-const getAllTrips = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const trips = yield Trip_model_1.Trip.find();
+const getAllUserTrips = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    const trips = yield Trip_model_1.Trip.find({ userId });
     return res.json(trips);
 });
-exports.getAllTrips = getAllTrips;
+exports.getAllUserTrips = getAllUserTrips;
 const createTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { tripName, tripPeriod, userId } = req.body;
     const trip = new Trip_model_1.Trip({ userId, tripName, tripPeriod });

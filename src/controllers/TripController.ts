@@ -8,8 +8,10 @@ import { ITrip, Trip } from "../models/Trip.model";
 import { IActivity } from "../models/Activity.model";
 
 // Trip endpoints
-export const getAllTrips = async (req: Request, res: Response) => {
-  const trips = await Trip.find();
+export const getAllUserTrips = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  const trips = await Trip.find({ userId });
 
   return res.json(trips);
 };

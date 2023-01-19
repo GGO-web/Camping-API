@@ -6,7 +6,7 @@ import {
   createTrip,
   activateTrip,
   getActivatedTrip,
-  getAllTrips,
+  getAllUserTrips,
   deleteTrip,
   updateBagImage,
   updateBagItemCount,
@@ -21,7 +21,7 @@ import { asyncWrapper } from "../helpers/asyncWrapper";
 const router: Router = express.Router();
 
 // Trip routes
-router.get("/all", asyncWrapper(getAllTrips));
+router.get("/all/:userId", asyncWrapper(getAllUserTrips));
 router.post("/create", asyncWrapper(createTrip));
 router.get("/activated/:userId", asyncWrapper(getActivatedTrip));
 router.patch("/activate", asyncWrapper(activateTrip));
