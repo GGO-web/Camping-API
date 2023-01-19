@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, Router } from "express";
 
 // middleware to handle async/await errors
 export const asyncWrapper =
