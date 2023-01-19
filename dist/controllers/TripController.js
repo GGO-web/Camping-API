@@ -75,7 +75,7 @@ const updateBagItemCount = (req, res) => __awaiter(void 0, void 0, void 0, funct
 });
 exports.updateBagItemCount = updateBagItemCount;
 const deleteBagItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId, bagItemId } = req.body;
+    const { userId, bagItemId } = req.query;
     yield TripService_1.TripService.deleteBagItem(userId, bagItemId);
     return res.json({ message: "Bag item has been deleted successfully" });
 });
@@ -97,7 +97,8 @@ const setActivityCompleted = (req, res) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.setActivityCompleted = setActivityCompleted;
 const deleteActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId, activityId } = req.body;
+    const { userId, activityId } = req.query;
+    console.log(userId, activityId);
     yield TripService_1.TripService.deleteActivity(userId, activityId);
     return res.json({
         message: `Activity with id ${activityId} has been deleted successfully`,

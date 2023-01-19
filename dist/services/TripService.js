@@ -111,7 +111,7 @@ TripService.getActivityItem = (trip, activityId) => __awaiter(void 0, void 0, vo
     const currentActivity = trip === null || trip === void 0 ? void 0 : trip.activities.find((activity) => activity.id === activityId);
     console.log(currentActivity);
     if (!currentActivity) {
-        throw new Error_model_1.AppError(`Activity item with id ${activityId || "undefined"} is not found`, 404);
+        throw new Error_model_1.AppError(`Activity item with id ${activityId || "undefined"} is not found in activated trip`, 404);
     }
     return currentActivity;
 });

@@ -171,7 +171,9 @@ export class TripService {
 
     if (!currentActivity) {
       throw new AppError(
-        `Activity item with id ${activityId || "undefined"} is not found`,
+        `Activity item with id ${
+          activityId || "undefined"
+        } is not found in activated trip`,
         404
       );
     }

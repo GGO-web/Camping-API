@@ -90,7 +90,10 @@ export const updateBagItemCount = async (req: Request, res: Response) => {
 };
 
 export const deleteBagItem = async (req: Request, res: Response) => {
-  const { userId, bagItemId } = req.body;
+  const { userId, bagItemId } = req.query as {
+    userId: string;
+    bagItemId: string;
+  };
 
   await TripService.deleteBagItem(userId as string, bagItemId as string);
 
@@ -118,7 +121,10 @@ export const setActivityCompleted = async (req: Request, res: Response) => {
 };
 
 export const deleteActivity = async (req: Request, res: Response) => {
-  const { userId, activityId } = req.body;
+  const { userId, activityId } = req.query as {
+    userId: string;
+    activityId: string;
+  };
 
   await TripService.deleteActivity(userId, activityId);
 
