@@ -79,7 +79,7 @@ TripService.updateBagImage = (userId, bagItemId, image) => __awaiter(void 0, voi
     // check if bag item with ID is present in trip
     yield _a.getBagItem(trip, bagItemId);
     if (!(0, isValidImageFormat_1.isValidImageFormat)(image)) {
-        throw new Error_model_1.AppError("Image format is not allowed or incorrect. Use base64 instead", 404);
+        throw new Error_model_1.AppError("Image format is not allowed or incorrect. Use base64 instead", 400);
     }
     // format is valid set bag image
     trip.set({

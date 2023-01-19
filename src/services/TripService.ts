@@ -106,7 +106,7 @@ export class TripService {
     if (!isValidImageFormat(image)) {
       throw new AppError(
         "Image format is not allowed or incorrect. Use base64 instead",
-        404
+        400
       );
     }
 

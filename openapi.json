@@ -32,7 +32,17 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -51,6 +61,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "fullname": {
+                    "type": "string",
+                    "example": "Genious"
+                  },
                   "bio": {
                     "type": "string",
                     "example": "full enthusiasm, well-motivated person and ready to constructive communication"
@@ -66,6 +80,7 @@
                 }
               },
               "example": {
+                "fullname": "Genious",
                 "bio": "full enthusiasm, well-motivated person and ready to constructive communication",
                 "occupation": "Web developer",
                 "uid": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
@@ -75,7 +90,23 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User profile updated successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -113,7 +144,39 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User avatar was changed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Avatar format is not allowed or incorrect. Use base64 instead"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -157,7 +220,23 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bag item added successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -200,7 +279,55 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bag item image updated successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Image format is not allowed or incorrect. Use base64 instead"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User has no activated trip"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -243,7 +370,39 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bag item count has been updated successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bag item with id {BAG_ITEM_ID} is not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -276,7 +435,42 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bag item has been deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": [
+                        "Bag item with id {BAG_ITEM_ID} is not found",
+                        "User has no activated trip"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -325,7 +519,39 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Activity added successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User has no activated trip"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -363,7 +589,42 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Activity with id {ACTIVITY_ITEM_ID} has been completed successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": [
+                        "Activity item with id {ACTIVITY_ITEM_ID} is not found in activated trip",
+                        "User has no activated trip"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -396,7 +657,42 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Activity with id {ACTIVITY_ITEM_ID} has been deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": [
+                        "Activity item with id {ACTIVITY_ITEM_ID} is not found in activated trip",
+                        "User has no activated trip"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -422,7 +718,20 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Trip"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -482,7 +791,17 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trip"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -508,7 +827,39 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Trip deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Trip is not found or already removed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -534,7 +885,39 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Trip with id {TRIP_ID} completed successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User has no trips which is not completed yet"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -572,7 +955,39 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Trip activated successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Trip is not found or already activated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -591,5 +1006,229 @@
     {
       "name": "Activity"
     }
-  ]
+  ],
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "User registrated UID (autogenerated)."
+          },
+          "fullname": {
+            "type": "string",
+            "description": "User application full name"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "bytes",
+            "description": "User avatar in base64 format",
+            "default": "base64 avatar image"
+          },
+          "occupation": {
+            "type": "string",
+            "description": "User work position (profession)"
+          },
+          "bio": {
+            "type": "string",
+            "description": "Info about user"
+          }
+        },
+        "required": [
+          "fullname"
+        ]
+      },
+      "Bag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Bag item unique id (autogenerated)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Bag item title"
+          },
+          "image": {
+            "type": "string",
+            "description": "Bag item user snap in base64 format",
+            "default": "Unknown"
+          },
+          "count": {
+            "type": "number",
+            "description": "Amount of bag item",
+            "default": 1
+          }
+        },
+        "required": [
+          "description"
+        ]
+      },
+      "Activity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Activity unique id (autogenerated)"
+          },
+          "heading": {
+            "type": "string",
+            "description": "Activity title"
+          },
+          "description": {
+            "type": "string",
+            "description": "General info about activity",
+            "default": "Unknown"
+          },
+          "completed": {
+            "type": "boolean",
+            "description": "Activity goal has been achieved",
+            "default": false
+          }
+        },
+        "required": [
+          "heading",
+          "description"
+        ]
+      },
+      "Trip": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Trip author"
+          },
+          "tripName": {
+            "type": "string",
+            "description": "Trip title or purpose"
+          },
+          "locations": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/TripLocation"
+            },
+            "description": "Array of camping locations (from Front-end external API)"
+          },
+          "teammates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "tripPeriod": {
+            "$ref": "#/components/schemas/TripPeriod"
+          },
+          "bagItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Bag"
+            }
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Activity"
+            }
+          },
+          "completed": {
+            "type": "boolean",
+            "default": false,
+            "description": "Trip is completed and user is ready to do activities"
+          },
+          "activated": {
+            "type": "boolean",
+            "default": false,
+            "description": "Trip is activated and user gets access to it"
+          }
+        },
+        "required": [
+          "tripName",
+          "tripPeriod",
+          "userId"
+        ]
+      },
+      "TripPeriod": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Trip start date UTC format"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Trip finish date UTC format"
+          },
+          "formatted": {
+            "type": "string",
+            "description": "Trip formatted period of start-finish dates"
+          }
+        },
+        "required": [
+          "startDate",
+          "endDate",
+          "formatted"
+        ]
+      },
+      "TripLocation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Location item unique id (autogenerated)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Location item title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Location item description"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Location images urls",
+            "default": []
+          },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "postalCode": {
+                  "type": "string"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "stateCode": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Location address array",
+            "default": []
+          }
+        }
+      },
+      "AppError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "number",
+            "description": "Error code to track status"
+          }
+        }
+      }
+    }
+  }
 }
