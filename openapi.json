@@ -181,6 +181,61 @@
         }
       }
     },
+    "/trip/bag/all/{userId}": {
+      "get": {
+        "tags": [
+          "Bag"
+        ],
+        "summary": "Get bag items",
+        "description": "Get bag items of activated trip",
+        "operationId": "getBagItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Bag"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User has no activated trip"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/trip/bag/{tripId}": {
       "post": {
         "tags": [
@@ -463,6 +518,61 @@
                         "Bag item with id {BAG_ITEM_ID} is not found",
                         "User has no activated trip"
                       ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/trip/activity/all/{userId}": {
+      "get": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "Get activities",
+        "description": "Get activities items of activated trip",
+        "operationId": "getActivities",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Activity"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User has no activated trip"
                     }
                   }
                 }

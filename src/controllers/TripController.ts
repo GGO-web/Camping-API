@@ -66,6 +66,14 @@ export const deleteTrip = async (req: Request, res: Response) => {
 };
 
 // Bag endpoints
+export const getBagItems = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  const trip = await TripService.getActivatedTrip(userId);
+
+  return res.json(trip.bagItems);
+};
+
 export const addBagItem = async (req: Request, res: Response) => {
   const { tripId } = req.params;
   const bagItem = req.body as IBagItem;
@@ -103,6 +111,14 @@ export const deleteBagItem = async (req: Request, res: Response) => {
 };
 
 // Activity endpoints
+export const getActivities = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  const trip = await TripService.getActivatedTrip(userId);
+
+  return res.json(trip.activities);
+};
+
 export const addActivity = async (req: Request, res: Response) => {
   const { userId } = req.params;
   const activity = req.body as IActivity;

@@ -16,11 +16,13 @@ router.patch("/activate", (0, asyncWrapper_1.asyncWrapper)(TripController_1.acti
 router.patch("/complete/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.completeTrip));
 router.delete("/:tripId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.deleteTrip));
 // Bag routes
+router.get("/bag/all/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getBagItems));
 router.post("/bag/:tripId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.addBagItem));
 router.patch("/bag/image", (0, asyncWrapper_1.asyncWrapper)(TripController_1.updateBagImage));
 router.patch("/bag/count", (0, asyncWrapper_1.asyncWrapper)(TripController_1.updateBagItemCount));
 router.delete("/bag/delete", (0, asyncWrapper_1.asyncWrapper)(TripController_1.deleteBagItem));
 // Activity routes
+router.get("/activity/all/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getActivities));
 router.post("/activity/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.addActivity));
 router.patch("/activity/complete", (0, asyncWrapper_1.asyncWrapper)(TripController_1.setActivityCompleted));
 router.delete("/activity/delete", (0, asyncWrapper_1.asyncWrapper)(TripController_1.deleteActivity));

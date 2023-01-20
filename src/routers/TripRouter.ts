@@ -14,6 +14,8 @@ import {
   addActivity,
   setActivityCompleted,
   deleteActivity,
+  getBagItems,
+  getActivities,
 } from "../controllers/TripController";
 
 import { asyncWrapper } from "../helpers/asyncWrapper";
@@ -29,12 +31,14 @@ router.patch("/complete/:userId", asyncWrapper(completeTrip));
 router.delete("/:tripId", asyncWrapper(deleteTrip));
 
 // Bag routes
+router.get("/bag/all/:userId", asyncWrapper(getBagItems));
 router.post("/bag/:tripId", asyncWrapper(addBagItem));
 router.patch("/bag/image", asyncWrapper(updateBagImage));
 router.patch("/bag/count", asyncWrapper(updateBagItemCount));
 router.delete("/bag/delete", asyncWrapper(deleteBagItem));
 
 // Activity routes
+router.get("/activity/all/:userId", asyncWrapper(getActivities));
 router.post("/activity/:userId", asyncWrapper(addActivity));
 router.patch("/activity/complete", asyncWrapper(setActivityCompleted));
 router.delete("/activity/delete", asyncWrapper(deleteActivity));

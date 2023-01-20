@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.activateTrip = exports.createTrip = exports.getAllUserTrips = void 0;
+exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.getActivities = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.getBagItems = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.activateTrip = exports.createTrip = exports.getAllUserTrips = void 0;
 const TripService_1 = require("../services/TripService");
 const Trip_model_1 = require("../models/Trip.model");
 // Trip endpoints
@@ -56,6 +56,12 @@ const deleteTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.deleteTrip = deleteTrip;
 // Bag endpoints
+const getBagItems = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    const trip = yield TripService_1.TripService.getActivatedTrip(userId);
+    return res.json(trip.bagItems);
+});
+exports.getBagItems = getBagItems;
 const addBagItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { tripId } = req.params;
     const bagItem = req.body;
@@ -82,6 +88,12 @@ const deleteBagItem = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.deleteBagItem = deleteBagItem;
 // Activity endpoints
+const getActivities = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    const trip = yield TripService_1.TripService.getActivatedTrip(userId);
+    return res.json(trip.activities);
+});
+exports.getActivities = getActivities;
 const addActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     const activity = req.body;
