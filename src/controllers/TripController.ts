@@ -17,9 +17,9 @@ export const getAllUserTrips = async (req: Request, res: Response) => {
 };
 
 export const createTrip = async (req: Request, res: Response) => {
-  const { tripName, tripPeriod, userId } = req.body as ITrip;
+  const { tripName, tripPeriod, userId, ...otherTripParams } = req.body as ITrip;
 
-  const trip = new Trip({ userId, tripName, tripPeriod });
+  const trip = new Trip({ userId, tripName, tripPeriod, ...otherTripParams });
 
   const savedTrip = await trip.save();
 

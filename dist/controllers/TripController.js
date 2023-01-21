@@ -8,6 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.getActivities = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.getBagItems = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.activateTrip = exports.createTrip = exports.getAllUserTrips = void 0;
 const TripService_1 = require("../services/TripService");
@@ -20,8 +31,8 @@ const getAllUserTrips = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.getAllUserTrips = getAllUserTrips;
 const createTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { tripName, tripPeriod, userId } = req.body;
-    const trip = new Trip_model_1.Trip({ userId, tripName, tripPeriod });
+    const _a = req.body, { tripName, tripPeriod, userId } = _a, otherTripParams = __rest(_a, ["tripName", "tripPeriod", "userId"]);
+    const trip = new Trip_model_1.Trip(Object.assign({ userId, tripName, tripPeriod }, otherTripParams));
     const savedTrip = yield trip.save();
     return res.json(savedTrip);
 });
