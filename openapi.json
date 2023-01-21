@@ -846,6 +846,42 @@
         }
       }
     },
+    "/trip/activated/{userId}": {
+      "get": {
+        "tags": [
+          "Trip"
+        ],
+        "summary": "Get activated trip",
+        "description": "",
+        "operationId": "getActivatedTrip",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trip"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/trip/create": {
       "post": {
         "tags": [
