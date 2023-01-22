@@ -34,6 +34,14 @@ export const activateTrip = async (req: Request, res: Response) => {
   return res.json({ message: "Trip activated successfully" });
 };
 
+export const deactivateTrip = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  await TripService.deactivateTrip(userId);
+
+  return res.json({ message: "Trip deactivated successfully" });
+};
+
 export const getActivatedTrip = async (req: Request, res: Response) => {
   const { userId } = req.params;
 

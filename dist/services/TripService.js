@@ -61,6 +61,11 @@ TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0,
     currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.set({ activated: true });
     yield (currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.save());
 });
+TripService.deactivateTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const trip = yield _a.getActivatedTrip(userId);
+    trip === null || trip === void 0 ? void 0 : trip.set({ activated: false });
+    yield (trip === null || trip === void 0 ? void 0 : trip.save());
+});
 TripService.deleteTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, function* () {
     const removedTrip = yield Trip_model_1.Trip.findOneAndDelete({ userId, _id: tripId });
     if (!removedTrip) {

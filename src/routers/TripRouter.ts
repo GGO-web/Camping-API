@@ -5,6 +5,7 @@ import {
   completeTrip,
   createTrip,
   activateTrip,
+  deactivateTrip,
   getActivatedTrip,
   getAllUserTrips,
   deleteTrip,
@@ -27,6 +28,7 @@ router.get("/all/:userId", asyncWrapper(getAllUserTrips));
 router.post("/create", asyncWrapper(createTrip));
 router.get("/activated/:userId", asyncWrapper(getActivatedTrip));
 router.patch("/activate", asyncWrapper(activateTrip));
+router.patch("/deactivate/:userId", asyncWrapper(deactivateTrip));
 router.patch("/complete/:userId", asyncWrapper(completeTrip));
 router.delete("/delete", asyncWrapper(deleteTrip));
 

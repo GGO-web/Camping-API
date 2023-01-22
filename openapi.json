@@ -1160,6 +1160,64 @@
           }
         }
       }
+    },
+    "/trip/deactivate/{userId}": {
+      "patch": {
+        "tags": [
+          "Trip"
+        ],
+        "summary": "Deactivate trip",
+        "description": "Turn off activated field for current Trip",
+        "operationId": "deactivateTrip",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Trip deactivated successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User has no activated trip"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "tags": [

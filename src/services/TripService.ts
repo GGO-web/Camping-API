@@ -69,6 +69,14 @@ export class TripService {
     await currentTrip?.save();
   };
 
+  public static deactivateTrip = async (userId: string) => {
+    const trip = await this.getActivatedTrip(userId);
+
+    trip?.set({ activated: false });
+
+    await trip?.save();
+  };
+
   public static deleteTrip = async (userId: string, tripId: string) => {
     const removedTrip = await Trip.findOneAndDelete({userId, _id: tripId});
 
