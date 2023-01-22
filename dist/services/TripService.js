@@ -14,6 +14,7 @@ exports.TripService = void 0;
 const Trip_model_1 = require("../models/Trip.model");
 const Error_model_1 = require("../models/Error.model");
 const isValidImageFormat_1 = require("../helpers/isValidImageFormat");
+const uuid_1 = require("uuid");
 class TripService {
 }
 exports.TripService = TripService;
@@ -46,7 +47,7 @@ TripService.addBagItem = (tripId, bagItem) => __awaiter(void 0, void 0, void 0, 
         throw new Error_model_1.AppError("User has no trips yet", 404);
     }
     // add bagItem to trip.bagItems array
-    trip === null || trip === void 0 ? void 0 : trip.bagItems.push(bagItem);
+    trip === null || trip === void 0 ? void 0 : trip.bagItems.push(Object.assign(Object.assign({}, bagItem), { id: (0, uuid_1.v4)() }));
     const savedTrip = yield (trip === null || trip === void 0 ? void 0 : trip.save());
     return savedTrip;
 });
@@ -109,7 +110,6 @@ TripService.deleteBagItem = (userId, bagItemId) => __awaiter(void 0, void 0, voi
 });
 TripService.getActivityItem = (trip, activityId) => __awaiter(void 0, void 0, void 0, function* () {
     const currentActivity = trip === null || trip === void 0 ? void 0 : trip.activities.find((activity) => activity.id === activityId);
-    console.log(currentActivity);
     if (!currentActivity) {
         throw new Error_model_1.AppError(`Activity item with id ${activityId || "undefined"} is not found in activated trip`, 404);
     }
@@ -117,7 +117,7 @@ TripService.getActivityItem = (trip, activityId) => __awaiter(void 0, void 0, vo
 });
 TripService.addActivity = (userId, activity) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield _a.getActivatedTrip(userId);
-    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.activities.push(activity);
+    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.activities.push(Object.assign(Object.assign({}, activity), { id: (0, uuid_1.v4)() }));
     yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
 });
 TripService.setActivityCompleted = (userId, activityId) => __awaiter(void 0, void 0, void 0, function* () {

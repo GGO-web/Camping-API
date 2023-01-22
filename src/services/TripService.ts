@@ -6,6 +6,7 @@ import { AppError } from "../models/Error.model";
 import { IActivity } from "../models/Activity.model";
 
 import { isValidImageFormat } from "../helpers/isValidImageFormat";
+import { v4 } from "uuid";
 
 export class TripService {
   private static getTrip = async (tripId: string) => {
@@ -47,7 +48,7 @@ export class TripService {
     }
 
     // add bagItem to trip.bagItems array
-    trip?.bagItems.push(bagItem);
+    trip?.bagItems.push({...bagItem, id: v4()});
 
     const savedTrip = await trip?.save();
 
@@ -167,8 +168,6 @@ export class TripService {
       (activity) => activity.id === activityId
     );
 
-    console.log(currentActivity);
-
     if (!currentActivity) {
       throw new AppError(
         `Activity item with id ${
@@ -184,7 +183,7 @@ export class TripService {
   public static addActivity = async (userId: string, activity: IActivity) => {
     const activatedTrip = await this.getActivatedTrip(userId);
 
-    activatedTrip?.activities.push(activity);
+    activatedTrip?.activities.push({...activity, id: v4()});
 
     await activatedTrip?.save();
   };
