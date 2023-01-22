@@ -637,7 +637,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Trip"
-  /trip/{tripId}:
+  /trip/delete:
     delete:
       tags:
         - Trip
@@ -645,12 +645,16 @@ paths:
       description: ''
       operationId: deleteTrip
       parameters:
-        - in: path
-          name: tripId
-          required: true
+        - name: userId
+          in: query
           schema:
             type: string
-            example: 63c84ad29ad59e685cafabf3
+            example: 1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1
+        - name: tripId
+          in: query
+          schema:
+            type: string
+            example: 292ed90808df312625d81dac028b1b9d
       responses:
         '500':
           description: Internal Server Error

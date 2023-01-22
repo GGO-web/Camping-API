@@ -57,10 +57,10 @@ export const completeTrip = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteTrip = async (req: Request, res: Response) => {
-  const { tripId } = req.params;
+export const deleteTrip = async (req: Request<any, any, {userId: string, tripId: string}, any>, res: Response) => {
+  const { userId, tripId } = req.query;
 
-  await TripService.deleteTrip(tripId);
+  await TripService.deleteTrip(userId, tripId);
 
   return res.json({ message: "Trip deleted successfully" });
 };
@@ -99,11 +99,8 @@ export const updateBagItemCount = async (req: Request, res: Response) => {
   return res.json({ message: "Bag item count has been updated successfully" });
 };
 
-export const deleteBagItem = async (req: Request, res: Response) => {
-  const { userId, bagItemId } = req.query as {
-    userId: string;
-    bagItemId: string;
-  };
+export const deleteBagItem = async (req: Request<any, any, {userId: string, bagItemId: string}, any>, res: Response) => {
+  const { userId, bagItemId } = req.query;
 
   await TripService.deleteBagItem(userId as string, bagItemId as string);
 
@@ -138,11 +135,8 @@ export const setActivityCompleted = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteActivity = async (req: Request, res: Response) => {
-  const { userId, activityId } = req.query as {
-    userId: string;
-    activityId: string;
-  };
+export const deleteActivity = async (req: Request<any, any, {userId: string, activityId: string}, any>, res: Response) => {
+  const { userId, activityId } = req.query;
 
   await TripService.deleteActivity(userId, activityId);
 

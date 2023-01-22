@@ -14,7 +14,7 @@ router.post("/create", (0, asyncWrapper_1.asyncWrapper)(TripController_1.createT
 router.get("/activated/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getActivatedTrip));
 router.patch("/activate", (0, asyncWrapper_1.asyncWrapper)(TripController_1.activateTrip));
 router.patch("/complete/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.completeTrip));
-router.delete("/:tripId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.deleteTrip));
+router.delete("/delete", (0, asyncWrapper_1.asyncWrapper)(TripController_1.deleteTrip));
 // Bag routes
 router.get("/bag/all/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getBagItems));
 router.post("/bag/:tripId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.addBagItem));

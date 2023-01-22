@@ -69,8 +69,8 @@ export class TripService {
     await currentTrip?.save();
   };
 
-  public static deleteTrip = async (tripId: string) => {
-    const removedTrip = await Trip.findByIdAndDelete(tripId);
+  public static deleteTrip = async (userId: string, tripId: string) => {
+    const removedTrip = await Trip.findOneAndDelete({userId, _id: tripId});
 
     if (!removedTrip) {
       throw new AppError("Trip is not found or already removed", 404);

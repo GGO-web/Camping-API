@@ -61,8 +61,8 @@ TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0,
     currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.set({ activated: true });
     yield (currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.save());
 });
-TripService.deleteTrip = (tripId) => __awaiter(void 0, void 0, void 0, function* () {
-    const removedTrip = yield Trip_model_1.Trip.findByIdAndDelete(tripId);
+TripService.deleteTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, function* () {
+    const removedTrip = yield Trip_model_1.Trip.findOneAndDelete({ userId, _id: tripId });
     if (!removedTrip) {
         throw new Error_model_1.AppError("Trip is not found or already removed", 404);
     }

@@ -61,8 +61,8 @@ const completeTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.completeTrip = completeTrip;
 const deleteTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { tripId } = req.params;
-    yield TripService_1.TripService.deleteTrip(tripId);
+    const { userId, tripId } = req.query;
+    yield TripService_1.TripService.deleteTrip(userId, tripId);
     return res.json({ message: "Trip deleted successfully" });
 });
 exports.deleteTrip = deleteTrip;

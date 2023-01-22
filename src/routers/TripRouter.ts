@@ -28,7 +28,7 @@ router.post("/create", asyncWrapper(createTrip));
 router.get("/activated/:userId", asyncWrapper(getActivatedTrip));
 router.patch("/activate", asyncWrapper(activateTrip));
 router.patch("/complete/:userId", asyncWrapper(completeTrip));
-router.delete("/:tripId", asyncWrapper(deleteTrip));
+router.delete("/delete", asyncWrapper(deleteTrip));
 
 // Bag routes
 router.get("/bag/all/:userId", asyncWrapper(getBagItems));
