@@ -27,4 +27,7 @@ router.get("/activity/all/:userId", (0, asyncWrapper_1.asyncWrapper)(TripControl
 router.post("/activity/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.addActivity));
 router.patch("/activity/complete", (0, asyncWrapper_1.asyncWrapper)(TripController_1.setActivityCompleted));
 router.delete("/activity/delete", (0, asyncWrapper_1.asyncWrapper)(TripController_1.deleteActivity));
+// Snap routes
+router.get("/snaps/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getAllUserTripSnaps));
+router.post("/snaps/create", (0, asyncWrapper_1.asyncWrapper)(TripController_1.createTripSnap));
 exports.TripRouter = router;

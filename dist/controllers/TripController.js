@@ -20,7 +20,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.getActivities = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.getBagItems = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.deactivateTrip = exports.activateTrip = exports.createTrip = exports.getAllUserTrips = void 0;
+exports.createTripSnap = exports.getAllUserTripSnaps = exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.getActivities = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.getBagItems = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.deactivateTrip = exports.activateTrip = exports.createTrip = exports.getAllUserTrips = void 0;
 const TripService_1 = require("../services/TripService");
 const Trip_model_1 = require("../models/Trip.model");
 // Trip endpoints
@@ -33,6 +33,7 @@ exports.getAllUserTrips = getAllUserTrips;
 const createTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const _a = req.body, { tripName, tripPeriod, userId } = _a, otherTripParams = __rest(_a, ["tripName", "tripPeriod", "userId"]);
     const trip = new Trip_model_1.Trip(Object.assign({ userId, tripName, tripPeriod }, otherTripParams));
+    console.log(trip);
     const savedTrip = yield trip.save();
     return res.json(savedTrip);
 });
@@ -134,3 +135,18 @@ const deleteActivity = (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.deleteActivity = deleteActivity;
+// Snaps endpoints
+const getAllUserTripSnaps = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    const snaps = yield TripService_1.TripService.getAllUserSnaps(userId);
+    return res.json(snaps);
+});
+exports.getAllUserTripSnaps = getAllUserTripSnaps;
+const createTripSnap = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const snap = req.body;
+    const createdSnap = yield TripService_1.TripService.createTripSnap(snap);
+    return res.json({
+        message: `Snap with id ${createdSnap._id} has been created successfully`,
+    });
+});
+exports.createTripSnap = createTripSnap;

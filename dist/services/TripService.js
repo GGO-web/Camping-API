@@ -15,6 +15,7 @@ const Trip_model_1 = require("../models/Trip.model");
 const Error_model_1 = require("../models/Error.model");
 const isValidImageFormat_1 = require("../helpers/isValidImageFormat");
 const uuid_1 = require("uuid");
+const Snap_model_1 = require("../models/Snap.model");
 class TripService {
 }
 exports.TripService = TripService;
@@ -146,4 +147,14 @@ TripService.deleteActivity = (userId, activityId) => __awaiter(void 0, void 0, v
         activities: trip.activities.filter((activity) => activity.id !== activityId),
     });
     yield trip.save();
+});
+TripService.getAllUserSnaps = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const activatedTrip = yield _a.getActivatedTrip(userId);
+    const snaps = yield Snap_model_1.Snap.find({ userId, tripId: activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.id });
+    return snaps;
+});
+TripService.createTripSnap = (snap) => __awaiter(void 0, void 0, void 0, function* () {
+    const activatedTrip = yield _a.getActivatedTrip(snap.userId);
+    const createdSnap = yield Snap_model_1.Snap.create(Object.assign(Object.assign({}, snap), { tripId: activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.id }));
+    return createdSnap;
 });

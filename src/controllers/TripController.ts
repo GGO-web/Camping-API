@@ -6,6 +6,7 @@ import { TripService } from "../services/TripService";
 import { IBagItem } from "../models/Bag.model";
 import { ITrip, Trip } from "../models/Trip.model";
 import { IActivity } from "../models/Activity.model";
+import { ISnap } from "../models/Snap.model";
 
 // Trip endpoints
 export const getAllUserTrips = async (req: Request, res: Response) => {
@@ -20,6 +21,9 @@ export const createTrip = async (req: Request, res: Response) => {
   const { tripName, tripPeriod, userId, ...otherTripParams } = req.body as ITrip;
 
   const trip = new Trip({ userId, tripName, tripPeriod, ...otherTripParams });
+
+  console.log(trip);
+  
 
   const savedTrip = await trip.save();
 
@@ -152,3 +156,22 @@ export const deleteActivity = async (req: Request<any, any, {userId: string, act
     message: `Activity with id ${activityId} has been deleted successfully`,
   });
 };
+
+// Snaps endpoints
+export const getAllUserTripSnaps = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  const snaps = await TripService.getAllUserSnaps(userId);
+
+  return res.json(snaps);
+}
+
+export const createTripSnap = async (req: Request<any, {snap: ISnap}, any, any>, res: Response) => {
+  const snap = req.body;
+
+  const createdSnap = await TripService.createTripSnap(snap);
+
+  return res.json({
+    message: `Snap with id ${createdSnap._id} has been created successfully`,
+  });
+}

@@ -17,6 +17,8 @@ import {
   deleteActivity,
   getBagItems,
   getActivities,
+  getAllUserTripSnaps,
+  createTripSnap
 } from "../controllers/TripController";
 
 import { asyncWrapper } from "../helpers/asyncWrapper";
@@ -44,5 +46,9 @@ router.get("/activity/all/:userId", asyncWrapper(getActivities));
 router.post("/activity/:userId", asyncWrapper(addActivity));
 router.patch("/activity/complete", asyncWrapper(setActivityCompleted));
 router.delete("/activity/delete", asyncWrapper(deleteActivity));
+
+// Snap routes
+router.get("/snaps/:userId", asyncWrapper(getAllUserTripSnaps));
+router.post("/snaps/create", asyncWrapper(createTripSnap));
 
 export const TripRouter: Router = router;

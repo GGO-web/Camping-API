@@ -7,6 +7,7 @@ import { IActivity } from "../models/Activity.model";
 
 import { isValidImageFormat } from "../helpers/isValidImageFormat";
 import { v4 } from "uuid";
+import { ISnap, Snap } from "../models/Snap.model";
 
 export class TripService {
   private static getTrip = async (tripId: string) => {
@@ -237,4 +238,23 @@ export class TripService {
 
     await trip.save();
   };
+
+  public static getAllUserSnaps = async (userId: string) => {
+    const activatedTrip = await this.getActivatedTrip(userId);
+
+    const snaps = await Snap.find({ userId, tripId: activatedTrip?.id });
+
+    return snaps;
+  };
+
+  public static createTripSnap = async (snap: ISnap) => {
+    const activatedTrip = await this.getActivatedTrip(snap.userId);
+
+    const createdSnap = await Snap.create({
+      ...snap,
+      tripId: activatedTrip?.id,
+    });
+
+    return createdSnap;
+  }
 }
