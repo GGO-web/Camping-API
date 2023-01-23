@@ -1295,17 +1295,12 @@
                   "userId": {
                     "type": "string",
                     "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
-                  },
-                  "tripId": {
-                    "type": "string",
-                    "example": "63c93dbe37daeff8aa65cc98"
                   }
                 }
               },
               "example": {
                 "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAl/SURBVHgB1Zt/bBTHFce/s3tnbJ",
-                "userId": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1",
-                "tripId": "63c93dbe37daeff8aa65cc98"
+                "userId": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
               }
             }
           }
@@ -1465,8 +1460,7 @@
         },
         "required": [
           "image",
-          "userId",
-          "tripId"
+          "userId"
         ]
       },
       "Trip": {
