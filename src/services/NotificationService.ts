@@ -34,6 +34,9 @@ export class NotificationService {
   public static deleteNotification = async (id: string) => {
     const notification = await this.getNotificationById(id);
 
+    if (!notification) {
+      throw new AppError("Notification has been already deleted", 404);
+    }
     await notification?.delete();
   }
 }
