@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Camping API",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "contact": {}
   },
   "servers": [
@@ -1225,7 +1225,7 @@
           "Snap"
         ],
         "summary": "Get trip snaps",
-        "description": "Get all user snaps of activated trip",
+        "description": "Get all user snaps for all trips",
         "operationId": "getAllUserTripSnaps",
         "parameters": [
           {
@@ -1639,10 +1639,6 @@
           "userId": {
             "type": "string",
             "description": "User uid (server side)"
-          },
-          "tripId": {
-            "type": "string",
-            "description": "Trip id key relationship"
           }
         },
         "required": [

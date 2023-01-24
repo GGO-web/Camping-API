@@ -250,20 +250,13 @@ export class TripService {
   };
 
   public static getAllUserSnaps = async (userId: string) => {
-    const activatedTrip = await this.getActivatedTrip(userId);
-
-    const snaps = await Snap.find({ userId, tripId: activatedTrip?.id });
+    const snaps = await Snap.find({ userId });
 
     return snaps;
   };
 
   public static createTripSnap = async (snap: ISnap) => {
-    const activatedTrip = await this.getActivatedTrip(snap.userId);
-
-    const createdSnap = await Snap.create({
-      ...snap,
-      tripId: activatedTrip?.id,
-    });
+    const createdSnap = await Snap.create(snap);
 
     return createdSnap;
   }
