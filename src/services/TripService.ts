@@ -68,6 +68,8 @@ export class TripService {
     currentTrip?.set({ activated: true });
 
     await currentTrip?.save();
+
+    return currentTrip;
   };
 
   public static deactivateTrip = async (userId: string) => {
@@ -76,6 +78,8 @@ export class TripService {
     trip?.set({ activated: false });
 
     await trip?.save();
+
+    return trip;
   };
 
   public static deleteTrip = async (userId: string, tripId: string) => {
@@ -84,6 +88,8 @@ export class TripService {
     if (!removedTrip) {
       throw new AppError("Trip is not found or already removed", 404);
     }
+
+    return removedTrip;
   };
 
   private static getBagItem = async (trip: ITrip, bagItemId: string) => {
@@ -222,13 +228,15 @@ export class TripService {
     });
 
     await trip.save();
+
+    return activity;
   };
 
   public static deleteActivity = async (userId: string, activityId: string) => {
     const trip = await this.getActivatedTrip(userId);
 
     // check if activity with ID is present in trip
-    await this.getActivityItem(trip, activityId);
+    const activity = await this.getActivityItem(trip, activityId);
 
     trip.set({
       activities: trip.activities.filter(
@@ -237,6 +245,8 @@ export class TripService {
     });
 
     await trip.save();
+
+    return activity;
   };
 
   public static getAllUserSnaps = async (userId: string) => {

@@ -7,6 +7,7 @@ import { IBagItem } from "../models/Bag.model";
 import { ITrip, Trip } from "../models/Trip.model";
 import { IActivity } from "../models/Activity.model";
 import { ISnap } from "../models/Snap.model";
+import { NotificationService } from "../services/NotificationService";
 
 // Trip endpoints
 export const getAllUserTrips = async (req: Request, res: Response) => {
@@ -22,10 +23,14 @@ export const createTrip = async (req: Request, res: Response) => {
 
   const trip = new Trip({ userId, tripName, tripPeriod, ...otherTripParams });
 
-  console.log(trip);
-  
-
   const savedTrip = await trip.save();
+
+  await NotificationService.createNotification({
+    userId,
+    title: "Trip created",
+    message: `Trip ${tripName} has been created successfully`,
+    type: "info",
+  });
 
   return res.json(savedTrip);
 };
@@ -33,7 +38,14 @@ export const createTrip = async (req: Request, res: Response) => {
 export const activateTrip = async (req: Request, res: Response) => {
   const { userId, tripId } = req.body;
 
-  await TripService.activateTrip(userId, tripId);
+  const trip = await TripService.activateTrip(userId, tripId);
+
+  await NotificationService.createNotification({
+    userId,
+    title: "Trip activated",
+    message: `Trip ${trip?.tripName} now is activated your can add your activities, snaps, bag items and join your friends`,
+    type: "success",
+  });
 
   return res.json({ message: "Trip activated successfully" });
 };
@@ -41,7 +53,14 @@ export const activateTrip = async (req: Request, res: Response) => {
 export const deactivateTrip = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
-  await TripService.deactivateTrip(userId);
+  const trip = await TripService.deactivateTrip(userId);
+
+  await NotificationService.createNotification({
+    userId,
+    title: "Trip deactivated",
+    message: `You are deactived your trip ${trip?.tripName}, you can activate it manually in the Homepage or create another one`,
+    type: "info",
+  });
 
   return res.json({ message: "Trip deactivated successfully" });
 };
@@ -72,7 +91,14 @@ export const completeTrip = async (req: Request, res: Response) => {
 export const deleteTrip = async (req: Request<any, any, {userId: string, tripId: string}, any>, res: Response) => {
   const { userId, tripId } = req.query;
 
-  await TripService.deleteTrip(userId, tripId);
+  const trip = await TripService.deleteTrip(userId, tripId);
+
+  await NotificationService.createNotification({
+    userId,
+    title: "Trip deleted",
+    message: `Trip ${trip?.tripName} now is unavailable and all data is removed except your snaps`,
+    type: "success",
+  });
 
   return res.json({ message: "Trip deleted successfully" });
 };
@@ -134,13 +160,27 @@ export const addActivity = async (req: Request, res: Response) => {
 
   await TripService.addActivity(userId, activity);
 
+  await NotificationService.createNotification({
+    userId,
+    title: "You have new activity",
+    message: `You are created a new trip activity named: ${activity.heading}`,
+    type: "info",
+  });
+
   return res.json({ message: "Activity added successfully" });
 };
 
 export const setActivityCompleted = async (req: Request, res: Response) => {
   const { userId, activityId } = req.body;
 
-  await TripService.setActivityCompleted(userId, activityId);
+  const activity = await TripService.setActivityCompleted(userId, activityId);
+
+  await NotificationService.createNotification({
+    userId,
+    title: "You has completed activity",
+    message: `Named ${activity.heading}`,
+    type: "success",
+  });
 
   return res.json({
     message: `Activity with id ${activityId} has been completed successfully`,
@@ -150,7 +190,14 @@ export const setActivityCompleted = async (req: Request, res: Response) => {
 export const deleteActivity = async (req: Request<any, any, {userId: string, activityId: string}, any>, res: Response) => {
   const { userId, activityId } = req.query;
 
-  await TripService.deleteActivity(userId, activityId);
+  const activity = await TripService.deleteActivity(userId, activityId);
+
+  await NotificationService.createNotification({
+    userId,
+    title: "Deleted activity",
+    message: `You deleted an activity named: ${activity.heading}`,
+    type: "success",
+  });
 
   return res.json({
     message: `Activity with id ${activityId} has been deleted successfully`,

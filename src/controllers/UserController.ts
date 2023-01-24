@@ -7,6 +7,7 @@ import { firebaseApp } from "../utils/firebase";
 import { IUser, User } from "../models/User.model";
 
 import { isValidImageFormat } from "../helpers/isValidImageFormat";
+import { NotificationService } from "../services/NotificationService";
 
 export const getAllUsers = async (req: Request, res: Response) => {
   const listUsersResult = await firebaseApp.auth().listUsers();
@@ -29,6 +30,13 @@ export const getUserById = async (req: Request, res: Response) => {
 
     const savedUser = await createdDBUser.save();
 
+    await NotificationService.createNotification({
+      userId: id,
+      title: "Congratulations!",
+      message: "You recieved the welcome badge",
+      type: "badge",
+    });
+
     return res.json(savedUser);
   }
 
@@ -48,6 +56,13 @@ export const updateUserProfile = async (req: Request, res: Response) => {
       bio,
     }
   );
+
+  await NotificationService.createNotification({
+    userId: uid,
+    title: "User profile",
+    message: "Your profile successfully updated check it out",
+    type: "success",
+  });
 
   return res.json({
     message: "User profile has successfully updated",
@@ -69,6 +84,13 @@ export const updateUserAvatar = async (req: Request, res: Response) => {
       avatar: avatar,
     }
   );
+
+  await NotificationService.createNotification({
+    userId: uid,
+    title: "User profile",
+    message: "Your avatar has been changed your teammates will see it very soon",
+    type: "success",
+  });
 
   return res.json({
     message: "User avatar was changed",

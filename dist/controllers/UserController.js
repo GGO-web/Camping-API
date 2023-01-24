@@ -13,6 +13,7 @@ exports.updateUserAvatar = exports.updateUserProfile = exports.getUserById = exp
 const firebase_1 = require("../utils/firebase");
 const User_model_1 = require("../models/User.model");
 const isValidImageFormat_1 = require("../helpers/isValidImageFormat");
+const NotificationService_1 = require("../services/NotificationService");
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listUsersResult = yield firebase_1.firebaseApp.auth().listUsers();
     return res.json(listUsersResult.users);
@@ -28,6 +29,12 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             fullname: user.displayName,
         });
         const savedUser = yield createdDBUser.save();
+        yield NotificationService_1.NotificationService.createNotification({
+            userId: id,
+            title: "Congratulations!",
+            message: "You recieved the welcome badge",
+            type: "badge",
+        });
         return res.json(savedUser);
     }
     console.log("User is already created");
@@ -40,6 +47,12 @@ const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, functi
         fullname,
         occupation,
         bio,
+    });
+    yield NotificationService_1.NotificationService.createNotification({
+        userId: uid,
+        title: "User profile",
+        message: "Your profile successfully updated check it out",
+        type: "success",
     });
     return res.json({
         message: "User profile has successfully updated",
@@ -55,6 +68,12 @@ const updateUserAvatar = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
     yield User_model_1.User.findOneAndUpdate({ uid }, {
         avatar: avatar,
+    });
+    yield NotificationService_1.NotificationService.createNotification({
+        userId: uid,
+        title: "User profile",
+        message: "Your avatar has been changed your teammates will see it very soon",
+        type: "success",
     });
     return res.json({
         message: "User avatar was changed",

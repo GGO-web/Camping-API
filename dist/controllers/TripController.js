@@ -23,6 +23,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createTripSnap = exports.getAllUserTripSnaps = exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.getActivities = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.getBagItems = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.deactivateTrip = exports.activateTrip = exports.createTrip = exports.getAllUserTrips = void 0;
 const TripService_1 = require("../services/TripService");
 const Trip_model_1 = require("../models/Trip.model");
+const NotificationService_1 = require("../services/NotificationService");
 // Trip endpoints
 const getAllUserTrips = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
@@ -33,20 +34,37 @@ exports.getAllUserTrips = getAllUserTrips;
 const createTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const _a = req.body, { tripName, tripPeriod, userId } = _a, otherTripParams = __rest(_a, ["tripName", "tripPeriod", "userId"]);
     const trip = new Trip_model_1.Trip(Object.assign({ userId, tripName, tripPeriod }, otherTripParams));
-    console.log(trip);
     const savedTrip = yield trip.save();
+    yield NotificationService_1.NotificationService.createNotification({
+        userId,
+        title: "Trip created",
+        message: `Trip ${tripName} has been created successfully`,
+        type: "info",
+    });
     return res.json(savedTrip);
 });
 exports.createTrip = createTrip;
 const activateTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, tripId } = req.body;
-    yield TripService_1.TripService.activateTrip(userId, tripId);
+    const trip = yield TripService_1.TripService.activateTrip(userId, tripId);
+    yield NotificationService_1.NotificationService.createNotification({
+        userId,
+        title: "Trip activated",
+        message: `Trip ${trip === null || trip === void 0 ? void 0 : trip.tripName} now is activated your can add your activities, snaps, bag items and join your friends`,
+        type: "success",
+    });
     return res.json({ message: "Trip activated successfully" });
 });
 exports.activateTrip = activateTrip;
 const deactivateTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
-    yield TripService_1.TripService.deactivateTrip(userId);
+    const trip = yield TripService_1.TripService.deactivateTrip(userId);
+    yield NotificationService_1.NotificationService.createNotification({
+        userId,
+        title: "Trip deactivated",
+        message: `You are deactived your trip ${trip === null || trip === void 0 ? void 0 : trip.tripName}, you can activate it manually in the Homepage or create another one`,
+        type: "info",
+    });
     return res.json({ message: "Trip deactivated successfully" });
 });
 exports.deactivateTrip = deactivateTrip;
@@ -69,7 +87,13 @@ const completeTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.completeTrip = completeTrip;
 const deleteTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, tripId } = req.query;
-    yield TripService_1.TripService.deleteTrip(userId, tripId);
+    const trip = yield TripService_1.TripService.deleteTrip(userId, tripId);
+    yield NotificationService_1.NotificationService.createNotification({
+        userId,
+        title: "Trip deleted",
+        message: `Trip ${trip === null || trip === void 0 ? void 0 : trip.tripName} now is unavailable and all data is removed except your snaps`,
+        type: "success",
+    });
     return res.json({ message: "Trip deleted successfully" });
 });
 exports.deleteTrip = deleteTrip;
@@ -116,12 +140,24 @@ const addActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const { userId } = req.params;
     const activity = req.body;
     yield TripService_1.TripService.addActivity(userId, activity);
+    yield NotificationService_1.NotificationService.createNotification({
+        userId,
+        title: "You have new activity",
+        message: `You are created a new trip activity named: ${activity.heading}`,
+        type: "info",
+    });
     return res.json({ message: "Activity added successfully" });
 });
 exports.addActivity = addActivity;
 const setActivityCompleted = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, activityId } = req.body;
-    yield TripService_1.TripService.setActivityCompleted(userId, activityId);
+    const activity = yield TripService_1.TripService.setActivityCompleted(userId, activityId);
+    yield NotificationService_1.NotificationService.createNotification({
+        userId,
+        title: "You has completed activity",
+        message: `Named ${activity.heading}`,
+        type: "success",
+    });
     return res.json({
         message: `Activity with id ${activityId} has been completed successfully`,
     });
@@ -129,7 +165,13 @@ const setActivityCompleted = (req, res) => __awaiter(void 0, void 0, void 0, fun
 exports.setActivityCompleted = setActivityCompleted;
 const deleteActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, activityId } = req.query;
-    yield TripService_1.TripService.deleteActivity(userId, activityId);
+    const activity = yield TripService_1.TripService.deleteActivity(userId, activityId);
+    yield NotificationService_1.NotificationService.createNotification({
+        userId,
+        title: "Deleted activity",
+        message: `You deleted an activity named: ${activity.heading}`,
+        type: "success",
+    });
     return res.json({
         message: `Activity with id ${activityId} has been deleted successfully`,
     });

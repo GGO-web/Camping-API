@@ -18,6 +18,7 @@ const cors_1 = __importDefault(require("cors"));
 // routers
 const UserRouter_1 = require("./routers/UserRouter");
 const TripRouter_1 = require("./routers/TripRouter");
+const NotificationRouter_1 = require("./routers/NotificationRouter");
 // middlewares
 const { errorHandler } = require("./middleware/errorMiddleware");
 // configs
@@ -35,6 +36,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // using routers
 app.use("/api/user", UserRouter_1.UserRouter);
 app.use("/api/trip", TripRouter_1.TripRouter);
+app.use("/api/notification", NotificationRouter_1.NotificationRouter);
 // listening server startup
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
