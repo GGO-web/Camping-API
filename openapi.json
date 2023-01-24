@@ -1337,6 +1337,193 @@
           }
         }
       }
+    },
+    "/notification/all/{userId}": {
+      "get": {
+        "tags": [
+          "Notification"
+        ],
+        "summary": "Get all user notifications",
+        "description": "",
+        "operationId": "getAllNotifications",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User has no notifications"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/notification/create": {
+      "post": {
+        "tags": [
+          "Notification"
+        ],
+        "summary": "Create notification",
+        "description": "",
+        "operationId": "createNotification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Congratulations!"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "You recieved the welcome badge"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "trip"
+                  }
+                }
+              },
+              "example": {
+                "userId": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1",
+                "title": "Congratulations!",
+                "message": "You recieved the welcome badge",
+                "type": "badge"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notification"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Validation error some field is missing"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/notification/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Notification"
+        ],
+        "summary": "Delete notification",
+        "description": "",
+        "operationId": "deleteNotification",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "e8e0751f-a844-4cd6-89de-8a929eae3b8e"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Notification has been deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Notification has been already deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "tags": [
@@ -1587,6 +1774,43 @@
             "default": []
           }
         }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Notification unique id (autogenerated)"
+          },
+          "title": {
+            "type": "string",
+            "description": "Notification title"
+          },
+          "message": {
+            "type": "string",
+            "description": "Notification message"
+          },
+          "type": {
+            "type": "string",
+            "description": "Notification type (badge, info, success): * `badge` - user action reward * `info` - information about app states * `success` - successfull action\n",
+            "enum": [
+              "badge",
+              "info",
+              "success"
+            ],
+            "default": "success"
+          },
+          "datetime": {
+            "type": "string",
+            "format": "date",
+            "description": "Notification datetime UTC format (autogenerated)"
+          }
+        },
+        "required": [
+          "title",
+          "message",
+          "type"
+        ]
       },
       "AppError": {
         "type": "object",
