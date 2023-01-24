@@ -36,7 +36,7 @@ NotificationService.createNotification = (notification) => __awaiter(void 0, voi
 NotificationService.deleteNotification = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const notification = yield _a.getNotificationById(id);
     if (!notification) {
-        throw new Error_model_1.AppError("Notification has been already deleted or does not exist", 404);
+        throw new Error_model_1.AppError("Notification has been already deleted", 404);
     }
     yield (notification === null || notification === void 0 ? void 0 : notification.delete());
 });

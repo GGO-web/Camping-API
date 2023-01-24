@@ -61,17 +61,20 @@ TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0,
     const currentTrip = yield Trip_model_1.Trip.findById({ _id: tripId });
     currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.set({ activated: true });
     yield (currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.save());
+    return currentTrip;
 });
 TripService.deactivateTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield _a.getActivatedTrip(userId);
     trip === null || trip === void 0 ? void 0 : trip.set({ activated: false });
     yield (trip === null || trip === void 0 ? void 0 : trip.save());
+    return trip;
 });
 TripService.deleteTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, function* () {
     const removedTrip = yield Trip_model_1.Trip.findOneAndDelete({ userId, _id: tripId });
     if (!removedTrip) {
         throw new Error_model_1.AppError("Trip is not found or already removed", 404);
     }
+    return removedTrip;
 });
 TripService.getBagItem = (trip, bagItemId) => __awaiter(void 0, void 0, void 0, function* () {
     const currentBagItem = trip === null || trip === void 0 ? void 0 : trip.bagItems.find((bagItem) => bagItem.id === bagItemId);
@@ -138,15 +141,17 @@ TripService.setActivityCompleted = (userId, activityId) => __awaiter(void 0, voi
             ? Object.assign(Object.assign({}, activity), { completed: true }) : activity),
     });
     yield trip.save();
+    return activity;
 });
 TripService.deleteActivity = (userId, activityId) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield _a.getActivatedTrip(userId);
     // check if activity with ID is present in trip
-    yield _a.getActivityItem(trip, activityId);
+    const activity = yield _a.getActivityItem(trip, activityId);
     trip.set({
         activities: trip.activities.filter((activity) => activity.id !== activityId),
     });
     yield trip.save();
+    return activity;
 });
 TripService.getAllUserSnaps = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield _a.getActivatedTrip(userId);

@@ -1,18 +1,19 @@
 import { Document, model, Schema } from "mongoose";
 
+export type TNotificationTypes = "badge" | "info" | "success";
 export enum ENotificationTypes {
   badge = "badge",
   info = "info",
   success = "success",
 }
 
-export interface INotification extends Document {
+export interface INotification {
   userId: string;
   id?: string;
   title: string;
   message: string;
-  type: ENotificationTypes,
-  datetime: Date | string,
+  type: TNotificationTypes,
+  datetime?: Date | string,
 }
 
 const notificationSchema = new Schema<INotification>({
