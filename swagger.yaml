@@ -898,16 +898,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Notification"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: User has no notifications
   /notification/create:
     post:
       tags:
@@ -999,6 +989,7 @@ tags:
   - name: Trip
   - name: Bag
   - name: Activity
+  - name: Notification
 components:
   schemas:
     User:

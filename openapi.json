@@ -1371,22 +1371,6 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "User has no notifications"
-                    }
-                  }
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -1538,6 +1522,9 @@
     },
     {
       "name": "Activity"
+    },
+    {
+      "name": "Notification"
     }
   ],
   "components": {
