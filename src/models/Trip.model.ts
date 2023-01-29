@@ -40,7 +40,7 @@ const tripSchema = new Schema<ITrip>({
   bagItems: {
     type: [
       {
-        id: { type: String, unique: true },
+        id: { type: String },
         description: { type: String, required: true },
         image: { type: String },
         count: { type: Number, default: 1, required: true },
@@ -52,7 +52,7 @@ const tripSchema = new Schema<ITrip>({
   activities: {
     type: [
       {
-        id: { type: String, unique: true },
+        id: { type: String },
         heading: { type: String, required: true },
         description: { type: String, required: true },
         completed: { type: Boolean, default: false },
