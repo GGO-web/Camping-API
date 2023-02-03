@@ -11,7 +11,7 @@ const tripSchema = new mongoose_1.Schema({
     tripPeriod: {
         type: {
             startDate: { type: Date, required: true },
-            endDate: { type: Date, required: true },
+            endDate: { type: Date },
             formatted: { type: String, required: true },
         },
         required: true,
@@ -38,6 +38,7 @@ const tripSchema = new mongoose_1.Schema({
             },
         ],
         default: [],
+        required: false,
     },
     // trip is completed when user add all items to bag or skip this step
     completed: { type: Boolean, default: false },

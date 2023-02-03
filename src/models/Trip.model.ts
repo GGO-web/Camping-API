@@ -32,7 +32,7 @@ const tripSchema = new Schema<ITrip>({
   tripPeriod: {
     type: {
       startDate: { type: Date, required: true },
-      endDate: { type: Date, required: true },
+      endDate: { type: Date },
       formatted: { type: String, required: true },
     },
     required: true,
