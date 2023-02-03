@@ -19,7 +19,8 @@ export const getAllUserTrips = async (req: Request, res: Response) => {
 };
 
 export const createTrip = async (req: Request, res: Response) => {
-  const { tripName, tripPeriod, userId, ...otherTripParams } = req.body as ITrip;
+  const { tripName, tripPeriod, userId, ...otherTripParams } =
+    req.body as ITrip;
 
   const trip = new Trip({ userId, tripName, tripPeriod, ...otherTripParams });
 
@@ -88,7 +89,10 @@ export const completeTrip = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteTrip = async (req: Request<any, any, {userId: string, tripId: string}, any>, res: Response) => {
+export const deleteTrip = async (
+  req: Request<any, any, { userId: string; tripId: string }, any>,
+  res: Response
+) => {
   const { userId, tripId } = req.query;
 
   const trip = await TripService.deleteTrip(userId, tripId);
@@ -137,7 +141,10 @@ export const updateBagItemCount = async (req: Request, res: Response) => {
   return res.json({ message: "Bag item count has been updated successfully" });
 };
 
-export const deleteBagItem = async (req: Request<any, any, {userId: string, bagItemId: string}, any>, res: Response) => {
+export const deleteBagItem = async (
+  req: Request<any, any, { userId: string; bagItemId: string }, any>,
+  res: Response
+) => {
   const { userId, bagItemId } = req.query;
 
   await TripService.deleteBagItem(userId as string, bagItemId as string);
@@ -187,7 +194,10 @@ export const setActivityCompleted = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteActivity = async (req: Request<any, any, {userId: string, activityId: string}, any>, res: Response) => {
+export const deleteActivity = async (
+  req: Request<any, any, { userId: string; activityId: string }, any>,
+  res: Response
+) => {
   const { userId, activityId } = req.query;
 
   const activity = await TripService.deleteActivity(userId, activityId);
@@ -211,9 +221,12 @@ export const getAllUserTripSnaps = async (req: Request, res: Response) => {
   const snaps = await TripService.getAllUserSnaps(userId);
 
   return res.json(snaps);
-}
+};
 
-export const createTripSnap = async (req: Request<any, {snap: ISnap}, any, any>, res: Response) => {
+export const createTripSnap = async (
+  req: Request<any, { snap: ISnap }, any, any>,
+  res: Response
+) => {
   const snap = req.body;
 
   const createdSnap = await TripService.createTripSnap(snap);
@@ -221,4 +234,4 @@ export const createTripSnap = async (req: Request<any, {snap: ISnap}, any, any>,
   return res.json({
     message: `Snap with id ${createdSnap._id} has been created successfully`,
   });
-}
+};

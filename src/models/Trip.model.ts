@@ -52,13 +52,14 @@ const tripSchema = new Schema<ITrip>({
   activities: {
     type: [
       {
-        id: { type: String },
+        id: { type: String, default: Date.now() },
         heading: { type: String, required: true },
         description: { type: String, required: true },
         completed: { type: Boolean, default: false },
       },
     ],
     default: [],
+    required: false,
   },
   // trip is completed when user add all items to bag or skip this step
   completed: { type: Boolean, default: false },

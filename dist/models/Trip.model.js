@@ -31,7 +31,7 @@ const tripSchema = new mongoose_1.Schema({
     activities: {
         type: [
             {
-                id: { type: String },
+                id: { type: String, default: Date.now() },
                 heading: { type: String, required: true },
                 description: { type: String, required: true },
                 completed: { type: Boolean, default: false },
