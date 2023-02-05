@@ -8,6 +8,7 @@ import { IUser, User } from "../models/User.model";
 
 import { isValidImageFormat } from "../helpers/isValidImageFormat";
 import { NotificationService } from "../services/NotificationService";
+import { UserService } from "../services/UserService";
 
 export const getAllUsers = async (req: Request, res: Response) => {
   const listUsersResult = await firebaseApp.auth().listUsers();
@@ -18,44 +19,15 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const getUserById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const userDB = await User.findOne({ uid: id });
+  const user = await UserService.createUser(id);
 
-  if (!userDB) {
-    const user: UserRecord = await firebaseApp.auth().getUser(id);
-
-    const createdDBUser = new User({
-      uid: id,
-      fullname: user.displayName,
-    });
-
-    const savedUser = await createdDBUser.save();
-
-    await NotificationService.createNotification({
-      userId: id,
-      title: "Congratulations!",
-      message: "You recieved the welcome badge",
-      type: "badge",
-    });
-
-    return res.json(savedUser);
-  }
-
-  console.log("User is already created");
-
-  return res.json(userDB);
+  return res.json(user);
 };
 
 export const updateUserProfile = async (req: Request, res: Response) => {
   const { uid, fullname, occupation, bio } = req.body as IUser;
 
-  await User.findOneAndUpdate(
-    { uid },
-    {
-      fullname,
-      occupation,
-      bio,
-    }
-  );
+  await UserService.updateUserProfile({ uid, fullname, occupation, bio });
 
   await NotificationService.createNotification({
     userId: uid,
@@ -73,22 +45,18 @@ export const updateUserAvatar = async (req: Request, res: Response) => {
   const { uid, avatar } = req.body as IUser;
 
   if (!isValidImageFormat(avatar)) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Avatar format is not allowed or incorrect. Use base64 instead",
     });
   }
 
-  await User.findOneAndUpdate(
-    { uid },
-    {
-      avatar: avatar,
-    }
-  );
+  await UserService.updateUserProfile({ uid, avatar });
 
   await NotificationService.createNotification({
     userId: uid,
     title: "User profile",
-    message: "Your avatar has been changed your teammates will see it very soon",
+    message:
+      "Your avatar has been changed your teammates will see it very soon",
     type: "success",
   });
 
