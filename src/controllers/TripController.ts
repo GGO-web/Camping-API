@@ -8,6 +8,7 @@ import { ITrip, Trip } from "../models/Trip.model";
 import { IActivity } from "../models/Activity.model";
 import { ISnap } from "../models/Snap.model";
 import { NotificationService } from "../services/NotificationService";
+import { User } from "../models/User.model";
 
 // Trip endpoints
 export const getAllUserTrips = async (req: Request, res: Response) => {
@@ -234,4 +235,60 @@ export const createTripSnap = async (
   return res.json({
     message: `Snap with id ${createdSnap._id} has been created successfully`,
   });
+};
+
+// Teammates endpoints
+export const getAllUserTeammates = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  const teammates = await TripService.getAllUserTeammates(userId);
+
+  return res.json(teammates);
+};
+
+export const addTeammate = async (req: Request, res: Response) => {
+  const { userId, teammateId } = req.body;
+
+  const user = await User.findOne({ uid: userId });
+  const teammate = await User.findOne({ uid: teammateId });
+
+  const activatedTrip = await TripService.getActivatedTrip(userId);
+
+  await TripService.addTeammate(userId, teammateId);
+
+  await NotificationService.createNotification({
+    userId: teammateId,
+    title: "Teammate added to trip",
+    message: `You add user ${teammate?.fullname} successfully`,
+    type: "success",
+  });
+
+  await NotificationService.createNotification({
+    userId: teammateId,
+    title: `${user?.fullname} Invite you`,
+    message: `For ${activatedTrip.tripName} trip`,
+    type: "success",
+  });
+
+  return res.json({ message: "Teammate added successfully" });
+};
+
+export const deleteTeammate = async (
+  req: Request<any, any, { userId: string; teammateId: string }, any>,
+  res: Response
+) => {
+  const { userId, teammateId } = req.query;
+
+  await TripService.deleteTeammate(userId, teammateId);
+
+  const teammate = await User.findOne({ uid: teammateId });
+
+  await NotificationService.createNotification({
+    userId: teammateId,
+    title: "Teammate deleted from trip",
+    message: `You are remove ${teammate!.fullname} from trip`,
+    type: "success",
+  });
+
+  return res.json({ message: "Teammate deleted successfully" });
 };

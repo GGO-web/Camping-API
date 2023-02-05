@@ -7,6 +7,7 @@ var ENotificationTypes;
     ENotificationTypes["badge"] = "badge";
     ENotificationTypes["info"] = "info";
     ENotificationTypes["success"] = "success";
+    ENotificationTypes["invitation"] = "invitation";
 })(ENotificationTypes = exports.ENotificationTypes || (exports.ENotificationTypes = {}));
 const notificationSchema = new mongoose_1.Schema({
     userId: {
@@ -33,7 +34,7 @@ const notificationSchema = new mongoose_1.Schema({
     },
     datetime: {
         type: Date,
-        default: new Date().toISOString()
-    }
+        default: new Date().toISOString(),
+    },
 });
 exports.Notification = (0, mongoose_1.model)("Notifications", notificationSchema);

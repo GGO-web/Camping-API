@@ -18,7 +18,10 @@ import {
   getBagItems,
   getActivities,
   getAllUserTripSnaps,
-  createTripSnap
+  createTripSnap,
+  getAllUserTeammates,
+  addTeammate,
+  deleteTeammate,
 } from "../controllers/TripController";
 
 import { asyncWrapper } from "../helpers/asyncWrapper";
@@ -50,5 +53,10 @@ router.delete("/activity/delete", asyncWrapper(deleteActivity));
 // Snap routes
 router.get("/snaps/:userId", asyncWrapper(getAllUserTripSnaps));
 router.post("/snaps/create", asyncWrapper(createTripSnap));
+
+// Teammates routes
+router.get("/teammates/all/:userId", asyncWrapper(getAllUserTeammates));
+router.post("/teammates/add", asyncWrapper(addTeammate));
+router.delete("/teammates/delete", asyncWrapper(deleteTeammate));
 
 export const TripRouter: Router = router;
