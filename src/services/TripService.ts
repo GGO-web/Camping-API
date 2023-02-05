@@ -8,6 +8,7 @@ import { IActivity } from "../models/Activity.model";
 import { isValidImageFormat } from "../helpers/isValidImageFormat";
 import { v4 } from "uuid";
 import { ISnap, Snap } from "../models/Snap.model";
+import { IUser, User } from "../models/User.model";
 
 export class TripService {
   private static getTrip = async (tripId: string) => {
@@ -49,7 +50,7 @@ export class TripService {
     }
 
     // add bagItem to trip.bagItems array
-    trip?.bagItems.push({...bagItem, id: v4()});
+    trip?.bagItems.push({ ...bagItem, id: v4() });
 
     const savedTrip = await trip?.save();
 
@@ -83,7 +84,7 @@ export class TripService {
   };
 
   public static deleteTrip = async (userId: string, tripId: string) => {
-    const removedTrip = await Trip.findOneAndDelete({userId, _id: tripId});
+    const removedTrip = await Trip.findOneAndDelete({ userId, _id: tripId });
 
     if (!removedTrip) {
       throw new AppError("Trip is not found or already removed", 404);
@@ -198,7 +199,7 @@ export class TripService {
   public static addActivity = async (userId: string, activity: IActivity) => {
     const activatedTrip = await this.getActivatedTrip(userId);
 
-    activatedTrip?.activities.push({...activity, id: v4()});
+    activatedTrip?.activities.push({ ...activity, id: v4() });
 
     await activatedTrip?.save();
   };
@@ -259,5 +260,57 @@ export class TripService {
     const createdSnap = await Snap.create(snap);
 
     return createdSnap;
-  }
+  };
+
+  public static getAllUserTeammates = async (userId: string) => {
+    const activatedTrip = await this.getActivatedTrip(userId);
+
+    const teammates = activatedTrip?.teammates;
+
+    return teammates;
+  };
+
+  public static addTeammate = async (userId: string, teammateId: string) => {
+    const activatedTrip = await this.getActivatedTrip(userId);
+    const teammate = await User.findOne({ uid: teammateId });
+
+    const userTeammates = activatedTrip?.teammates;
+
+    if (RegExp(userId, "i").test(teammateId)) {
+      throw new AppError("You can't add yourself as a teammate", 400);
+    }
+
+    if (userTeammates?.find((teammate) => teammate.uid === teammateId)) {
+      throw new AppError("Teammate is already added", 400);
+    }
+
+    if (!teammate) {
+      throw new AppError("Teammate is not found", 404);
+    }
+
+    activatedTrip?.teammates.push(teammate);
+
+    await activatedTrip?.save();
+  };
+
+  public static deleteTeammate = async (userId: string, teammateId: string) => {
+    const activatedTrip = await this.getActivatedTrip(userId);
+
+    const userTeammates = activatedTrip?.teammates;
+
+    if (!userTeammates?.find((teammate) => teammate.uid === teammateId)) {
+      throw new AppError(
+        "Teammate is not found or has been already removed",
+        404
+      );
+    }
+
+    activatedTrip?.set({
+      teammates: activatedTrip.teammates.filter(
+        (teammate) => teammate.uid !== teammateId
+      ),
+    });
+
+    await activatedTrip?.save();
+  };
 }

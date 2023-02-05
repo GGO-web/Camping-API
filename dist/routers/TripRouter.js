@@ -30,4 +30,8 @@ router.delete("/activity/delete", (0, asyncWrapper_1.asyncWrapper)(TripControlle
 // Snap routes
 router.get("/snaps/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getAllUserTripSnaps));
 router.post("/snaps/create", (0, asyncWrapper_1.asyncWrapper)(TripController_1.createTripSnap));
+// Teammates routes
+router.get("/teammates/all/:userId", (0, asyncWrapper_1.asyncWrapper)(TripController_1.getAllUserTeammates));
+router.post("/teammates/add", (0, asyncWrapper_1.asyncWrapper)(TripController_1.addTeammate));
+router.delete("/teammates/delete", (0, asyncWrapper_1.asyncWrapper)(TripController_1.deleteTeammate));
 exports.TripRouter = router;
