@@ -3,7 +3,7 @@ import { IUser, User } from "../models/User.model";
 import { firebaseApp } from "../utils/firebase";
 
 export class UserService {
-  private static async getUser(uid: string) {
+  public static async getUser(uid: string) {
     const userDB = await User.findOne({ uid: uid });
 
     return userDB;

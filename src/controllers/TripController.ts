@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 import { ObjectId } from "mongoose";
 
 import { TripService } from "../services/TripService";
+import { NotificationService } from "../services/NotificationService";
+import { UserService } from "../services/UserService";
 
 import { IBagItem } from "../models/Bag.model";
 import { ITrip, Trip } from "../models/Trip.model";
 import { IActivity } from "../models/Activity.model";
 import { ISnap } from "../models/Snap.model";
-import { NotificationService } from "../services/NotificationService";
-import { User } from "../models/User.model";
 
 // Trip endpoints
 export const getAllUserTrips = async (req: Request, res: Response) => {
@@ -249,8 +249,8 @@ export const getAllUserTeammates = async (req: Request, res: Response) => {
 export const addTeammate = async (req: Request, res: Response) => {
   const { userId, teammateId } = req.body;
 
-  const user = await User.findOne({ uid: userId });
-  const teammate = await User.findOne({ uid: teammateId });
+  const user = await UserService.getUser(userId);
+  const teammate = await UserService.getUser(teammateId);
 
   const activatedTrip = await TripService.getActivatedTrip(userId);
 
@@ -281,7 +281,7 @@ export const deleteTeammate = async (
 
   await TripService.deleteTeammate(userId, teammateId);
 
-  const teammate = await User.findOne({ uid: teammateId });
+  const teammate = await UserService.getUser(teammateId);
 
   await NotificationService.createNotification({
     userId: teammateId,

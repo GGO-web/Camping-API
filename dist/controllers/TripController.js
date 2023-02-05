@@ -22,9 +22,9 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTeammate = exports.addTeammate = exports.getAllUserTeammates = exports.createTripSnap = exports.getAllUserTripSnaps = exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.getActivities = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.getBagItems = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.deactivateTrip = exports.activateTrip = exports.createTrip = exports.getAllUserTrips = void 0;
 const TripService_1 = require("../services/TripService");
-const Trip_model_1 = require("../models/Trip.model");
 const NotificationService_1 = require("../services/NotificationService");
-const User_model_1 = require("../models/User.model");
+const UserService_1 = require("../services/UserService");
+const Trip_model_1 = require("../models/Trip.model");
 // Trip endpoints
 const getAllUserTrips = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
@@ -202,8 +202,8 @@ const getAllUserTeammates = (req, res) => __awaiter(void 0, void 0, void 0, func
 exports.getAllUserTeammates = getAllUserTeammates;
 const addTeammate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, teammateId } = req.body;
-    const user = yield User_model_1.User.findOne({ uid: userId });
-    const teammate = yield User_model_1.User.findOne({ uid: teammateId });
+    const user = yield UserService_1.UserService.getUser(userId);
+    const teammate = yield UserService_1.UserService.getUser(teammateId);
     const activatedTrip = yield TripService_1.TripService.getActivatedTrip(userId);
     yield TripService_1.TripService.addTeammate(userId, teammateId);
     yield NotificationService_1.NotificationService.createNotification({
@@ -224,7 +224,7 @@ exports.addTeammate = addTeammate;
 const deleteTeammate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, teammateId } = req.query;
     yield TripService_1.TripService.deleteTeammate(userId, teammateId);
-    const teammate = yield User_model_1.User.findOne({ uid: teammateId });
+    const teammate = yield UserService_1.UserService.getUser(teammateId);
     yield NotificationService_1.NotificationService.createNotification({
         userId: teammateId,
         title: "Teammate deleted from trip",
