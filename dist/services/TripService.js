@@ -171,6 +171,9 @@ TripService.addTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void
     const activatedTrip = yield _a.getActivatedTrip(userId);
     const teammate = yield User_model_1.User.findOne({ uid: teammateId });
     const userTeammates = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates;
+    if (RegExp(userId, "i").test(teammateId)) {
+        throw new Error_model_1.AppError("You can't add yourself as a teammate", 400);
+    }
     if (userTeammates === null || userTeammates === void 0 ? void 0 : userTeammates.find((teammate) => teammate.uid === teammateId)) {
         throw new Error_model_1.AppError("Teammate is already added", 400);
     }

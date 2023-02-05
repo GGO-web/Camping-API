@@ -276,6 +276,10 @@ export class TripService {
 
     const userTeammates = activatedTrip?.teammates;
 
+    if (RegExp(userId, "i").test(teammateId)) {
+      throw new AppError("You can't add yourself as a teammate", 400);
+    }
+
     if (userTeammates?.find((teammate) => teammate.uid === teammateId)) {
       throw new AppError("Teammate is already added", 400);
     }
