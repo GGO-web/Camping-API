@@ -77,8 +77,12 @@ TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0,
     return currentTrip;
 });
 TripService.deactivateTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield Trip_model_1.Trip.findOneAndUpdate({ userId }, { activated: false });
-    yield (trip === null || trip === void 0 ? void 0 : trip.save());
+    const trip = yield Trip_model_1.Trip.findOne({ userId, activated: true });
+    if (!trip) {
+        throw new Error_model_1.AppError("User has no trips yet", 404);
+    }
+    trip.set({ activated: false });
+    yield trip.save();
     return trip;
 });
 TripService.deleteTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, function* () {

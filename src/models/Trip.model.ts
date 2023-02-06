@@ -28,7 +28,7 @@ const tripSchema = new Schema<ITrip>({
   tripName: { type: String, required: true },
   // locations is handled on frontend and different according to chosen API
   locations: { type: Array<Object>(), default: [], required: true },
-  teammates: { type: Array<IUser>(), default: [], required: true },
+  teammates: { type: Array<IUser>(), default: [] },
   tripPeriod: {
     type: {
       startDate: { type: Date, required: true },
@@ -47,7 +47,6 @@ const tripSchema = new Schema<ITrip>({
       },
     ],
     default: [],
-    required: true,
   },
   activities: {
     type: [
@@ -59,7 +58,6 @@ const tripSchema = new Schema<ITrip>({
       },
     ],
     default: [],
-    required: false,
   },
   // trip is completed when user add all items to bag or skip this step
   completed: { type: Boolean, default: false },

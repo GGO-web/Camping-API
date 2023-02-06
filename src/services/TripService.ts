@@ -90,9 +90,15 @@ export class TripService {
   };
 
   public static deactivateTrip = async (userId: string) => {
-    const trip = await Trip.findOneAndUpdate({ userId }, { activated: false });
+    const trip = await Trip.findOne({ userId, activated: true });
 
-    await trip?.save();
+    if (!trip) {
+      throw new AppError("User has no trips yet", 404);
+    }
+
+    trip.set({ activated: false });
+
+    await trip.save();
 
     return trip;
   };
