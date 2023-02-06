@@ -8,7 +8,7 @@ import { IActivity } from "../models/Activity.model";
 import { isValidImageFormat } from "../helpers/isValidImageFormat";
 import { v4 } from "uuid";
 import { ISnap, Snap } from "../models/Snap.model";
-import { IUser, User } from "../models/User.model";
+import { User } from "../models/User.model";
 
 export class TripService {
   private static getTrip = async (tripId: string) => {
@@ -21,11 +21,27 @@ export class TripService {
     return trip;
   };
 
+  public static getAllUserTrips = async (userId: string) => {
+    const ownTrips = await Trip.find({ userId });
+    const tripsAsTeammate = await Trip.find({ "teammates.uid": userId });
+
+    return [...ownTrips, ...tripsAsTeammate];
+  };
+
   public static getActivatedTrip = async (userId: string) => {
     const activatedTrip = await Trip.findOne({ userId, activated: true });
 
     if (!activatedTrip) {
-      throw new AppError("User has no activated trip", 404);
+      const activatedTripAsTeammate = await Trip.findOne({
+        "teammates.uid": userId,
+        activated: true,
+      });
+
+      if (!activatedTripAsTeammate) {
+        throw new AppError("User has no activated trip", 404);
+      }
+
+      return activatedTripAsTeammate;
     }
 
     return activatedTrip;
@@ -74,9 +90,7 @@ export class TripService {
   };
 
   public static deactivateTrip = async (userId: string) => {
-    const trip = await this.getActivatedTrip(userId);
-
-    trip?.set({ activated: false });
+    const trip = await Trip.findOneAndUpdate({ userId }, { activated: false });
 
     await trip?.save();
 
@@ -97,8 +111,6 @@ export class TripService {
     const currentBagItem = trip?.bagItems.find(
       (bagItem) => bagItem.id === bagItemId
     );
-
-    console.log(currentBagItem);
 
     if (!currentBagItem) {
       throw new AppError(

@@ -14,7 +14,7 @@ import { ISnap } from "../models/Snap.model";
 export const getAllUserTrips = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
-  const trips = await Trip.find({ userId });
+  const trips = await TripService.getAllUserTrips(userId);
 
   return res.json(trips);
 };
