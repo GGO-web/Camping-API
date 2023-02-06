@@ -20,14 +20,15 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTripSnap = exports.getAllUserTripSnaps = exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.getActivities = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.getBagItems = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.deactivateTrip = exports.activateTrip = exports.createTrip = exports.getAllUserTrips = void 0;
+exports.deleteTeammate = exports.addTeammate = exports.getAllUserTeammates = exports.createTripSnap = exports.getAllUserTripSnaps = exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.getActivities = exports.deleteBagItem = exports.updateBagItemCount = exports.updateBagImage = exports.addBagItem = exports.getBagItems = exports.deleteTrip = exports.completeTrip = exports.getActivatedTrip = exports.deactivateTrip = exports.activateTrip = exports.createTrip = exports.getAllUserTrips = void 0;
 const TripService_1 = require("../services/TripService");
-const Trip_model_1 = require("../models/Trip.model");
 const NotificationService_1 = require("../services/NotificationService");
+const UserService_1 = require("../services/UserService");
+const Trip_model_1 = require("../models/Trip.model");
 // Trip endpoints
 const getAllUserTrips = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
-    const trips = yield Trip_model_1.Trip.find({ userId });
+    const trips = yield TripService_1.TripService.getAllUserTrips(userId);
     return res.json(trips);
 });
 exports.getAllUserTrips = getAllUserTrips;
@@ -192,3 +193,44 @@ const createTripSnap = (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.createTripSnap = createTripSnap;
+// Teammates endpoints
+const getAllUserTeammates = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    const teammates = yield TripService_1.TripService.getAllUserTeammates(userId);
+    return res.json(teammates);
+});
+exports.getAllUserTeammates = getAllUserTeammates;
+const addTeammate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, teammateId } = req.body;
+    const user = yield UserService_1.UserService.getUser(userId);
+    const teammate = yield UserService_1.UserService.getUser(teammateId);
+    const activatedTrip = yield TripService_1.TripService.getActivatedTrip(userId);
+    yield TripService_1.TripService.addTeammate(userId, teammateId);
+    yield NotificationService_1.NotificationService.createNotification({
+        userId: teammateId,
+        title: "Teammate added to trip",
+        message: `You add user ${teammate === null || teammate === void 0 ? void 0 : teammate.fullname} successfully`,
+        type: "success",
+    });
+    yield NotificationService_1.NotificationService.createNotification({
+        userId: teammateId,
+        title: `${user === null || user === void 0 ? void 0 : user.fullname} Invite you`,
+        message: `For ${activatedTrip.tripName} trip`,
+        type: "success",
+    });
+    return res.json({ message: "Teammate added successfully" });
+});
+exports.addTeammate = addTeammate;
+const deleteTeammate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, teammateId } = req.query;
+    yield TripService_1.TripService.deleteTeammate(userId, teammateId);
+    const teammate = yield UserService_1.UserService.getUser(teammateId);
+    yield NotificationService_1.NotificationService.createNotification({
+        userId: teammateId,
+        title: "Teammate deleted from trip",
+        message: `You are remove ${teammate.fullname} from trip`,
+        type: "success",
+    });
+    return res.json({ message: "Teammate deleted successfully" });
+});
+exports.deleteTeammate = deleteTeammate;

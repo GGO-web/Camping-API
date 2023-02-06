@@ -1,10 +1,11 @@
-import { Document, model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
-export type TNotificationTypes = "badge" | "info" | "success";
+export type TNotificationTypes = "badge" | "info" | "success" | "invitation";
 export enum ENotificationTypes {
   badge = "badge",
   info = "info",
   success = "success",
+  invitation = "invitation",
 }
 
 export interface INotification {
@@ -12,8 +13,8 @@ export interface INotification {
   id?: string;
   title: string;
   message: string;
-  type: TNotificationTypes,
-  datetime?: Date | string,
+  type: TNotificationTypes;
+  datetime?: Date | string;
 }
 
 const notificationSchema = new Schema<INotification>({
@@ -41,8 +42,11 @@ const notificationSchema = new Schema<INotification>({
   },
   datetime: {
     type: Date,
-    default: new Date().toISOString()
-  }
-})
+    default: new Date().toISOString(),
+  },
+});
 
-export const Notification = model<INotification>("Notifications", notificationSchema);
+export const Notification = model<INotification>(
+  "Notifications",
+  notificationSchema
+);

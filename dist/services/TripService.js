@@ -16,6 +16,7 @@ const Error_model_1 = require("../models/Error.model");
 const isValidImageFormat_1 = require("../helpers/isValidImageFormat");
 const uuid_1 = require("uuid");
 const Snap_model_1 = require("../models/Snap.model");
+const User_model_1 = require("../models/User.model");
 class TripService {
 }
 exports.TripService = TripService;
@@ -27,10 +28,22 @@ TripService.getTrip = (tripId) => __awaiter(void 0, void 0, void 0, function* ()
     }
     return trip;
 });
+TripService.getAllUserTrips = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const ownTrips = yield Trip_model_1.Trip.find({ userId });
+    const tripsAsTeammate = yield Trip_model_1.Trip.find({ "teammates.uid": userId });
+    return [...ownTrips, ...tripsAsTeammate];
+});
 TripService.getActivatedTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield Trip_model_1.Trip.findOne({ userId, activated: true });
     if (!activatedTrip) {
-        throw new Error_model_1.AppError("User has no activated trip", 404);
+        const activatedTripAsTeammate = yield Trip_model_1.Trip.findOne({
+            "teammates.uid": userId,
+            activated: true,
+        });
+        if (!activatedTripAsTeammate) {
+            throw new Error_model_1.AppError("User has no activated trip", 404);
+        }
+        return activatedTripAsTeammate;
     }
     return activatedTrip;
 });
@@ -64,8 +77,7 @@ TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0,
     return currentTrip;
 });
 TripService.deactivateTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield _a.getActivatedTrip(userId);
-    trip === null || trip === void 0 ? void 0 : trip.set({ activated: false });
+    const trip = yield Trip_model_1.Trip.findOneAndUpdate({ userId }, { activated: false });
     yield (trip === null || trip === void 0 ? void 0 : trip.save());
     return trip;
 });
@@ -78,7 +90,6 @@ TripService.deleteTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, f
 });
 TripService.getBagItem = (trip, bagItemId) => __awaiter(void 0, void 0, void 0, function* () {
     const currentBagItem = trip === null || trip === void 0 ? void 0 : trip.bagItems.find((bagItem) => bagItem.id === bagItemId);
-    console.log(currentBagItem);
     if (!currentBagItem) {
         throw new Error_model_1.AppError(`Bag item with id ${bagItemId || "undefined"} is not found`, 404);
     }
@@ -154,12 +165,42 @@ TripService.deleteActivity = (userId, activityId) => __awaiter(void 0, void 0, v
     return activity;
 });
 TripService.getAllUserSnaps = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const activatedTrip = yield _a.getActivatedTrip(userId);
-    const snaps = yield Snap_model_1.Snap.find({ userId, tripId: activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.id });
+    const snaps = yield Snap_model_1.Snap.find({ userId });
     return snaps;
 });
 TripService.createTripSnap = (snap) => __awaiter(void 0, void 0, void 0, function* () {
-    const activatedTrip = yield _a.getActivatedTrip(snap.userId);
-    const createdSnap = yield Snap_model_1.Snap.create(Object.assign(Object.assign({}, snap), { tripId: activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.id }));
+    const createdSnap = yield Snap_model_1.Snap.create(snap);
     return createdSnap;
+});
+TripService.getAllUserTeammates = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const activatedTrip = yield _a.getActivatedTrip(userId);
+    const teammates = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates;
+    return teammates;
+});
+TripService.addTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void 0, function* () {
+    const activatedTrip = yield _a.getActivatedTrip(userId);
+    const teammate = yield User_model_1.User.findOne({ uid: teammateId });
+    const userTeammates = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates;
+    if (RegExp(userId, "i").test(teammateId)) {
+        throw new Error_model_1.AppError("You can't add yourself as a teammate", 400);
+    }
+    if (userTeammates === null || userTeammates === void 0 ? void 0 : userTeammates.find((teammate) => teammate.uid === teammateId)) {
+        throw new Error_model_1.AppError("Teammate is already added", 400);
+    }
+    if (!teammate) {
+        throw new Error_model_1.AppError("Teammate is not found", 404);
+    }
+    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates.push(teammate);
+    yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
+});
+TripService.deleteTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void 0, function* () {
+    const activatedTrip = yield _a.getActivatedTrip(userId);
+    const userTeammates = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates;
+    if (!(userTeammates === null || userTeammates === void 0 ? void 0 : userTeammates.find((teammate) => teammate.uid === teammateId))) {
+        throw new Error_model_1.AppError("Teammate is not found or has been already removed", 404);
+    }
+    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.set({
+        teammates: activatedTrip.teammates.filter((teammate) => teammate.uid !== teammateId),
+    });
+    yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
 });

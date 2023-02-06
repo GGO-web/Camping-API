@@ -1338,6 +1338,202 @@
         }
       }
     },
+    "/trip/teammates/all/{userId}": {
+      "get": {
+        "tags": [
+          "Teammate"
+        ],
+        "summary": "Get all user teammates of activated trip",
+        "description": "",
+        "operationId": "getAllUserTeammates",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User",
+                    "default": []
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User has no activated trip"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/trip/teammates/add": {
+      "post": {
+        "tags": [
+          "Teammate"
+        ],
+        "summary": "Add teammate to activated trip",
+        "description": "",
+        "operationId": "addTeammate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+                  },
+                  "teammateId": {
+                    "type": "string",
+                    "example": "3UMKTRM6JYMPL2OP2MWZWQRKXBY2"
+                  }
+                }
+              },
+              "example": {
+                "userId": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1",
+                "teammateId": "J9h69v4MiSWNK6VdFUBAKWQac4e2"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Teammate added successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User has no activated trip"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/trip/teammates/delete": {
+      "post": {
+        "tags": [
+          "Teammate"
+        ],
+        "summary": "Delete teammate from activated trip",
+        "description": "",
+        "operationId": "deleteTeammate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+                  },
+                  "teammateId": {
+                    "type": "string",
+                    "example": "J9h69v4MiSWNK6VdFUBAKWQac4e2"
+                  }
+                }
+              },
+              "example": {
+                "userId": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1",
+                "teammateId": "J9h69v4MiSWNK6VdFUBAKWQac4e2"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Teammate deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Teammate is not found or has been already removed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/notification/all/{userId}": {
       "get": {
         "tags": [
@@ -1366,22 +1562,6 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Notification"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "User has no notifications"
-                    }
                   }
                 }
               }
@@ -1538,6 +1718,12 @@
     },
     {
       "name": "Activity"
+    },
+    {
+      "name": "Notification"
+    },
+    {
+      "name": "Teammate"
     }
   ],
   "components": {
@@ -1788,11 +1974,12 @@
           },
           "type": {
             "type": "string",
-            "description": "Notification type (badge, info, success): * `badge` - user action reward * `info` - information about app states * `success` - successfull action\n",
+            "description": "Notification type (badge, info, success): * `badge` - user action reward * `info` - information about app states * `success` - successfull action * `invitation` - invitation user to trip (or any else)\n",
             "enum": [
               "badge",
               "info",
-              "success"
+              "success",
+              "invitation"
             ],
             "default": "success"
           },

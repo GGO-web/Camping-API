@@ -2,24 +2,26 @@ import { Request, Response } from "express";
 import { ObjectId } from "mongoose";
 
 import { TripService } from "../services/TripService";
+import { NotificationService } from "../services/NotificationService";
+import { UserService } from "../services/UserService";
 
 import { IBagItem } from "../models/Bag.model";
 import { ITrip, Trip } from "../models/Trip.model";
 import { IActivity } from "../models/Activity.model";
 import { ISnap } from "../models/Snap.model";
-import { NotificationService } from "../services/NotificationService";
 
 // Trip endpoints
 export const getAllUserTrips = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
-  const trips = await Trip.find({ userId });
+  const trips = await TripService.getAllUserTrips(userId);
 
   return res.json(trips);
 };
 
 export const createTrip = async (req: Request, res: Response) => {
-  const { tripName, tripPeriod, userId, ...otherTripParams } = req.body as ITrip;
+  const { tripName, tripPeriod, userId, ...otherTripParams } =
+    req.body as ITrip;
 
   const trip = new Trip({ userId, tripName, tripPeriod, ...otherTripParams });
 
@@ -88,7 +90,10 @@ export const completeTrip = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteTrip = async (req: Request<any, any, {userId: string, tripId: string}, any>, res: Response) => {
+export const deleteTrip = async (
+  req: Request<any, any, { userId: string; tripId: string }, any>,
+  res: Response
+) => {
   const { userId, tripId } = req.query;
 
   const trip = await TripService.deleteTrip(userId, tripId);
@@ -137,7 +142,10 @@ export const updateBagItemCount = async (req: Request, res: Response) => {
   return res.json({ message: "Bag item count has been updated successfully" });
 };
 
-export const deleteBagItem = async (req: Request<any, any, {userId: string, bagItemId: string}, any>, res: Response) => {
+export const deleteBagItem = async (
+  req: Request<any, any, { userId: string; bagItemId: string }, any>,
+  res: Response
+) => {
   const { userId, bagItemId } = req.query;
 
   await TripService.deleteBagItem(userId as string, bagItemId as string);
@@ -187,7 +195,10 @@ export const setActivityCompleted = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteActivity = async (req: Request<any, any, {userId: string, activityId: string}, any>, res: Response) => {
+export const deleteActivity = async (
+  req: Request<any, any, { userId: string; activityId: string }, any>,
+  res: Response
+) => {
   const { userId, activityId } = req.query;
 
   const activity = await TripService.deleteActivity(userId, activityId);
@@ -211,9 +222,12 @@ export const getAllUserTripSnaps = async (req: Request, res: Response) => {
   const snaps = await TripService.getAllUserSnaps(userId);
 
   return res.json(snaps);
-}
+};
 
-export const createTripSnap = async (req: Request<any, {snap: ISnap}, any, any>, res: Response) => {
+export const createTripSnap = async (
+  req: Request<any, { snap: ISnap }, any, any>,
+  res: Response
+) => {
   const snap = req.body;
 
   const createdSnap = await TripService.createTripSnap(snap);
@@ -221,4 +235,60 @@ export const createTripSnap = async (req: Request<any, {snap: ISnap}, any, any>,
   return res.json({
     message: `Snap with id ${createdSnap._id} has been created successfully`,
   });
-}
+};
+
+// Teammates endpoints
+export const getAllUserTeammates = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  const teammates = await TripService.getAllUserTeammates(userId);
+
+  return res.json(teammates);
+};
+
+export const addTeammate = async (req: Request, res: Response) => {
+  const { userId, teammateId } = req.body;
+
+  const user = await UserService.getUser(userId);
+  const teammate = await UserService.getUser(teammateId);
+
+  const activatedTrip = await TripService.getActivatedTrip(userId);
+
+  await TripService.addTeammate(userId, teammateId);
+
+  await NotificationService.createNotification({
+    userId: teammateId,
+    title: "Teammate added to trip",
+    message: `You add user ${teammate?.fullname} successfully`,
+    type: "success",
+  });
+
+  await NotificationService.createNotification({
+    userId: teammateId,
+    title: `${user?.fullname} Invite you`,
+    message: `For ${activatedTrip.tripName} trip`,
+    type: "success",
+  });
+
+  return res.json({ message: "Teammate added successfully" });
+};
+
+export const deleteTeammate = async (
+  req: Request<any, any, { userId: string; teammateId: string }, any>,
+  res: Response
+) => {
+  const { userId, teammateId } = req.query;
+
+  await TripService.deleteTeammate(userId, teammateId);
+
+  const teammate = await UserService.getUser(teammateId);
+
+  await NotificationService.createNotification({
+    userId: teammateId,
+    title: "Teammate deleted from trip",
+    message: `You are remove ${teammate!.fullname} from trip`,
+    type: "success",
+  });
+
+  return res.json({ message: "Teammate deleted successfully" });
+};
