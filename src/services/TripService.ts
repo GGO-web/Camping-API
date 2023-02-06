@@ -89,6 +89,17 @@ export class TripService {
     return currentTrip;
   };
 
+  public static completeTrip = async (userId: string) => {
+    const trip = await TripService.getDontCompletedTrip(userId);
+    trip?.set({ completed: true });
+
+    const savedTrip = await trip?.save();
+
+    await TripService.activateTrip(userId, savedTrip?.get("_id") as ObjectId);
+
+    return savedTrip;
+  };
+
   public static deactivateTrip = async (userId: string) => {
     const trip = await Trip.findOne({ userId, activated: true });
 

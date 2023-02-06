@@ -47,25 +47,13 @@ const createTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createTrip = createTrip;
 const activateTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, tripId } = req.body;
-    const trip = yield TripService_1.TripService.activateTrip(userId, tripId);
-    yield NotificationService_1.NotificationService.createNotification({
-        userId,
-        title: "Trip activated",
-        message: `Trip ${trip === null || trip === void 0 ? void 0 : trip.tripName} now is activated your can add your activities, snaps, bag items and join your friends`,
-        type: "success",
-    });
+    yield TripService_1.TripService.activateTrip(userId, tripId);
     return res.json({ message: "Trip activated successfully" });
 });
 exports.activateTrip = activateTrip;
 const deactivateTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
-    const trip = yield TripService_1.TripService.deactivateTrip(userId);
-    yield NotificationService_1.NotificationService.createNotification({
-        userId,
-        title: "Trip deactivated",
-        message: `You are deactived your trip ${trip === null || trip === void 0 ? void 0 : trip.tripName}, you can activate it manually in the Homepage or create another one`,
-        type: "info",
-    });
+    yield TripService_1.TripService.deactivateTrip(userId);
     return res.json({ message: "Trip deactivated successfully" });
 });
 exports.deactivateTrip = deactivateTrip;
@@ -77,10 +65,7 @@ const getActivatedTrip = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.getActivatedTrip = getActivatedTrip;
 const completeTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
-    const trip = yield TripService_1.TripService.getDontCompletedTrip(userId);
-    trip === null || trip === void 0 ? void 0 : trip.set({ completed: true });
-    const savedTrip = yield (trip === null || trip === void 0 ? void 0 : trip.save());
-    TripService_1.TripService.activateTrip(userId, savedTrip === null || savedTrip === void 0 ? void 0 : savedTrip.get("_id"));
+    const savedTrip = yield TripService_1.TripService.completeTrip(userId);
     return res.json({
         message: `Trip with id ${savedTrip === null || savedTrip === void 0 ? void 0 : savedTrip.get("_id")} completed successfully`,
     });
