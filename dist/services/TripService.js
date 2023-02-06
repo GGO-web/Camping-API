@@ -28,10 +28,22 @@ TripService.getTrip = (tripId) => __awaiter(void 0, void 0, void 0, function* ()
     }
     return trip;
 });
+TripService.getAllUserTrips = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const ownTrips = yield Trip_model_1.Trip.find({ userId });
+    const tripsAsTeammate = yield Trip_model_1.Trip.find({ "teammates.uid": userId });
+    return [...ownTrips, ...tripsAsTeammate];
+});
 TripService.getActivatedTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield Trip_model_1.Trip.findOne({ userId, activated: true });
     if (!activatedTrip) {
-        throw new Error_model_1.AppError("User has no activated trip", 404);
+        const activatedTripAsTeammate = yield Trip_model_1.Trip.findOne({
+            "teammates.uid": userId,
+            activated: true,
+        });
+        if (!activatedTripAsTeammate) {
+            throw new Error_model_1.AppError("User has no activated trip", 404);
+        }
+        return activatedTripAsTeammate;
     }
     return activatedTrip;
 });
@@ -65,8 +77,7 @@ TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0,
     return currentTrip;
 });
 TripService.deactivateTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield _a.getActivatedTrip(userId);
-    trip === null || trip === void 0 ? void 0 : trip.set({ activated: false });
+    const trip = yield Trip_model_1.Trip.findOneAndUpdate({ userId }, { activated: false });
     yield (trip === null || trip === void 0 ? void 0 : trip.save());
     return trip;
 });
@@ -79,7 +90,6 @@ TripService.deleteTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, f
 });
 TripService.getBagItem = (trip, bagItemId) => __awaiter(void 0, void 0, void 0, function* () {
     const currentBagItem = trip === null || trip === void 0 ? void 0 : trip.bagItems.find((bagItem) => bagItem.id === bagItemId);
-    console.log(currentBagItem);
     if (!currentBagItem) {
         throw new Error_model_1.AppError(`Bag item with id ${bagItemId || "undefined"} is not found`, 404);
     }

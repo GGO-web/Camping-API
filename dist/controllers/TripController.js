@@ -28,7 +28,7 @@ const Trip_model_1 = require("../models/Trip.model");
 // Trip endpoints
 const getAllUserTrips = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
-    const trips = yield Trip_model_1.Trip.find({ userId });
+    const trips = yield TripService_1.TripService.getAllUserTrips(userId);
     return res.json(trips);
 });
 exports.getAllUserTrips = getAllUserTrips;
