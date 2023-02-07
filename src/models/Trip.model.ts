@@ -14,7 +14,7 @@ export interface ITrip {
   // trip _id field is predefined by mongoose
   tripName: string;
   locations: Object[];
-  teammates: IUser[];
+  teammates: string[];
   tripPeriod: ITripPeriod;
   bagItems: IBagItem[];
   userId: string;
@@ -28,7 +28,10 @@ const tripSchema = new Schema<ITrip>({
   tripName: { type: String, required: true },
   // locations is handled on frontend and different according to chosen API
   locations: { type: Array<Object>(), default: [], required: true },
-  teammates: { type: Array<IUser>(), default: [] },
+  teammates: {
+    type: [String],
+    default: [],
+  },
   tripPeriod: {
     type: {
       startDate: { type: Date, required: true },

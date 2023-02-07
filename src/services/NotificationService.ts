@@ -1,5 +1,3 @@
-import { ObjectId } from "mongoose";
-
 import { v4 } from "uuid";
 import { AppError } from "../models/Error.model";
 

@@ -8,7 +8,8 @@ import { IActivity } from "../models/Activity.model";
 import { isValidImageFormat } from "../helpers/isValidImageFormat";
 import { v4 } from "uuid";
 import { ISnap, Snap } from "../models/Snap.model";
-import { User } from "../models/User.model";
+import { IUser, User } from "../models/User.model";
+import { UserService } from "./UserService";
 
 export class TripService {
   private static getTrip = async (tripId: string) => {
@@ -294,7 +295,13 @@ export class TripService {
   public static getAllUserTeammates = async (userId: string) => {
     const activatedTrip = await this.getActivatedTrip(userId);
 
-    const teammates = activatedTrip?.teammates;
+    const teammates: IUser[] = [];
+    
+    for (let teammateId of activatedTrip?.teammates) {
+      const teammate = await UserService.getUser(teammateId);
+
+      teammates.push(teammate as IUser);
+    }
 
     return teammates;
   };
@@ -309,7 +316,7 @@ export class TripService {
       throw new AppError("You can't add yourself as a teammate", 400);
     }
 
-    if (userTeammates?.find((teammate) => teammate.uid === teammateId)) {
+    if (userTeammates?.includes(teammateId)) {
       throw new AppError("Teammate is already added", 400);
     }
 
@@ -317,7 +324,7 @@ export class TripService {
       throw new AppError("Teammate is not found", 404);
     }
 
-    activatedTrip?.teammates.push(teammate);
+    activatedTrip?.teammates.push(teammateId);
 
     await activatedTrip?.save();
   };
@@ -327,7 +334,7 @@ export class TripService {
 
     const userTeammates = activatedTrip?.teammates;
 
-    if (!userTeammates?.find((teammate) => teammate.uid === teammateId)) {
+    if (!userTeammates?.includes(teammateId)) {
       throw new AppError(
         "Teammate is not found or has been already removed",
         404
@@ -336,7 +343,7 @@ export class TripService {
 
     activatedTrip?.set({
       teammates: activatedTrip.teammates.filter(
-        (teammate) => teammate.uid !== teammateId
+        (currentTeammateId) => currentTeammateId !== teammateId
       ),
     });
 
