@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { ObjectId } from "mongoose";
 
 import { TripService } from "../services/TripService";
 import { NotificationService } from "../services/NotificationService";

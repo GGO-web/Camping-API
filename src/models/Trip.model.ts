@@ -14,7 +14,7 @@ export interface ITrip {
   // trip _id field is predefined by mongoose
   tripName: string;
   locations: Object[];
-  teammates: IUser[];
+  teammates: string[];
   tripPeriod: ITripPeriod;
   bagItems: IBagItem[];
   userId: string;

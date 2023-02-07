@@ -17,6 +17,7 @@ const isValidImageFormat_1 = require("../helpers/isValidImageFormat");
 const uuid_1 = require("uuid");
 const Snap_model_1 = require("../models/Snap.model");
 const User_model_1 = require("../models/User.model");
+const UserService_1 = require("./UserService");
 class TripService {
 }
 exports.TripService = TripService;
@@ -185,7 +186,11 @@ TripService.createTripSnap = (snap) => __awaiter(void 0, void 0, void 0, functio
 });
 TripService.getAllUserTeammates = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield _a.getActivatedTrip(userId);
-    const teammates = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates;
+    const teammates = [];
+    for (let teammateId of activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates) {
+        const teammate = yield UserService_1.UserService.getUser(teammateId);
+        teammates.push(teammate);
+    }
     return teammates;
 });
 TripService.addTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void 0, function* () {
@@ -195,23 +200,23 @@ TripService.addTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void
     if (RegExp(userId, "i").test(teammateId)) {
         throw new Error_model_1.AppError("You can't add yourself as a teammate", 400);
     }
-    if (userTeammates === null || userTeammates === void 0 ? void 0 : userTeammates.find((teammate) => teammate.uid === teammateId)) {
+    if (userTeammates === null || userTeammates === void 0 ? void 0 : userTeammates.includes(teammateId)) {
         throw new Error_model_1.AppError("Teammate is already added", 400);
     }
     if (!teammate) {
         throw new Error_model_1.AppError("Teammate is not found", 404);
     }
-    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates.push(teammate);
+    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates.push(teammateId);
     yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
 });
 TripService.deleteTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield _a.getActivatedTrip(userId);
     const userTeammates = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates;
-    if (!(userTeammates === null || userTeammates === void 0 ? void 0 : userTeammates.find((teammate) => teammate.uid === teammateId))) {
+    if (!(userTeammates === null || userTeammates === void 0 ? void 0 : userTeammates.includes(teammateId))) {
         throw new Error_model_1.AppError("Teammate is not found or has been already removed", 404);
     }
     activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.set({
-        teammates: activatedTrip.teammates.filter((teammate) => teammate.uid !== teammateId),
+        teammates: activatedTrip.teammates.filter((currentTeammateId) => currentTeammateId !== teammateId),
     });
     yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
 });
