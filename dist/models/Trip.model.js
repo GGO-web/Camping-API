@@ -7,7 +7,7 @@ const tripSchema = new mongoose_1.Schema({
     tripName: { type: String, required: true },
     // locations is handled on frontend and different according to chosen API
     locations: { type: Array(), default: [], required: true },
-    teammates: { type: Array(), default: [], required: true },
+    teammates: { type: Array(), default: [] },
     tripPeriod: {
         type: {
             startDate: { type: Date, required: true },
@@ -26,7 +26,6 @@ const tripSchema = new mongoose_1.Schema({
             },
         ],
         default: [],
-        required: true,
     },
     activities: {
         type: [
@@ -38,7 +37,6 @@ const tripSchema = new mongoose_1.Schema({
             },
         ],
         default: [],
-        required: false,
     },
     // trip is completed when user add all items to bag or skip this step
     completed: { type: Boolean, default: false },

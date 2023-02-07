@@ -40,14 +40,7 @@ export const createTrip = async (req: Request, res: Response) => {
 export const activateTrip = async (req: Request, res: Response) => {
   const { userId, tripId } = req.body;
 
-  const trip = await TripService.activateTrip(userId, tripId);
-
-  await NotificationService.createNotification({
-    userId,
-    title: "Trip activated",
-    message: `Trip ${trip?.tripName} now is activated your can add your activities, snaps, bag items and join your friends`,
-    type: "success",
-  });
+  await TripService.activateTrip(userId, tripId);
 
   return res.json({ message: "Trip activated successfully" });
 };
@@ -55,14 +48,7 @@ export const activateTrip = async (req: Request, res: Response) => {
 export const deactivateTrip = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
-  const trip = await TripService.deactivateTrip(userId);
-
-  await NotificationService.createNotification({
-    userId,
-    title: "Trip deactivated",
-    message: `You are deactived your trip ${trip?.tripName}, you can activate it manually in the Homepage or create another one`,
-    type: "info",
-  });
+  await TripService.deactivateTrip(userId);
 
   return res.json({ message: "Trip deactivated successfully" });
 };
@@ -78,12 +64,7 @@ export const getActivatedTrip = async (req: Request, res: Response) => {
 export const completeTrip = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
-  const trip = await TripService.getDontCompletedTrip(userId);
-  trip?.set({ completed: true });
-
-  const savedTrip = await trip?.save();
-
-  TripService.activateTrip(userId, savedTrip?.get("_id") as ObjectId);
+  const savedTrip = await TripService.completeTrip(userId);
 
   return res.json({
     message: `Trip with id ${savedTrip?.get("_id")} completed successfully`,
