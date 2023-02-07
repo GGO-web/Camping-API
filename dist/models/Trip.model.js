@@ -7,7 +7,10 @@ const tripSchema = new mongoose_1.Schema({
     tripName: { type: String, required: true },
     // locations is handled on frontend and different according to chosen API
     locations: { type: Array(), default: [], required: true },
-    teammates: { type: Array(), default: [] },
+    teammates: {
+        type: [String],
+        default: [],
+    },
     tripPeriod: {
         type: {
             startDate: { type: Date, required: true },
