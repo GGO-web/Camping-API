@@ -26,6 +26,7 @@ const tripSchema = new mongoose_1.Schema({
                 description: { type: String, required: true },
                 image: { type: String },
                 count: { type: Number, default: 1, required: true },
+                userId: { type: String, required: true },
             },
         ],
         default: [],
