@@ -3,4 +3,5 @@ export interface IBagItem {
   desciption: string;
   count: number;
   image?: string; // base64 image format
+  userId: string;
 }

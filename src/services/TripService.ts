@@ -58,22 +58,6 @@ export class TripService {
     return dontCompletedTrip;
   };
 
-  public static addBagItem = async (tripId: string, bagItem: IBagItem) => {
-    // find trip by id because we can add item to trip which is not activated and not completed
-    const trip = await this.getTrip(tripId);
-
-    if (!trip) {
-      throw new AppError("User has no trips yet", 404);
-    }
-
-    // add bagItem to trip.bagItems array
-    trip?.bagItems.push({ ...bagItem, id: v4() });
-
-    const savedTrip = await trip?.save();
-
-    return savedTrip;
-  };
-
   public static activateTrip = async (userId: string, tripId: ObjectId) => {
     const trips = await Trip.find({ userId });
 
@@ -125,7 +109,7 @@ export class TripService {
     return removedTrip;
   };
 
-  private static getBagItem = async (trip: ITrip, bagItemId: string) => {
+  private static getBagItem = async (userId: string, trip: ITrip, bagItemId: string) => {
     const currentBagItem = trip?.bagItems.find(
       (bagItem) => bagItem.id === bagItemId
     );
@@ -137,7 +121,31 @@ export class TripService {
       );
     }
 
+    const userBagItem = trip?.bagItems.find(
+      (bagItem) => bagItem.userId === userId 
+    );
+
+    if (!userBagItem && trip.userId !== userId) {
+      throw new AppError("The user can only access their own belongings in the bag", 400);
+    }
+
     return currentBagItem;
+  };
+
+  public static addBagItem = async (tripId: string, bagItem: IBagItem) => {
+    // find trip by id because we can add item to trip which is not activated and not completed
+    const trip = await this.getTrip(tripId);
+
+    if (!trip) {
+      throw new AppError("User has no trips yet", 404);
+    }
+
+    // add bagItem to trip.bagItems array
+    trip?.bagItems.push({ ...bagItem, id: v4() });
+
+    const savedTrip = await trip?.save();
+
+    return savedTrip;
   };
 
   public static updateBagImage = async (
@@ -148,7 +156,7 @@ export class TripService {
     const trip = await this.getActivatedTrip(userId);
 
     // check if bag item with ID is present in trip
-    await this.getBagItem(trip, bagItemId);
+    await this.getBagItem(userId, trip, bagItemId);
 
     if (!isValidImageFormat(image)) {
       throw new AppError(
@@ -180,7 +188,7 @@ export class TripService {
     const trip = await this.getActivatedTrip(userId);
 
     // check if bag item with ID is present in trip
-    await this.getBagItem(trip, bagItemId);
+    await this.getBagItem(userId, trip, bagItemId);
 
     trip.set({
       bagItems: trip.bagItems.map((bagItem) =>
@@ -200,7 +208,7 @@ export class TripService {
     const trip = await this.getActivatedTrip(userId);
 
     // check if bag item with ID is present in trip
-    await this.getBagItem(trip, bagItemId);
+    await this.getBagItem(userId, trip, bagItemId);
 
     trip.set({
       bagItems: trip.bagItems.filter((bagItem) => bagItem.id !== bagItemId),

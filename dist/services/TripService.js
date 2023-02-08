@@ -55,17 +55,6 @@ TripService.getDontCompletedTrip = (userId) => __awaiter(void 0, void 0, void 0,
     }
     return dontCompletedTrip;
 });
-TripService.addBagItem = (tripId, bagItem) => __awaiter(void 0, void 0, void 0, function* () {
-    // find trip by id because we can add item to trip which is not activated and not completed
-    const trip = yield _a.getTrip(tripId);
-    if (!trip) {
-        throw new Error_model_1.AppError("User has no trips yet", 404);
-    }
-    // add bagItem to trip.bagItems array
-    trip === null || trip === void 0 ? void 0 : trip.bagItems.push(Object.assign(Object.assign({}, bagItem), { id: (0, uuid_1.v4)() }));
-    const savedTrip = yield (trip === null || trip === void 0 ? void 0 : trip.save());
-    return savedTrip;
-});
 TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, function* () {
     const trips = yield Trip_model_1.Trip.find({ userId });
     trips.forEach((trip) => {
@@ -100,17 +89,32 @@ TripService.deleteTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, f
     }
     return removedTrip;
 });
-TripService.getBagItem = (trip, bagItemId) => __awaiter(void 0, void 0, void 0, function* () {
+TripService.getBagItem = (userId, trip, bagItemId) => __awaiter(void 0, void 0, void 0, function* () {
     const currentBagItem = trip === null || trip === void 0 ? void 0 : trip.bagItems.find((bagItem) => bagItem.id === bagItemId);
     if (!currentBagItem) {
         throw new Error_model_1.AppError(`Bag item with id ${bagItemId || "undefined"} is not found`, 404);
     }
+    const userBagItem = trip === null || trip === void 0 ? void 0 : trip.bagItems.find((bagItem) => bagItem.userId === userId);
+    if (!userBagItem && trip.userId !== userId) {
+        throw new Error_model_1.AppError("The user can only access their own belongings in the bag", 400);
+    }
     return currentBagItem;
+});
+TripService.addBagItem = (tripId, bagItem) => __awaiter(void 0, void 0, void 0, function* () {
+    // find trip by id because we can add item to trip which is not activated and not completed
+    const trip = yield _a.getTrip(tripId);
+    if (!trip) {
+        throw new Error_model_1.AppError("User has no trips yet", 404);
+    }
+    // add bagItem to trip.bagItems array
+    trip === null || trip === void 0 ? void 0 : trip.bagItems.push(Object.assign(Object.assign({}, bagItem), { id: (0, uuid_1.v4)() }));
+    const savedTrip = yield (trip === null || trip === void 0 ? void 0 : trip.save());
+    return savedTrip;
 });
 TripService.updateBagImage = (userId, bagItemId, image) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield _a.getActivatedTrip(userId);
     // check if bag item with ID is present in trip
-    yield _a.getBagItem(trip, bagItemId);
+    yield _a.getBagItem(userId, trip, bagItemId);
     if (!(0, isValidImageFormat_1.isValidImageFormat)(image)) {
         throw new Error_model_1.AppError("Image format is not allowed or incorrect. Use base64 instead", 400);
     }
@@ -124,7 +128,7 @@ TripService.updateBagImage = (userId, bagItemId, image) => __awaiter(void 0, voi
 TripService.updateBagItemCount = (userId, bagItemId, count) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield _a.getActivatedTrip(userId);
     // check if bag item with ID is present in trip
-    yield _a.getBagItem(trip, bagItemId);
+    yield _a.getBagItem(userId, trip, bagItemId);
     trip.set({
         bagItems: trip.bagItems.map((bagItem) => bagItem.id === bagItemId
             ? Object.assign(Object.assign({}, bagItem), { count }) : bagItem),
@@ -134,7 +138,7 @@ TripService.updateBagItemCount = (userId, bagItemId, count) => __awaiter(void 0,
 TripService.deleteBagItem = (userId, bagItemId) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield _a.getActivatedTrip(userId);
     // check if bag item with ID is present in trip
-    yield _a.getBagItem(trip, bagItemId);
+    yield _a.getBagItem(userId, trip, bagItemId);
     trip.set({
         bagItems: trip.bagItems.filter((bagItem) => bagItem.id !== bagItemId),
     });
