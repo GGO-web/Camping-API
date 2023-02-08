@@ -47,6 +47,7 @@ const tripSchema = new Schema<ITrip>({
         description: { type: String, required: true },
         image: { type: String },
         count: { type: Number, default: 1, required: true },
+        userId: { type: String, required: true },
       },
     ],
     default: [],
