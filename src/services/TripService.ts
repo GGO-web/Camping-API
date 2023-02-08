@@ -217,7 +217,7 @@ export class TripService {
     await trip.save();
   };
 
-  private static getActivityItem = async (trip: ITrip, activityId: string) => {
+  private static getActivityItem = async (userId: string, trip: ITrip, activityId: string) => {
     const currentActivity = trip?.activities.find(
       (activity) => activity.id === activityId
     );
@@ -231,13 +231,21 @@ export class TripService {
       );
     }
 
+    const userActivity = trip?.activities.find(
+      (activity) => activity.userId === userId
+    );
+
+    if (!userActivity && trip.userId !== userId) {
+      throw new AppError("The user can only access their own activities", 400);
+    }
+
     return currentActivity;
   };
 
   public static addActivity = async (userId: string, activity: IActivity) => {
     const activatedTrip = await this.getActivatedTrip(userId);
 
-    activatedTrip?.activities.push({ ...activity, id: v4() });
+    activatedTrip?.activities.push({ ...activity, userId, id: v4() });
 
     await activatedTrip?.save();
   };
@@ -249,7 +257,7 @@ export class TripService {
     const trip = await this.getActivatedTrip(userId);
 
     // check if activity with ID is present in trip
-    const activity = await this.getActivityItem(trip, activityId);
+    const activity = await this.getActivityItem(userId, trip, activityId);
 
     if (activity.completed) {
       throw new AppError("Activity has been already completed", 400);
@@ -275,7 +283,7 @@ export class TripService {
     const trip = await this.getActivatedTrip(userId);
 
     // check if activity with ID is present in trip
-    const activity = await this.getActivityItem(trip, activityId);
+    const activity = await this.getActivityItem(userId, trip, activityId);
 
     trip.set({
       activities: trip.activities.filter(
