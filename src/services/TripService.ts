@@ -24,7 +24,7 @@ export class TripService {
 
   public static getAllUserTrips = async (userId: string) => {
     const ownTrips = await Trip.find({ userId });
-    const tripsAsTeammate = await Trip.find({ "teammates.uid": userId });
+    const tripsAsTeammate = await Trip.find({ teammates: userId });
 
     return [...ownTrips, ...tripsAsTeammate];
   };
@@ -34,7 +34,7 @@ export class TripService {
 
     if (!activatedTrip) {
       const activatedTripAsTeammate = await Trip.findOne({
-        "teammates.uid": userId,
+        teammates: userId,
         activated: true,
       });
 

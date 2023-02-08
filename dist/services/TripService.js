@@ -31,14 +31,14 @@ TripService.getTrip = (tripId) => __awaiter(void 0, void 0, void 0, function* ()
 });
 TripService.getAllUserTrips = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const ownTrips = yield Trip_model_1.Trip.find({ userId });
-    const tripsAsTeammate = yield Trip_model_1.Trip.find({ "teammates.uid": userId });
+    const tripsAsTeammate = yield Trip_model_1.Trip.find({ teammates: userId });
     return [...ownTrips, ...tripsAsTeammate];
 });
 TripService.getActivatedTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield Trip_model_1.Trip.findOne({ userId, activated: true });
     if (!activatedTrip) {
         const activatedTripAsTeammate = yield Trip_model_1.Trip.findOne({
-            "teammates.uid": userId,
+            teammates: userId,
             activated: true,
         });
         if (!activatedTripAsTeammate) {
