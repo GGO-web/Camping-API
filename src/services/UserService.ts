@@ -13,7 +13,7 @@ export class UserService {
   public static async createUser(uid: string) {
     const userDB = await this.getUser(uid);
 
-    if (!userDB) {
+    if (!userDB && uid) {
       const user: UserRecord = await firebaseApp.auth().getUser(uid);
 
       const createdDBUser = new User({
@@ -21,6 +21,8 @@ export class UserService {
         fullname: user.displayName,
       });
 
+      const savedUser = await createdDBUser.save();
+      
       NotificationService.createNotification({
         userId: uid,
         title: "Congratulations!",
@@ -28,13 +30,11 @@ export class UserService {
         type: "badge",
       });
 
-      const savedUser = await createdDBUser.save();
-
       return savedUser;
-    } else {
-      console.log("User is already created");
-      return userDB;
     }
+
+    console.log("User is already created");
+    return userDB;
   }
 
   public static async updateUserProfile(userProfile: Partial<IUser>) {

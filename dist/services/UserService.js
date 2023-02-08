@@ -23,25 +23,23 @@ class UserService {
     static createUser(uid) {
         return __awaiter(this, void 0, void 0, function* () {
             const userDB = yield this.getUser(uid);
-            if (!userDB) {
+            if (!userDB && uid) {
                 const user = yield firebase_1.firebaseApp.auth().getUser(uid);
                 const createdDBUser = new User_model_1.User({
                     uid,
                     fullname: user.displayName,
                 });
+                const savedUser = yield createdDBUser.save();
                 NotificationService_1.NotificationService.createNotification({
                     userId: uid,
                     title: "Congratulations!",
                     message: "You recieved the welcome badge",
                     type: "badge",
                 });
-                const savedUser = yield createdDBUser.save();
                 return savedUser;
             }
-            else {
-                console.log("User is already created");
-                return userDB;
-            }
+            console.log("User is already created");
+            return userDB;
         });
     }
     static updateUserProfile(userProfile) {
