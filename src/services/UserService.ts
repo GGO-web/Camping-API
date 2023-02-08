@@ -22,13 +22,6 @@ export class UserService {
       });
 
       const savedUser = await createdDBUser.save();
-      
-      NotificationService.createNotification({
-        userId: uid,
-        title: "Congratulations!",
-        message: "You recieved the welcome badge",
-        type: "badge",
-      });
 
       return savedUser;
     }
