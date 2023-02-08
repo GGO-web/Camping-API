@@ -1778,6 +1778,10 @@
             "type": "number",
             "description": "Amount of bag item",
             "default": 1
+          },
+          "userId": {
+            "type": "string",
+            "description": "User uid (server side)"
           }
         },
         "required": [
@@ -1804,6 +1808,10 @@
             "type": "boolean",
             "description": "Activity goal has been achieved",
             "default": false
+          },
+          "userId": {
+            "type": "string",
+            "description": "User uid (server side)"
           }
         },
         "required": [

@@ -144,22 +144,26 @@ TripService.deleteBagItem = (userId, bagItemId) => __awaiter(void 0, void 0, voi
     });
     yield trip.save();
 });
-TripService.getActivityItem = (trip, activityId) => __awaiter(void 0, void 0, void 0, function* () {
+TripService.getActivityItem = (userId, trip, activityId) => __awaiter(void 0, void 0, void 0, function* () {
     const currentActivity = trip === null || trip === void 0 ? void 0 : trip.activities.find((activity) => activity.id === activityId);
     if (!currentActivity) {
         throw new Error_model_1.AppError(`Activity item with id ${activityId || "undefined"} is not found in activated trip`, 404);
+    }
+    const userActivity = trip === null || trip === void 0 ? void 0 : trip.activities.find((activity) => activity.userId === userId);
+    if (!userActivity && trip.userId !== userId) {
+        throw new Error_model_1.AppError("The user can only access their own activities", 400);
     }
     return currentActivity;
 });
 TripService.addActivity = (userId, activity) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield _a.getActivatedTrip(userId);
-    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.activities.push(Object.assign(Object.assign({}, activity), { id: (0, uuid_1.v4)() }));
+    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.activities.push(Object.assign(Object.assign({}, activity), { userId, id: (0, uuid_1.v4)() }));
     yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
 });
 TripService.setActivityCompleted = (userId, activityId) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield _a.getActivatedTrip(userId);
     // check if activity with ID is present in trip
-    const activity = yield _a.getActivityItem(trip, activityId);
+    const activity = yield _a.getActivityItem(userId, trip, activityId);
     if (activity.completed) {
         throw new Error_model_1.AppError("Activity has been already completed", 400);
     }
@@ -173,7 +177,7 @@ TripService.setActivityCompleted = (userId, activityId) => __awaiter(void 0, voi
 TripService.deleteActivity = (userId, activityId) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield _a.getActivatedTrip(userId);
     // check if activity with ID is present in trip
-    const activity = yield _a.getActivityItem(trip, activityId);
+    const activity = yield _a.getActivityItem(userId, trip, activityId);
     trip.set({
         activities: trip.activities.filter((activity) => activity.id !== activityId),
     });
