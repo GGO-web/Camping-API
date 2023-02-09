@@ -94,14 +94,12 @@ TripService.getBagItem = (userId, trip, bagItemId) => __awaiter(void 0, void 0, 
     if (!currentBagItem) {
         throw new Error_model_1.AppError(`Bag item with id ${bagItemId || "undefined"} is not found`, 404);
     }
-    const userBagItem = trip === null || trip === void 0 ? void 0 : trip.bagItems.find((bagItem) => bagItem.userId === userId);
-    if (!userBagItem && trip.userId !== userId) {
+    if (currentBagItem.userId !== userId && trip.userId !== userId) {
         throw new Error_model_1.AppError("The user can only access their own belongings in the bag", 400);
     }
     return currentBagItem;
 });
 TripService.addBagItem = (tripId, bagItem) => __awaiter(void 0, void 0, void 0, function* () {
-    // find trip by id because we can add item to trip which is not activated and not completed
     const trip = yield _a.getTrip(tripId);
     if (!trip) {
         throw new Error_model_1.AppError("User has no trips yet", 404);
@@ -149,8 +147,7 @@ TripService.getActivityItem = (userId, trip, activityId) => __awaiter(void 0, vo
     if (!currentActivity) {
         throw new Error_model_1.AppError(`Activity item with id ${activityId || "undefined"} is not found in activated trip`, 404);
     }
-    const userActivity = trip === null || trip === void 0 ? void 0 : trip.activities.find((activity) => activity.userId === userId);
-    if (!userActivity && trip.userId !== userId) {
+    if (currentActivity.userId !== userId && trip.userId !== userId) {
         throw new Error_model_1.AppError("The user can only access their own activities", 400);
     }
     return currentActivity;

@@ -121,11 +121,7 @@ export class TripService {
       );
     }
 
-    const userBagItem = trip?.bagItems.find(
-      (bagItem) => bagItem.userId === userId 
-    );
-
-    if (!userBagItem && trip.userId !== userId) {
+    if (currentBagItem.userId !== userId && trip.userId !== userId) {
       throw new AppError("The user can only access their own belongings in the bag", 400);
     }
 
@@ -133,7 +129,6 @@ export class TripService {
   };
 
   public static addBagItem = async (tripId: string, bagItem: IBagItem) => {
-    // find trip by id because we can add item to trip which is not activated and not completed
     const trip = await this.getTrip(tripId);
 
     if (!trip) {
@@ -231,11 +226,7 @@ export class TripService {
       );
     }
 
-    const userActivity = trip?.activities.find(
-      (activity) => activity.userId === userId
-    );
-
-    if (!userActivity && trip.userId !== userId) {
+    if (currentActivity.userId !== userId && trip.userId !== userId) {
       throw new AppError("The user can only access their own activities", 400);
     }
 
