@@ -134,7 +134,10 @@ export class TripService {
 
   public static deactivateTrip = async (userId: string) => {
     const trip = await Trip.findOne({
-      $or: [{ userId: userId }, { "teammates.userId": userId, isOnline: true }],
+      $or: [
+        { userId: userId },
+        { "teammates.userId": userId, "teammates.isOnline": true },
+      ],
       activated: true,
     });
 
@@ -387,6 +390,10 @@ export class TripService {
     const teammates: IUser[] = [];
 
     for (let currentTeammate of activatedTrip?.teammates) {
+      if (!currentTeammate) {
+        continue;
+      }
+
       const teammate = await UserService.getUser(currentTeammate.userId);
 
       teammates.push(teammate as IUser);

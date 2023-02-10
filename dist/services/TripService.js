@@ -110,7 +110,10 @@ TripService.completeTrip = (userId) => __awaiter(void 0, void 0, void 0, functio
 });
 TripService.deactivateTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield Trip_model_1.Trip.findOne({
-        $or: [{ userId: userId }, { "teammates.userId": userId, isOnline: true }],
+        $or: [
+            { userId: userId },
+            { "teammates.userId": userId, "teammates.isOnline": true },
+        ],
         activated: true,
     });
     const currentTrip = yield _a.getTrip(trip === null || trip === void 0 ? void 0 : trip.get("_id"), userId);
@@ -245,6 +248,9 @@ TripService.getAllUserTeammates = (userId) => __awaiter(void 0, void 0, void 0, 
     const activatedTrip = yield _a.getActivatedTrip(userId);
     const teammates = [];
     for (let currentTeammate of activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates) {
+        if (!currentTeammate) {
+            continue;
+        }
         const teammate = yield UserService_1.UserService.getUser(currentTeammate.userId);
         teammates.push(teammate);
     }
