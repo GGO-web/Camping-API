@@ -15,7 +15,7 @@ export class TripService {
   private static getTrip = async (tripId: string, userId: string) => {
     const trip = await Trip.findOne({
       _id: tripId,
-      userId,
+      "teammates.userId": userId,
     });
 
     return trip;
@@ -210,7 +210,10 @@ export class TripService {
   };
 
   public static addBagItem = async (tripId: string, bagItem: IBagItem) => {
-    const trip = await this.getTrip(tripId, bagItem.userId);
+    const tripAsOwner = await this.getTrip(tripId, bagItem.userId);
+    const tripAsTeammate = await this.getTripAsTeammate(tripId, bagItem.userId);
+
+    const trip = tripAsOwner || tripAsTeammate;
 
     if (!trip) {
       throw new AppError("User has no trips yet", 404);

@@ -25,7 +25,7 @@ _a = TripService;
 TripService.getTrip = (tripId, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield Trip_model_1.Trip.findOne({
         _id: tripId,
-        userId,
+        "teammates.userId": userId,
     });
     return trip;
 });
@@ -155,7 +155,9 @@ TripService.getBagItem = (userId, trip, bagItemId) => __awaiter(void 0, void 0, 
     return currentBagItem;
 });
 TripService.addBagItem = (tripId, bagItem) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield _a.getTrip(tripId, bagItem.userId);
+    const tripAsOwner = yield _a.getTrip(tripId, bagItem.userId);
+    const tripAsTeammate = yield _a.getTripAsTeammate(tripId, bagItem.userId);
+    const trip = tripAsOwner || tripAsTeammate;
     if (!trip) {
         throw new Error_model_1.AppError("User has no trips yet", 404);
     }
