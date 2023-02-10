@@ -8,7 +8,7 @@ const express_1 = __importDefault(require("express"));
 const UserController_1 = require("../controllers/UserController");
 const asyncWrapper_1 = require("../helpers/asyncWrapper");
 const router = express_1.default.Router();
-router.get("/all", (0, asyncWrapper_1.asyncWrapper)(UserController_1.getAllUsers)); // only for development purposes
+// router.get("/all", asyncWrapper(getAllUsers)); // only for development purposes
 router.patch("/", (0, asyncWrapper_1.asyncWrapper)(UserController_1.updateUserProfile));
 router.get("/:id", (0, asyncWrapper_1.asyncWrapper)(UserController_1.getUserById));
 router.patch("/avatar", (0, asyncWrapper_1.asyncWrapper)(UserController_1.updateUserAvatar));

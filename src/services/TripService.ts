@@ -26,17 +26,45 @@ export class TripService {
     const ownTrips = await Trip.find({ userId });
     const tripsAsTeammate = await Trip.find({ teammates: userId });
 
+    const activatedTripAsOwner = await this.getActivatedTripAsOwner(userId);
+    const activatedTripAsTeammate = await this.getActivatedTripAsTeammate(
+      userId
+    );
+
+    console.log(activatedTripAsOwner, activatedTripAsTeammate);
+
+    if (activatedTripAsOwner && activatedTripAsTeammate) {
+      return ownTrips;
+    }
+
     return [...ownTrips, ...tripsAsTeammate];
   };
 
+  private static getActivatedTripAsTeammate = async (userId: string) => {
+    const activatedTripAsTeammate = await Trip.findOne({
+      teammates: userId,
+      activated: true,
+    });
+
+    return activatedTripAsTeammate;
+  };
+
+  private static getActivatedTripAsOwner = async (userId: string) => {
+    const activatedTripAsOwner = await Trip.findOne({
+      userId,
+      activated: true,
+    });
+
+    return activatedTripAsOwner;
+  };
+
   public static getActivatedTrip = async (userId: string) => {
-    const activatedTrip = await Trip.findOne({ userId, activated: true });
+    const activatedTrip = await this.getActivatedTripAsOwner(userId);
 
     if (!activatedTrip) {
-      const activatedTripAsTeammate = await Trip.findOne({
-        teammates: userId,
-        activated: true,
-      });
+      const activatedTripAsTeammate = await this.getActivatedTripAsTeammate(
+        userId
+      );
 
       if (!activatedTripAsTeammate) {
         throw new AppError("User has no activated trip", 404);
@@ -109,7 +137,11 @@ export class TripService {
     return removedTrip;
   };
 
-  private static getBagItem = async (userId: string, trip: ITrip, bagItemId: string) => {
+  private static getBagItem = async (
+    userId: string,
+    trip: ITrip,
+    bagItemId: string
+  ) => {
     const currentBagItem = trip?.bagItems.find(
       (bagItem) => bagItem.id === bagItemId
     );
@@ -122,7 +154,10 @@ export class TripService {
     }
 
     if (currentBagItem.userId !== userId && trip.userId !== userId) {
-      throw new AppError("The user can only access their own belongings in the bag", 400);
+      throw new AppError(
+        "The user can only access their own belongings in the bag",
+        400
+      );
     }
 
     return currentBagItem;
@@ -212,7 +247,11 @@ export class TripService {
     await trip.save();
   };
 
-  private static getActivityItem = async (userId: string, trip: ITrip, activityId: string) => {
+  private static getActivityItem = async (
+    userId: string,
+    trip: ITrip,
+    activityId: string
+  ) => {
     const currentActivity = trip?.activities.find(
       (activity) => activity.id === activityId
     );
@@ -303,7 +342,7 @@ export class TripService {
     const activatedTrip = await this.getActivatedTrip(userId);
 
     const teammates: IUser[] = [];
-    
+
     for (let teammateId of activatedTrip?.teammates) {
       const teammate = await UserService.getUser(teammateId);
 

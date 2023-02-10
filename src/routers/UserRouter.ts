@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 
 import {
-  getAllUsers,
+  // getAllUsers,
   getUserById,
   updateUserProfile,
   updateUserAvatar,
@@ -11,7 +11,7 @@ import { asyncWrapper } from "../helpers/asyncWrapper";
 
 const router: Router = express.Router();
 
-router.get("/all", asyncWrapper(getAllUsers)); // only for development purposes
+// router.get("/all", asyncWrapper(getAllUsers)); // only for development purposes
 router.patch("/", asyncWrapper(updateUserProfile));
 router.get("/:id", asyncWrapper(getUserById));
 router.patch("/avatar", asyncWrapper(updateUserAvatar));
