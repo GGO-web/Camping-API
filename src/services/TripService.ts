@@ -12,35 +12,35 @@ import { IUser, User } from "../models/User.model";
 import { UserService } from "./UserService";
 
 export class TripService {
-  private static getTrip = async (tripId: string) => {
-    const trip = await Trip.findById(tripId);
+  private static getTrip = async (tripId: string, userId: string) => {
+    const trip = await Trip.findOne({
+      _id: tripId,
+      userId,
+    });
 
-    if (!trip) {
-      throw new AppError("Trip is not found", 404);
-    }
+    return trip;
+  };
+
+  private static getTripAsTeammate = async (tripId: string, userId: string) => {
+    const trip = await Trip.findOne({
+      _id: tripId,
+      "teammates.userId": userId,
+    });
 
     return trip;
   };
 
   public static getAllUserTrips = async (userId: string) => {
     const ownTrips = await Trip.find({ userId });
-    const tripsAsTeammate = await Trip.find({ teammates: userId });
-
-    const activatedTripAsOwner = await this.getActivatedTripAsOwner(userId);
-    const activatedTripAsTeammate = await this.getActivatedTripAsTeammate(
-      userId
-    );
-
-    if (activatedTripAsOwner && activatedTripAsTeammate) {
-      return ownTrips;
-    }
+    const tripsAsTeammate = await Trip.find({ "teammates.userId": userId });
 
     return [...ownTrips, ...tripsAsTeammate];
   };
 
   private static getActivatedTripAsTeammate = async (userId: string) => {
     const activatedTripAsTeammate = await Trip.findOne({
-      teammates: userId,
+      "teammates.userId": userId,
+      "teammates.isOnline": true,
       activated: true,
     });
 
@@ -84,20 +84,41 @@ export class TripService {
     return dontCompletedTrip;
   };
 
-  public static activateTrip = async (userId: string, tripId: ObjectId) => {
+  public static activateTrip = async (userId: string, tripId: string) => {
     const trips = await Trip.find({ userId });
+
+    const currentTrip = await this.getTrip(tripId, userId);
+    const tripAsTeammate = await this.getTripAsTeammate(tripId, userId);
+
+    if (!currentTrip && !tripAsTeammate) {
+      throw new AppError("Trip is not found", 404);
+    }
 
     trips.forEach((trip) => {
       trip.set({ activated: false });
       trip.save();
     });
 
-    const currentTrip = await Trip.findById({ _id: tripId });
-    currentTrip?.set({ activated: true });
+    if (currentTrip) {
+      currentTrip?.set({ activated: true });
 
-    await currentTrip?.save();
+      await currentTrip?.save();
 
-    return currentTrip;
+      return currentTrip;
+    }
+
+    // else if (tripsAsTeammate) {
+    tripAsTeammate?.set({
+      teammates: tripAsTeammate?.teammates.map((teammate) => {
+        if (teammate.userId === userId) {
+          return { ...teammate, isOnline: true };
+        }
+      }),
+    });
+
+    await tripAsTeammate?.save();
+
+    return tripAsTeammate;
   };
 
   public static completeTrip = async (userId: string) => {
@@ -106,23 +127,50 @@ export class TripService {
 
     const savedTrip = await trip?.save();
 
-    await TripService.activateTrip(userId, savedTrip?.get("_id") as ObjectId);
+    await TripService.activateTrip(userId, savedTrip?.get("_id"));
 
     return savedTrip;
   };
 
   public static deactivateTrip = async (userId: string) => {
-    const trip = await Trip.findOne({ userId, activated: true });
+    const trip = await Trip.findOne({
+      $or: [
+        { userId: userId },
+        { "teammates.userId": userId, "teammates.isOnline": true },
+      ],
+      activated: true,
+    });
 
-    if (!trip) {
-      throw new AppError("User has no trips yet", 404);
+    const currentTrip = await this.getTrip(trip?.get("_id"), userId);
+    const tripAsTeammate = await this.getTripAsTeammate(
+      trip?.get("_id"),
+      userId
+    );
+
+    if (!currentTrip && !tripAsTeammate) {
+      throw new AppError("User has no activated trip yet", 404);
     }
 
-    trip.set({ activated: false });
+    if (currentTrip) {
+      currentTrip?.set({ activated: false });
 
-    await trip.save();
+      await currentTrip?.save();
 
-    return trip;
+      return currentTrip;
+    }
+
+    // else if (tripsAsTeammate) {
+    tripAsTeammate?.set({
+      teammates: tripAsTeammate?.teammates.map((teammate) => {
+        if (teammate.userId === userId) {
+          return { ...teammate, isOnline: false };
+        }
+      }),
+    });
+
+    await tripAsTeammate?.save();
+
+    return tripAsTeammate;
   };
 
   public static deleteTrip = async (userId: string, tripId: string) => {
@@ -162,7 +210,7 @@ export class TripService {
   };
 
   public static addBagItem = async (tripId: string, bagItem: IBagItem) => {
-    const trip = await this.getTrip(tripId);
+    const trip = await this.getTrip(tripId, bagItem.userId);
 
     if (!trip) {
       throw new AppError("User has no trips yet", 404);
@@ -341,8 +389,12 @@ export class TripService {
 
     const teammates: IUser[] = [];
 
-    for (let teammateId of activatedTrip?.teammates) {
-      const teammate = await UserService.getUser(teammateId);
+    for (let currentTeammate of activatedTrip?.teammates) {
+      if (!currentTeammate) {
+        continue;
+      }
+
+      const teammate = await UserService.getUser(currentTeammate.userId);
 
       teammates.push(teammate as IUser);
     }
@@ -350,17 +402,27 @@ export class TripService {
     return teammates;
   };
 
+  private static isTeammatePresentInTrip = async (userId: string) => {
+    const activatedTrip = await this.getActivatedTrip(userId);
+
+    const teammate = activatedTrip?.teammates.find(
+      (teammate) => teammate.userId === userId
+    );
+
+    return teammate;
+  };
+
   public static addTeammate = async (userId: string, teammateId: string) => {
     const activatedTrip = await this.getActivatedTrip(userId);
     const teammate = await User.findOne({ uid: teammateId });
-
-    const userTeammates = activatedTrip?.teammates;
 
     if (RegExp(userId, "i").test(teammateId)) {
       throw new AppError("You can't add yourself as a teammate", 400);
     }
 
-    if (userTeammates?.includes(teammateId)) {
+    const isPresentAlready = await this.isTeammatePresentInTrip(userId);
+
+    if (isPresentAlready) {
       throw new AppError("Teammate is already added", 400);
     }
 
@@ -368,7 +430,10 @@ export class TripService {
       throw new AppError("Teammate is not found", 404);
     }
 
-    activatedTrip?.teammates.push(teammateId);
+    activatedTrip?.teammates.push({
+      userId: teammateId,
+      isOnline: false,
+    });
 
     await activatedTrip?.save();
   };
@@ -376,9 +441,9 @@ export class TripService {
   public static deleteTeammate = async (userId: string, teammateId: string) => {
     const activatedTrip = await this.getActivatedTrip(userId);
 
-    const userTeammates = activatedTrip?.teammates;
+    const teammateIsPresent = await this.isTeammatePresentInTrip(userId);
 
-    if (!userTeammates?.includes(teammateId)) {
+    if (!teammateIsPresent) {
       throw new AppError(
         "Teammate is not found or has been already removed",
         404
@@ -387,7 +452,7 @@ export class TripService {
 
     activatedTrip?.set({
       teammates: activatedTrip.teammates.filter(
-        (currentTeammateId) => currentTeammateId !== teammateId
+        (teammate) => teammate.userId !== teammateId
       ),
     });
 

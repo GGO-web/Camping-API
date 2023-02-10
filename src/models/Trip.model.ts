@@ -1,8 +1,8 @@
 import { model, Schema } from "mongoose";
 
 import { IBagItem } from "./Bag.model";
-import { IUser } from "./User.model";
 import { IActivity } from "./Activity.model";
+import { ITeammate } from "./Teammate.model";
 
 export interface ITripPeriod {
   startDate: Date;
@@ -14,7 +14,7 @@ export interface ITrip {
   // trip _id field is predefined by mongoose
   tripName: string;
   locations: Object[];
-  teammates: string[];
+  teammates: ITeammate[];
   tripPeriod: ITripPeriod;
   bagItems: IBagItem[];
   userId: string;
@@ -29,7 +29,7 @@ const tripSchema = new Schema<ITrip>({
   // locations is handled on frontend and different according to chosen API
   locations: { type: Array<Object>(), default: [], required: true },
   teammates: {
-    type: [String],
+    type: Array<ITeammate>(),
     default: [],
   },
   tripPeriod: {

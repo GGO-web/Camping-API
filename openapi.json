@@ -1862,7 +1862,7 @@
           "teammates": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/Teammate"
             }
           },
           "tripPeriod": {
@@ -2001,6 +2001,23 @@
           "title",
           "message",
           "type"
+        ]
+      },
+      "Teammate": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "User uid"
+          },
+          "isOnline": {
+            "type": "boolean",
+            "description": "User is online",
+            "default": false
+          }
+        },
+        "required": [
+          "userId"
         ]
       },
       "AppError": {
