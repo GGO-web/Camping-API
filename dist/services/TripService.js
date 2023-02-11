@@ -22,16 +22,23 @@ class TripService {
 }
 exports.TripService = TripService;
 _a = TripService;
-TripService.getTrip = (tripId) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield Trip_model_1.Trip.findById(tripId);
-    if (!trip) {
-        throw new Error_model_1.AppError("Trip is not found", 404);
-    }
+TripService.getTrip = (tripId, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const trip = yield Trip_model_1.Trip.findOne({
+        _id: tripId,
+        "teammates.userId": userId,
+    });
+    return trip;
+});
+TripService.getTripAsTeammate = (tripId, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const trip = yield Trip_model_1.Trip.findOne({
+        _id: tripId,
+        "teammates.userId": userId,
+    });
     return trip;
 });
 TripService.getAllUserTrips = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const ownTrips = yield Trip_model_1.Trip.find({ userId });
-    const tripsAsTeammate = yield Trip_model_1.Trip.find({ teammates: userId });
+    const tripsAsTeammate = yield Trip_model_1.Trip.find({ "teammates.userId": userId });
     const activatedTripAsOwner = yield _a.getActivatedTripAsOwner(userId);
     const activatedTripAsTeammate = yield _a.getActivatedTripAsTeammate(userId);
     console.log(activatedTripAsOwner, activatedTripAsTeammate);
@@ -42,7 +49,8 @@ TripService.getAllUserTrips = (userId) => __awaiter(void 0, void 0, void 0, func
 });
 TripService.getActivatedTripAsTeammate = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTripAsTeammate = yield Trip_model_1.Trip.findOne({
-        teammates: userId,
+        "teammates.userId": userId,
+        "teammates.isOnline": true,
         activated: true,
     });
     return activatedTripAsTeammate;
@@ -74,14 +82,30 @@ TripService.getDontCompletedTrip = (userId) => __awaiter(void 0, void 0, void 0,
 });
 TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, function* () {
     const trips = yield Trip_model_1.Trip.find({ userId });
+    const currentTrip = yield _a.getTrip(tripId, userId);
+    const tripAsTeammate = yield _a.getTripAsTeammate(tripId, userId);
+    if (!currentTrip && !tripAsTeammate) {
+        throw new Error_model_1.AppError("Trip is not found", 404);
+    }
     trips.forEach((trip) => {
         trip.set({ activated: false });
         trip.save();
     });
-    const currentTrip = yield Trip_model_1.Trip.findById({ _id: tripId });
-    currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.set({ activated: true });
-    yield (currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.save());
-    return currentTrip;
+    if (currentTrip) {
+        currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.set({ activated: true });
+        yield (currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.save());
+        return currentTrip;
+    }
+    // else if (tripsAsTeammate) {
+    tripAsTeammate === null || tripAsTeammate === void 0 ? void 0 : tripAsTeammate.set({
+        teammates: tripAsTeammate === null || tripAsTeammate === void 0 ? void 0 : tripAsTeammate.teammates.map((teammate) => {
+            if (teammate.userId === userId) {
+                return Object.assign(Object.assign({}, teammate), { isOnline: true });
+            }
+        }),
+    });
+    yield (tripAsTeammate === null || tripAsTeammate === void 0 ? void 0 : tripAsTeammate.save());
+    return tripAsTeammate;
 });
 TripService.completeTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield TripService.getDontCompletedTrip(userId);
@@ -91,13 +115,33 @@ TripService.completeTrip = (userId) => __awaiter(void 0, void 0, void 0, functio
     return savedTrip;
 });
 TripService.deactivateTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield Trip_model_1.Trip.findOne({ userId, activated: true });
-    if (!trip) {
-        throw new Error_model_1.AppError("User has no trips yet", 404);
+    const trip = yield Trip_model_1.Trip.findOne({
+        $or: [
+            { userId: userId },
+            { "teammates.userId": userId, "teammates.isOnline": true },
+        ],
+        activated: true,
+    });
+    const currentTrip = yield _a.getTrip(trip === null || trip === void 0 ? void 0 : trip.get("_id"), userId);
+    const tripAsTeammate = yield _a.getTripAsTeammate(trip === null || trip === void 0 ? void 0 : trip.get("_id"), userId);
+    if (!currentTrip && !tripAsTeammate) {
+        throw new Error_model_1.AppError("User has no activated trip yet", 404);
     }
-    trip.set({ activated: false });
-    yield trip.save();
-    return trip;
+    if (currentTrip) {
+        currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.set({ activated: false });
+        yield (currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.save());
+        return currentTrip;
+    }
+    // else if (tripsAsTeammate) {
+    tripAsTeammate === null || tripAsTeammate === void 0 ? void 0 : tripAsTeammate.set({
+        teammates: tripAsTeammate === null || tripAsTeammate === void 0 ? void 0 : tripAsTeammate.teammates.map((teammate) => {
+            if (teammate.userId === userId) {
+                return Object.assign(Object.assign({}, teammate), { isOnline: false });
+            }
+        }),
+    });
+    yield (tripAsTeammate === null || tripAsTeammate === void 0 ? void 0 : tripAsTeammate.save());
+    return tripAsTeammate;
 });
 TripService.deleteTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, function* () {
     const removedTrip = yield Trip_model_1.Trip.findOneAndDelete({ userId, _id: tripId });
@@ -117,7 +161,9 @@ TripService.getBagItem = (userId, trip, bagItemId) => __awaiter(void 0, void 0, 
     return currentBagItem;
 });
 TripService.addBagItem = (tripId, bagItem) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield _a.getTrip(tripId);
+    const tripAsOwner = yield _a.getTrip(tripId, bagItem.userId);
+    const tripAsTeammate = yield _a.getTripAsTeammate(tripId, bagItem.userId);
+    const trip = tripAsOwner || tripAsTeammate;
     if (!trip) {
         throw new Error_model_1.AppError("User has no trips yet", 404);
     }
@@ -209,36 +255,47 @@ TripService.createTripSnap = (snap) => __awaiter(void 0, void 0, void 0, functio
 TripService.getAllUserTeammates = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield _a.getActivatedTrip(userId);
     const teammates = [];
-    for (let teammateId of activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates) {
-        const teammate = yield UserService_1.UserService.getUser(teammateId);
+    for (let currentTeammate of activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates) {
+        if (!currentTeammate) {
+            continue;
+        }
+        const teammate = yield UserService_1.UserService.getUser(currentTeammate.userId);
         teammates.push(teammate);
     }
     return teammates;
 });
+TripService.isTeammatePresentInTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const activatedTrip = yield _a.getActivatedTrip(userId);
+    const teammate = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates.find((teammate) => teammate.userId === userId);
+    return teammate;
+});
 TripService.addTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield _a.getActivatedTrip(userId);
     const teammate = yield User_model_1.User.findOne({ uid: teammateId });
-    const userTeammates = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates;
     if (RegExp(userId, "i").test(teammateId)) {
         throw new Error_model_1.AppError("You can't add yourself as a teammate", 400);
     }
-    if (userTeammates === null || userTeammates === void 0 ? void 0 : userTeammates.includes(teammateId)) {
+    const isPresentAlready = yield _a.isTeammatePresentInTrip(userId);
+    if (isPresentAlready) {
         throw new Error_model_1.AppError("Teammate is already added", 400);
     }
     if (!teammate) {
         throw new Error_model_1.AppError("Teammate is not found", 404);
     }
-    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates.push(teammateId);
+    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates.push({
+        userId: teammateId,
+        isOnline: false,
+    });
     yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
 });
 TripService.deleteTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield _a.getActivatedTrip(userId);
-    const userTeammates = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates;
-    if (!(userTeammates === null || userTeammates === void 0 ? void 0 : userTeammates.includes(teammateId))) {
+    const teammateIsPresent = yield _a.isTeammatePresentInTrip(userId);
+    if (!teammateIsPresent) {
         throw new Error_model_1.AppError("Teammate is not found or has been already removed", 404);
     }
     activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.set({
-        teammates: activatedTrip.teammates.filter((currentTeammateId) => currentTeammateId !== teammateId),
+        teammates: activatedTrip.teammates.filter((teammate) => teammate.userId !== teammateId),
     });
     yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
 });
