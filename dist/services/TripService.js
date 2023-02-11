@@ -38,12 +38,7 @@ TripService.getTripAsTeammate = (tripId, userId) => __awaiter(void 0, void 0, vo
 });
 TripService.getAllUserTrips = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const ownTrips = yield Trip_model_1.Trip.find({ userId });
-    const tripsAsTeammate = yield Trip_model_1.Trip.find({ "teammates.userId": userId });
-    const activatedTripAsOwner = yield _a.getActivatedTripAsOwner(userId);
-    const activatedTripAsTeammate = yield _a.getActivatedTripAsTeammate(userId);
-    if (activatedTripAsOwner && activatedTripAsTeammate) {
-        return ownTrips;
-    }
+    const tripsAsTeammate = yield Trip_model_1.Trip.find({ "teammates.userId": userId, activated: true });
     return [...ownTrips, ...tripsAsTeammate];
 });
 TripService.getActivatedTripAsTeammate = (userId) => __awaiter(void 0, void 0, void 0, function* () {
@@ -94,6 +89,9 @@ TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0,
         currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.set({ activated: true });
         yield (currentTrip === null || currentTrip === void 0 ? void 0 : currentTrip.save());
         return currentTrip;
+    }
+    if (!(tripAsTeammate === null || tripAsTeammate === void 0 ? void 0 : tripAsTeammate.activated)) {
+        throw new Error_model_1.AppError("Trip is disabled by owner and you can't enter it", 400);
     }
     // else if (tripsAsTeammate) {
     tripAsTeammate === null || tripAsTeammate === void 0 ? void 0 : tripAsTeammate.set({

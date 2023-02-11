@@ -22,9 +22,9 @@ const swaggerDocument = require("../openapi.json");
 const app: Express = express();
 
 app.use(cors());
-app.use(express.json());
-app.use(morgan("tiny"));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "50mb"}));
+app.use(morgan("dev"));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 // swagger api documentation route: http://localhost:8080/api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

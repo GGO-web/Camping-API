@@ -28,9 +28,9 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("../openapi.json");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
-app.use(express_1.default.json());
-app.use((0, morgan_1.default)("tiny"));
-app.use(express_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.json({ limit: "50mb" }));
+app.use((0, morgan_1.default)("dev"));
+app.use(express_1.default.urlencoded({ extended: true, limit: "50mb" }));
 // swagger api documentation route: http://localhost:8080/api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // using routers

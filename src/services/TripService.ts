@@ -32,16 +32,7 @@ export class TripService {
 
   public static getAllUserTrips = async (userId: string) => {
     const ownTrips = await Trip.find({ userId });
-    const tripsAsTeammate = await Trip.find({ "teammates.userId": userId });
-
-    const activatedTripAsOwner = await this.getActivatedTripAsOwner(userId);
-    const activatedTripAsTeammate = await this.getActivatedTripAsTeammate(
-      userId
-    );
-
-    if (activatedTripAsOwner && activatedTripAsTeammate) {
-      return ownTrips;
-    }
+    const tripsAsTeammate = await Trip.find({ "teammates.userId": userId, activated: true });
 
     return [...ownTrips, ...tripsAsTeammate];
   };
@@ -114,6 +105,10 @@ export class TripService {
       await currentTrip?.save();
 
       return currentTrip;
+    }
+
+    if (!tripAsTeammate?.activated) {
+      throw new AppError("Trip is disabled by owner and you can't enter it", 400);
     }
 
     // else if (tripsAsTeammate) {
