@@ -15,7 +15,7 @@ export class TripService {
   private static getTrip = async (tripId: string, userId: string) => {
     const trip = await Trip.findOne({
       _id: tripId,
-      "teammates.userId": userId,
+      userId: userId,
     });
 
     return trip;
@@ -38,8 +38,6 @@ export class TripService {
     const activatedTripAsTeammate = await this.getActivatedTripAsTeammate(
       userId
     );
-
-    console.log(activatedTripAsOwner, activatedTripAsTeammate);
 
     if (activatedTripAsOwner && activatedTripAsTeammate) {
       return ownTrips;
@@ -152,9 +150,9 @@ export class TripService {
       activated: true,
     });
 
-    const currentTrip = await this.getTrip(trip?.get("_id"), userId);
+    const currentTrip = await this.getTrip(trip?.get("_id").toString(), userId);
     const tripAsTeammate = await this.getTripAsTeammate(
-      trip?.get("_id"),
+      trip?.get("_id").toString(),
       userId
     );
 
