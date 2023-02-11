@@ -1,5 +1,3 @@
-import { ObjectId } from "mongoose";
-
 import { IBagItem } from "../models/Bag.model";
 import { ITrip, Trip } from "../models/Trip.model";
 import { AppError } from "../models/Error.model";

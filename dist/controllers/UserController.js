@@ -31,7 +31,7 @@ const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, functi
     yield NotificationService_1.NotificationService.createNotification({
         userId: uid,
         title: "User profile",
-        message: "Your profile successfully updated check it out",
+        message: "Profile successfully updated check it out",
         type: "success",
     });
     return res.json({
@@ -50,7 +50,7 @@ const updateUserAvatar = (req, res) => __awaiter(void 0, void 0, void 0, functio
     yield NotificationService_1.NotificationService.createNotification({
         userId: uid,
         title: "User profile",
-        message: "Your avatar has been changed your teammates will see it very soon",
+        message: "Avatar has been changed and your teammates will see it very soon",
         type: "success",
     });
     return res.json({

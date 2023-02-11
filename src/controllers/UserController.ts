@@ -32,7 +32,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
   await NotificationService.createNotification({
     userId: uid,
     title: "User profile",
-    message: "Your profile successfully updated check it out",
+    message: "Profile successfully updated check it out",
     type: "success",
   });
 
@@ -56,7 +56,7 @@ export const updateUserAvatar = async (req: Request, res: Response) => {
     userId: uid,
     title: "User profile",
     message:
-      "Your avatar has been changed your teammates will see it very soon",
+      "Avatar has been changed and your teammates will see it very soon",
     type: "success",
   });
 

@@ -39,8 +39,8 @@ const createTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     yield NotificationService_1.NotificationService.createNotification({
         userId,
         title: "Trip created",
-        message: `Trip ${tripName} has been created successfully`,
-        type: "info",
+        message: `Trip (${tripName}) has been created successfully`,
+        type: "success",
     });
     return res.json(savedTrip);
 });
@@ -77,7 +77,7 @@ const deleteTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     yield NotificationService_1.NotificationService.createNotification({
         userId,
         title: "Trip deleted",
-        message: `Trip ${trip === null || trip === void 0 ? void 0 : trip.tripName} now is unavailable and all data is removed except your snaps`,
+        message: `Trip (${trip === null || trip === void 0 ? void 0 : trip.tripName} is unavailable and all data is removed, except your snaps`,
         type: "success",
     });
     return res.json({ message: "Trip deleted successfully" });
@@ -128,9 +128,9 @@ const addActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     yield TripService_1.TripService.addActivity(userId, activity);
     yield NotificationService_1.NotificationService.createNotification({
         userId,
-        title: "You have new activity",
-        message: `You are created a new trip activity named: ${activity.heading}`,
-        type: "info",
+        title: "New activity",
+        message: `Activity (${activity.heading}) has been added successfully`,
+        type: "success",
     });
     return res.json({ message: "Activity added successfully" });
 });
@@ -140,8 +140,8 @@ const setActivityCompleted = (req, res) => __awaiter(void 0, void 0, void 0, fun
     const activity = yield TripService_1.TripService.setActivityCompleted(userId, activityId);
     yield NotificationService_1.NotificationService.createNotification({
         userId,
-        title: "You has completed activity",
-        message: `Named ${activity.heading}`,
+        title: "Completed activity",
+        message: `Activity (${activity.heading}) completed successfully`,
         type: "success",
     });
     return res.json({
@@ -155,7 +155,7 @@ const deleteActivity = (req, res) => __awaiter(void 0, void 0, void 0, function*
     yield NotificationService_1.NotificationService.createNotification({
         userId,
         title: "Deleted activity",
-        message: `You deleted an activity named: ${activity.heading}`,
+        message: `Activity (${activity.heading}) has been deleted successfully`,
         type: "success",
     });
     return res.json({
@@ -192,15 +192,15 @@ const addTeammate = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const activatedTrip = yield TripService_1.TripService.getActivatedTrip(userId);
     yield TripService_1.TripService.addTeammate(userId, teammateId);
     yield NotificationService_1.NotificationService.createNotification({
-        userId: teammateId,
+        userId: userId,
         title: "Teammate added to trip",
-        message: `You add user ${teammate === null || teammate === void 0 ? void 0 : teammate.fullname} successfully`,
+        message: `You added user (${userId === null || userId === void 0 ? void 0 : userId.fullname}) successfully`,
         type: "success",
     });
     yield NotificationService_1.NotificationService.createNotification({
         userId: teammateId,
-        title: `${user === null || user === void 0 ? void 0 : user.fullname} Invite you`,
-        message: `For ${activatedTrip.tripName} trip`,
+        title: `Invitation from ${user === null || user === void 0 ? void 0 : user.fullname}`,
+        message: `You are invited to the trip (${activatedTrip.tripName})`,
         type: "success",
     });
     return res.json({ message: "Teammate added successfully" });
@@ -213,7 +213,7 @@ const deleteTeammate = (req, res) => __awaiter(void 0, void 0, void 0, function*
     yield NotificationService_1.NotificationService.createNotification({
         userId: teammateId,
         title: "Teammate deleted from trip",
-        message: `You are remove ${teammate.fullname} from trip`,
+        message: `User (${teammate.fullname}) has been deleted from your trip`,
         type: "success",
     });
     return res.json({ message: "Teammate deleted successfully" });

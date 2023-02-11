@@ -29,8 +29,8 @@ export const createTrip = async (req: Request, res: Response) => {
   await NotificationService.createNotification({
     userId,
     title: "Trip created",
-    message: `Trip ${tripName} has been created successfully`,
-    type: "info",
+    message: `Trip (${tripName}) has been created successfully`,
+    type: "success",
   });
 
   return res.json(savedTrip);
@@ -81,7 +81,7 @@ export const deleteTrip = async (
   await NotificationService.createNotification({
     userId,
     title: "Trip deleted",
-    message: `Trip ${trip?.tripName} now is unavailable and all data is removed except your snaps`,
+    message: `Trip (${trip?.tripName} is unavailable and all data is removed, except your snaps`,
     type: "success",
   });
 
@@ -150,9 +150,9 @@ export const addActivity = async (req: Request, res: Response) => {
 
   await NotificationService.createNotification({
     userId,
-    title: "You have new activity",
-    message: `You are created a new trip activity named: ${activity.heading}`,
-    type: "info",
+    title: "New activity",
+    message: `Activity (${activity.heading}) has been added successfully`,
+    type: "success",
   });
 
   return res.json({ message: "Activity added successfully" });
@@ -165,8 +165,8 @@ export const setActivityCompleted = async (req: Request, res: Response) => {
 
   await NotificationService.createNotification({
     userId,
-    title: "You has completed activity",
-    message: `Named ${activity.heading}`,
+    title: "Completed activity",
+    message: `Activity (${activity.heading}) completed successfully`,
     type: "success",
   });
 
@@ -186,7 +186,7 @@ export const deleteActivity = async (
   await NotificationService.createNotification({
     userId,
     title: "Deleted activity",
-    message: `You deleted an activity named: ${activity.heading}`,
+    message: `Activity (${activity.heading}) has been deleted successfully`,
     type: "success",
   });
 
@@ -237,16 +237,16 @@ export const addTeammate = async (req: Request, res: Response) => {
   await TripService.addTeammate(userId, teammateId);
 
   await NotificationService.createNotification({
-    userId: teammateId,
+    userId: userId,
     title: "Teammate added to trip",
-    message: `You add user ${teammate?.fullname} successfully`,
+    message: `You added user (${userId?.fullname}) successfully`,
     type: "success",
   });
 
   await NotificationService.createNotification({
     userId: teammateId,
-    title: `${user?.fullname} Invite you`,
-    message: `For ${activatedTrip.tripName} trip`,
+    title: `Invitation from ${user?.fullname}`,
+    message: `You are invited to the trip (${activatedTrip.tripName})`,
     type: "success",
   });
 
@@ -266,7 +266,7 @@ export const deleteTeammate = async (
   await NotificationService.createNotification({
     userId: teammateId,
     title: "Teammate deleted from trip",
-    message: `You are remove ${teammate!.fullname} from trip`,
+    message: `User (${teammate!.fullname}) has been deleted from your trip`,
     type: "success",
   });
 
