@@ -14,7 +14,7 @@ const firebase_1 = require("../utils/firebase");
 const isValidImageFormat_1 = require("../helpers/isValidImageFormat");
 const NotificationService_1 = require("../services/NotificationService");
 const UserService_1 = require("../services/UserService");
-const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listUsersResult = yield firebase_1.firebaseApp.auth().listUsers();
     return res.json(listUsersResult.users);
 });

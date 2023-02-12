@@ -30,7 +30,10 @@ export class TripService {
 
   public static getAllUserTrips = async (userId: string) => {
     const ownTrips = await Trip.find({ userId });
-    const tripsAsTeammate = await Trip.find({ "teammates.userId": userId, activated: true });
+    const tripsAsTeammate = await Trip.find({
+      "teammates.userId": userId,
+      activated: true,
+    });
 
     return [...ownTrips, ...tripsAsTeammate];
   };
@@ -57,19 +60,21 @@ export class TripService {
   public static getActivatedTrip = async (userId: string) => {
     const activatedTrip = await this.getActivatedTripAsOwner(userId);
 
-    if (!activatedTrip) {
-      const activatedTripAsTeammate = await this.getActivatedTripAsTeammate(
-        userId
-      );
+    console.log(activatedTrip);
 
-      if (!activatedTripAsTeammate) {
-        throw new AppError("User has no activated trip", 404);
-      }
-
-      return activatedTripAsTeammate;
+    if (activatedTrip) {
+      return activatedTrip;
     }
 
-    return activatedTrip;
+    const activatedTripAsTeammate = await this.getActivatedTripAsTeammate(
+      userId
+    );
+
+    if (!activatedTripAsTeammate) {
+      throw new AppError("User has no activated trip", 404);
+    }
+
+    return activatedTripAsTeammate;
   };
 
   public static getDontCompletedTrip = async (userId: string) => {
@@ -106,7 +111,10 @@ export class TripService {
     }
 
     if (!tripAsTeammate?.activated) {
-      throw new AppError("Trip is disabled by owner and you can't enter it", 400);
+      throw new AppError(
+        "Trip is disabled by owner and you can't enter it",
+        400
+      );
     }
 
     // else if (tripsAsTeammate) {
@@ -407,25 +415,17 @@ export class TripService {
     return teammates;
   };
 
-  private static isTeammatePresentInTrip = async (userId: string) => {
-    const activatedTrip = await this.getActivatedTrip(userId);
-
-    const teammate = activatedTrip?.teammates.find(
-      (teammate) => teammate.userId === userId
-    );
-
-    return teammate;
-  };
-
   public static addTeammate = async (userId: string, teammateId: string) => {
     const activatedTrip = await this.getActivatedTrip(userId);
     const teammate = await User.findOne({ uid: teammateId });
 
-    if (RegExp(userId, "i").test(teammateId)) {
+    if (RegExp(activatedTrip.userId, "i").test(teammateId)) {
       throw new AppError("You can't add yourself as a teammate", 400);
     }
 
-    const isPresentAlready = await this.isTeammatePresentInTrip(userId);
+    const isPresentAlready = activatedTrip?.teammates.some(
+      (teammate) => teammate.userId === teammateId
+    );
 
     if (isPresentAlready) {
       throw new AppError("Teammate is already added", 400);
@@ -446,7 +446,9 @@ export class TripService {
   public static deleteTeammate = async (userId: string, teammateId: string) => {
     const activatedTrip = await this.getActivatedTrip(userId);
 
-    const teammateIsPresent = await this.isTeammatePresentInTrip(userId);
+    const teammateIsPresent = activatedTrip?.teammates.some(
+      (teammate) => teammate.userId === teammateId
+    );
 
     if (!teammateIsPresent) {
       throw new AppError(

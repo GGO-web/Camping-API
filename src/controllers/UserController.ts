@@ -1,16 +1,14 @@
 import { Request, Response } from "express";
 
-import { UserRecord } from "firebase-admin/lib/auth/user-record";
-
 import { firebaseApp } from "../utils/firebase";
 
-import { IUser, User } from "../models/User.model";
+import { IUser } from "../models/User.model";
 
 import { isValidImageFormat } from "../helpers/isValidImageFormat";
 import { NotificationService } from "../services/NotificationService";
 import { UserService } from "../services/UserService";
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (_: Request, res: Response) => {
   const listUsersResult = await firebaseApp.auth().listUsers();
 
   return res.json(listUsersResult.users);
@@ -55,8 +53,7 @@ export const updateUserAvatar = async (req: Request, res: Response) => {
   await NotificationService.createNotification({
     userId: uid,
     title: "User profile",
-    message:
-      "Avatar has been changed and your teammates will see it very soon",
+    message: "Avatar has been changed and your teammates will see it very soon",
     type: "success",
   });
 
