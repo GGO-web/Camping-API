@@ -85,8 +85,8 @@ TeammatesService.deleteTeammate = (userId, teammateId) => __awaiter(void 0, void
     });
     yield NotificationService_1.NotificationService.createNotification({
         userId: teammateId,
-        title: "Teammate deleted",
+        title: `Deleted from trip`,
         message: `You are deleted from the trip (${activatedTrip.tripName})})`,
-        type: "success",
+        type: "info",
     });
 });

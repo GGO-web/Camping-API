@@ -108,9 +108,9 @@ export class TeammatesService {
 
     await NotificationService.createNotification({
       userId: teammateId,
-      title: "Teammate deleted",
+      title: `Deleted from trip`,
       message: `You are deleted from the trip (${activatedTrip.tripName})})`,
-      type: "success",
+      type: "info",
     });
   };
 }

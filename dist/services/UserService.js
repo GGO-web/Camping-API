@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const User_model_1 = require("../models/User.model");
 const firebase_1 = require("../utils/firebase");
+const NotificationService_1 = require("./NotificationService");
 class UserService {
     static getUser(uid) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -29,6 +30,12 @@ class UserService {
                     fullname: user.displayName,
                 });
                 const savedUser = yield createdDBUser.save();
+                yield NotificationService_1.NotificationService.createNotification({
+                    userId: uid,
+                    title: "Congratulations!",
+                    message: "You recieved the welcome badge",
+                    type: "badge",
+                });
                 return savedUser;
             }
             console.log("User is already created");
