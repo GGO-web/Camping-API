@@ -11,13 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TripService = void 0;
+const NotificationService_1 = require("./NotificationService");
 const Trip_model_1 = require("../models/Trip.model");
 const Error_model_1 = require("../models/Error.model");
-const isValidImageFormat_1 = require("../helpers/isValidImageFormat");
-const uuid_1 = require("uuid");
-const Snap_model_1 = require("../models/Snap.model");
-const User_model_1 = require("../models/User.model");
-const UserService_1 = require("./UserService");
 class TripService {
 }
 exports.TripService = TripService;
@@ -61,7 +57,6 @@ TripService.getActivatedTripAsOwner = (userId) => __awaiter(void 0, void 0, void
 });
 TripService.getActivatedTrip = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield _a.getActivatedTripAsOwner(userId);
-    console.log(activatedTrip);
     if (activatedTrip) {
         return activatedTrip;
     }
@@ -77,6 +72,18 @@ TripService.getDontCompletedTrip = (userId) => __awaiter(void 0, void 0, void 0,
         throw new Error_model_1.AppError("User has no trips which is not completed yet", 404);
     }
     return dontCompletedTrip;
+});
+TripService.createTrip = (trip) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, tripName } = trip;
+    const newTrip = new Trip_model_1.Trip(trip);
+    yield newTrip.save();
+    yield NotificationService_1.NotificationService.createNotification({
+        userId,
+        title: "Trip created",
+        message: `Trip (${tripName}) has been created successfully`,
+        type: "success",
+    });
+    return newTrip;
 });
 TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, function* () {
     const trips = yield Trip_model_1.Trip.find({ userId });
@@ -149,149 +156,11 @@ TripService.deleteTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0, f
     if (!removedTrip) {
         throw new Error_model_1.AppError("Trip is not found or already removed", 404);
     }
+    yield NotificationService_1.NotificationService.createNotification({
+        userId,
+        title: "Trip deleted",
+        message: `Trip (${removedTrip === null || removedTrip === void 0 ? void 0 : removedTrip.tripName} is unavailable and all data is removed, except your snaps`,
+        type: "success",
+    });
     return removedTrip;
-});
-TripService.getBagItem = (userId, trip, bagItemId) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentBagItem = trip === null || trip === void 0 ? void 0 : trip.bagItems.find((bagItem) => bagItem.id === bagItemId);
-    if (!currentBagItem) {
-        throw new Error_model_1.AppError(`Bag item with id ${bagItemId || "undefined"} is not found`, 404);
-    }
-    if (currentBagItem.userId !== userId && trip.userId !== userId) {
-        throw new Error_model_1.AppError("The user can only access their own belongings in the bag", 400);
-    }
-    return currentBagItem;
-});
-TripService.addBagItem = (tripId, bagItem) => __awaiter(void 0, void 0, void 0, function* () {
-    const tripAsOwner = yield _a.getTrip(tripId, bagItem.userId);
-    const tripAsTeammate = yield _a.getTripAsTeammate(tripId, bagItem.userId);
-    const trip = tripAsOwner || tripAsTeammate;
-    if (!trip) {
-        throw new Error_model_1.AppError("User has no trips yet", 404);
-    }
-    // add bagItem to trip.bagItems array
-    trip === null || trip === void 0 ? void 0 : trip.bagItems.push(Object.assign(Object.assign({}, bagItem), { id: (0, uuid_1.v4)() }));
-    const savedTrip = yield (trip === null || trip === void 0 ? void 0 : trip.save());
-    return savedTrip;
-});
-TripService.updateBagImage = (userId, bagItemId, image) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield _a.getActivatedTrip(userId);
-    // check if bag item with ID is present in trip
-    yield _a.getBagItem(userId, trip, bagItemId);
-    if (!(0, isValidImageFormat_1.isValidImageFormat)(image)) {
-        throw new Error_model_1.AppError("Image format is not allowed or incorrect. Use base64 instead", 400);
-    }
-    // format is valid set bag image
-    trip.set({
-        bagItems: trip.bagItems.map((bagItem) => bagItem.id === bagItemId
-            ? Object.assign(Object.assign({}, bagItem), { image: image }) : bagItem),
-    });
-    yield trip.save();
-});
-TripService.updateBagItemCount = (userId, bagItemId, count) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield _a.getActivatedTrip(userId);
-    // check if bag item with ID is present in trip
-    yield _a.getBagItem(userId, trip, bagItemId);
-    trip.set({
-        bagItems: trip.bagItems.map((bagItem) => bagItem.id === bagItemId
-            ? Object.assign(Object.assign({}, bagItem), { count }) : bagItem),
-    });
-    yield trip.save();
-});
-TripService.deleteBagItem = (userId, bagItemId) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield _a.getActivatedTrip(userId);
-    // check if bag item with ID is present in trip
-    yield _a.getBagItem(userId, trip, bagItemId);
-    trip.set({
-        bagItems: trip.bagItems.filter((bagItem) => bagItem.id !== bagItemId),
-    });
-    yield trip.save();
-});
-TripService.getActivityItem = (userId, trip, activityId) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentActivity = trip === null || trip === void 0 ? void 0 : trip.activities.find((activity) => activity.id === activityId);
-    if (!currentActivity) {
-        throw new Error_model_1.AppError(`Activity item with id ${activityId || "undefined"} is not found in activated trip`, 404);
-    }
-    if (currentActivity.userId !== userId && trip.userId !== userId) {
-        throw new Error_model_1.AppError("The user can only access their own activities", 400);
-    }
-    return currentActivity;
-});
-TripService.addActivity = (userId, activity) => __awaiter(void 0, void 0, void 0, function* () {
-    const activatedTrip = yield _a.getActivatedTrip(userId);
-    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.activities.push(Object.assign(Object.assign({}, activity), { userId, id: (0, uuid_1.v4)() }));
-    yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
-});
-TripService.setActivityCompleted = (userId, activityId) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield _a.getActivatedTrip(userId);
-    // check if activity with ID is present in trip
-    const activity = yield _a.getActivityItem(userId, trip, activityId);
-    if (activity.completed) {
-        throw new Error_model_1.AppError("Activity has been already completed", 400);
-    }
-    trip.set({
-        activities: trip.activities.map((activity) => activity.id === activityId
-            ? Object.assign(Object.assign({}, activity), { completed: true }) : activity),
-    });
-    yield trip.save();
-    return activity;
-});
-TripService.deleteActivity = (userId, activityId) => __awaiter(void 0, void 0, void 0, function* () {
-    const trip = yield _a.getActivatedTrip(userId);
-    // check if activity with ID is present in trip
-    const activity = yield _a.getActivityItem(userId, trip, activityId);
-    trip.set({
-        activities: trip.activities.filter((activity) => activity.id !== activityId),
-    });
-    yield trip.save();
-    return activity;
-});
-TripService.getAllUserSnaps = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const snaps = yield Snap_model_1.Snap.find({ userId });
-    return snaps;
-});
-TripService.createTripSnap = (snap) => __awaiter(void 0, void 0, void 0, function* () {
-    const createdSnap = yield Snap_model_1.Snap.create(snap);
-    return createdSnap;
-});
-TripService.getAllUserTeammates = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const activatedTrip = yield _a.getActivatedTrip(userId);
-    const teammates = [];
-    for (let currentTeammate of activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates) {
-        if (!currentTeammate) {
-            continue;
-        }
-        const teammate = yield UserService_1.UserService.getUser(currentTeammate.userId);
-        teammates.push(teammate);
-    }
-    return teammates;
-});
-TripService.addTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void 0, function* () {
-    const activatedTrip = yield _a.getActivatedTrip(userId);
-    const teammate = yield User_model_1.User.findOne({ uid: teammateId });
-    if (RegExp(activatedTrip.userId, "i").test(teammateId)) {
-        throw new Error_model_1.AppError("You can't add yourself as a teammate", 400);
-    }
-    const isPresentAlready = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates.some((teammate) => teammate.userId === teammateId);
-    if (isPresentAlready) {
-        throw new Error_model_1.AppError("Teammate is already added", 400);
-    }
-    if (!teammate) {
-        throw new Error_model_1.AppError("Teammate is not found", 404);
-    }
-    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates.push({
-        userId: teammateId,
-        isOnline: false,
-    });
-    yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
-});
-TripService.deleteTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void 0, function* () {
-    const activatedTrip = yield _a.getActivatedTrip(userId);
-    const teammateIsPresent = activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates.some((teammate) => teammate.userId === teammateId);
-    if (!teammateIsPresent) {
-        throw new Error_model_1.AppError("Teammate is not found or has been already removed", 404);
-    }
-    activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.set({
-        teammates: activatedTrip.teammates.filter((teammate) => teammate.userId !== teammateId),
-    });
-    yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
 });
