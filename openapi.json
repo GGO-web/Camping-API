@@ -1704,6 +1704,202 @@
           }
         }
       }
+    },
+    "/feedback/all": {
+      "get": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "Get all feedbacks",
+        "description": "",
+        "operationId": "getAllFeedbacks",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Feedback"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/feedback/{userId}": {
+      "get": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "Get all user feedbacks",
+        "description": "",
+        "operationId": "getAllUserFeedbacks",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Feedback"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/feedback/create": {
+      "post": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "Create feedback",
+        "description": "",
+        "operationId": "createFeedback",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "Write your feedback here"
+                  }
+                }
+              },
+              "example": {
+                "userId": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1",
+                "message": "Write your feedback here"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feedback"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Validation error some field is missing"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/feedback/delete/": {
+      "delete": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "Delete feedback",
+        "description": "",
+        "operationId": "deleteFeedback",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "1Q2M4DF4NoYiqZ1wCpmhnGF9Oay1"
+            }
+          },
+          {
+            "name": "feedbackId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "63f8d789ada2dbd6f642a81c"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Feedback has been deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Feedback is not found or has been already deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "tags": [
@@ -1724,6 +1920,9 @@
     },
     {
       "name": "Teammate"
+    },
+    {
+      "name": "Feedback"
     }
   ],
   "components": {
@@ -2018,6 +2217,32 @@
         },
         "required": [
           "userId"
+        ]
+      },
+      "Feedback": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Feedback unique id (autogenerated)"
+          },
+          "userId": {
+            "type": "string",
+            "description": "User uid"
+          },
+          "message": {
+            "type": "string",
+            "description": "Feedback message"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date",
+            "description": "Feedback datetime UTC format (autogenerated)"
+          }
+        },
+        "required": [
+          "userId",
+          "message"
         ]
       },
       "AppError": {
