@@ -9,11 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUserFeedbacks = void 0;
 const feedback_service_1 = require("../feedback.service");
 const getAllUserFeedbacks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     const userFeedbacks = yield feedback_service_1.FeedbackService.getAllUserFeedbacks(userId);
     return res.status(200).json(userFeedbacks);
 });
-exports.getAllUserFeedbacks = getAllUserFeedbacks;
+exports.default = {
+    route: getAllUserFeedbacks,
+    method: "get",
+    path: "/:userId",
+};

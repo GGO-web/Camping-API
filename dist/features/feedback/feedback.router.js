@@ -5,11 +5,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const asyncWrapper_1 = require("../../helpers/asyncWrapper");
-const feedback_controller_1 = require("./feedback.controller");
+const feedback_controller_1 = __importDefault(require("./feedback.controller"));
 const router = express_1.default.Router();
-// Notification routes
-router.get("/all/", (0, asyncWrapper_1.asyncWrapper)(feedback_controller_1.controller.getAllFeedbacks));
-router.get("/:userId", (0, asyncWrapper_1.asyncWrapper)(feedback_controller_1.controller.getAllUserFeedbacks));
-router.post("/create", (0, asyncWrapper_1.asyncWrapper)(feedback_controller_1.controller.createFeedback));
-router.delete("/delete", (0, asyncWrapper_1.asyncWrapper)(feedback_controller_1.controller.deleteFeedback));
+setTimeout(() => {
+    // Notification routes
+    feedback_controller_1.default.forEach((routeConfig) => {
+        const method = routeConfig.method;
+        switch (method) {
+            case "get":
+                router.get(routeConfig.path, (0, asyncWrapper_1.asyncWrapper)(routeConfig.route));
+                break;
+            case "post":
+                router.post(routeConfig.path, (0, asyncWrapper_1.asyncWrapper)(routeConfig.route));
+                break;
+            case "put":
+                router.put(routeConfig.path, (0, asyncWrapper_1.asyncWrapper)(routeConfig.route));
+                break;
+            case "delete":
+                router.delete(routeConfig.path, (0, asyncWrapper_1.asyncWrapper)(routeConfig.route));
+                break;
+            case "patch":
+                router.patch(routeConfig.path, (0, asyncWrapper_1.asyncWrapper)(routeConfig.route));
+                break;
+            default:
+                break;
+        }
+    });
+}, 0);
 exports.default = router;

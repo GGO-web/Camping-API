@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { FeedbackService } from "../feedback.service";
 
-export const deleteFeedback = async (
+const deleteFeedback = async (
   req: Request<any, any, any, { userId: string; feedbackId: string }>,
   res: Response
 ) => {
@@ -13,3 +13,10 @@ export const deleteFeedback = async (
 
   return res.status(200).json(feedback);
 };
+
+
+export default {
+  route: deleteFeedback,
+  method: "delete",
+  path: "/delete",
+}

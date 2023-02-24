@@ -9,10 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllFeedbacks = void 0;
 const feedback_service_1 = require("../feedback.service");
 const getAllFeedbacks = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const feedbacks = yield feedback_service_1.FeedbackService.getAllFeedbacks();
     return res.status(200).json(feedbacks);
 });
-exports.getAllFeedbacks = getAllFeedbacks;
+exports.default = {
+    route: getAllFeedbacks,
+    method: "get",
+    path: "/all/",
+};

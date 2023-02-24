@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createFeedback = void 0;
 const feedback_service_1 = require("../feedback.service");
 const createFeedback = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.body.userId;
@@ -17,4 +16,8 @@ const createFeedback = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const feedback = yield feedback_service_1.FeedbackService.createFeedback(userId, message);
     return res.status(200).json(feedback);
 });
-exports.createFeedback = createFeedback;
+exports.default = {
+    route: createFeedback,
+    method: "post",
+    path: "/create",
+};
