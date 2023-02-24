@@ -4,10 +4,7 @@ import morgan from "morgan";
 
 import cors from "cors";
 
-// routers
-import { UserRouter } from "./routers/UserRouter";
-import { TripRouter } from "./routers/TripRouter";
-import { NotificationRouter } from "./routers/NotificationRouter";
+import { getDirectories } from "./helpers/getDirectoryStructure";
 
 // middlewares
 const { errorHandler } = require("./middleware/errorMiddleware");
@@ -29,10 +26,15 @@ app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 // swagger api documentation route: http://localhost:8080/api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// using routers
-app.use("/api/user", UserRouter);
-app.use("/api/trip", TripRouter);
-app.use("/api/notification", NotificationRouter);
+// register all features routers
+getDirectories("./src/features").map(async (feature) => {
+  console.log(`Registering router: ${feature}`);
+
+  const router = await import(`./features/${feature}/${feature}.router`);
+
+  app.use(`/api/${feature}`, router.default);
+});
+
 
 // listening server startup
 (async () => {

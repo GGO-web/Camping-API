@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TripController = void 0;
-const TripEndpoints_1 = require("../../features/trip/routes/TripEndpoints");
-const BagEndpoints_1 = require("../../features/trip/routes/BagEndpoints");
-const ActivityEndpoints_1 = require("../../features/trip/routes/ActivityEndpoints");
-const SnapsEndpoints_1 = require("../../features/trip/routes/SnapsEndpoints");
-const TeammatesEndpoints_1 = require("../../features/trip/routes/TeammatesEndpoints");
-exports.TripController = {
+exports.controller = void 0;
+const TripEndpoints_1 = require("./routes/TripEndpoints");
+const BagEndpoints_1 = require("./routes/BagEndpoints");
+const ActivityEndpoints_1 = require("./routes/ActivityEndpoints");
+const SnapsEndpoints_1 = require("./routes/SnapsEndpoints");
+const TeammatesEndpoints_1 = require("./routes/TeammatesEndpoints");
+exports.controller = {
     // Trip endpoints
     getAllUserTrips: TripEndpoints_1.getAllUserTrips,
     getActivatedTrip: TripEndpoints_1.getActivatedTrip,

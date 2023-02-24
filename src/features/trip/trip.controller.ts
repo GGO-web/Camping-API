@@ -6,7 +6,7 @@ import {
   activateTrip,
   deactivateTrip,
   deleteTrip,
-} from "./endpoints/TripEndpoints";
+} from "./routes/TripEndpoints";
 
 import {
   getBagItems,
@@ -14,25 +14,25 @@ import {
   updateBagImage,
   updateBagItemCount,
   deleteBagItem,
-} from "./endpoints/BagEndpoints";
+} from "./routes/BagEndpoints";
 
 import {
   addActivity,
   deleteActivity,
   getActivities,
   setActivityCompleted,
-} from "./endpoints/ActivityEndpoints";
+} from "./routes/ActivityEndpoints";
 import {
   getAllUserTripSnaps,
   createTripSnap,
-} from "./endpoints/SnapsEndpoints";
+} from "./routes/SnapsEndpoints";
 import {
   addTeammate,
   deleteTeammate,
   getAllUserTeammates,
-} from "./endpoints/TeammatesEndpoints";
+} from "./routes/TeammatesEndpoints";
 
-export const TripController = {
+export const controller = {
   // Trip endpoints
   getAllUserTrips,
   getActivatedTrip,
@@ -41,20 +41,24 @@ export const TripController = {
   completeTrip,
   deactivateTrip,
   deleteTrip,
+
   // Bag endpoints
   getBagItems,
   addBagItem,
   updateBagImage,
   updateBagItemCount,
   deleteBagItem,
+
   // Activity endpoints
   getActivities,
   addActivity,
   setActivityCompleted,
   deleteActivity,
+
   // Snap endpoints
   getAllUserTripSnaps,
   createTripSnap,
+
   // Teammate endpoints
   getAllUserTeammates,
   addTeammate,
