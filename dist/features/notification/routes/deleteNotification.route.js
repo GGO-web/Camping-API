@@ -10,10 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteNotification = void 0;
-const NotificationService_1 = require("../../../services/NotificationService");
+const notification_service_1 = require("../notification.service");
 const deleteNotification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    yield NotificationService_1.NotificationService.deleteNotification(id);
+    yield notification_service_1.NotificationService.deleteNotification(id);
     return res.status(200).json({
         message: "Notification has been deleted successfully"
     });

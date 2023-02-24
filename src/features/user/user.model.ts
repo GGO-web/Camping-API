@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
-import { defaultAvatarBASE64 } from "../constants";
+
+import { defaultAvatarBASE64 } from "../../constants";
 
 export interface IUser {
   uid: string;

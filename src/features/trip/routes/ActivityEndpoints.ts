@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 
-import { TripService } from "../../../services/TripService";
-import { ActivityService } from "../../../services/ActivityService";
+import { TripService } from "../trip.service";
+
+import { ActivityService } from "../services/activity.service";
 
 import { IActivity } from "../../../models/Activity.model";
 

@@ -1,7 +1,8 @@
-import { NotificationService } from "./NotificationService";
+import { AppError } from "../../models/Error.model";
 
-import { ITrip, Trip } from "../models/Trip.model";
-import { AppError } from "../models/Error.model";
+import { NotificationService } from "../notification/notification.service";
+
+import { Trip, ITrip } from "./trip.model";
 
 export class TripService {
   public static getTrip = async (tripId: string, userId: string) => {

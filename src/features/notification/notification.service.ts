@@ -1,7 +1,9 @@
 import { v4 } from "uuid";
-import { AppError } from "../models/Error.model";
 
-import { INotification, Notification } from "../models/Notification.model";
+import { AppError } from "../../models/Error.model";
+
+import { INotification, Notification } from "./notification.model";
+
 
 export class NotificationService {
   private static getNotificationById = (id: string) => {

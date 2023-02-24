@@ -1,4 +1,4 @@
-import { ISnap, Snap } from "../models/Snap.model";
+import { ISnap, Snap } from "../../../models/Snap.model";
 
 export class SnapsService {
   public static getAllUserSnaps = async (userId: string) => {

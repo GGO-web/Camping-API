@@ -10,23 +10,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTeammate = exports.addTeammate = exports.getAllUserTeammates = void 0;
-const TeammatesService_1 = require("../../../services/TeammatesService");
+const teammates_service_1 = require("../services/teammates.service");
 // Teammates endpoints
 const getAllUserTeammates = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
-    const teammates = yield TeammatesService_1.TeammatesService.getAllUserTeammates(userId);
+    const teammates = yield teammates_service_1.TeammatesService.getAllUserTeammates(userId);
     return res.json(teammates);
 });
 exports.getAllUserTeammates = getAllUserTeammates;
 const addTeammate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, teammateId } = req.body;
-    yield TeammatesService_1.TeammatesService.addTeammate(userId, teammateId);
+    yield teammates_service_1.TeammatesService.addTeammate(userId, teammateId);
     return res.json({ message: "Teammate added successfully" });
 });
 exports.addTeammate = addTeammate;
 const deleteTeammate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, teammateId } = req.query;
-    yield TeammatesService_1.TeammatesService.deleteTeammate(userId, teammateId);
+    yield teammates_service_1.TeammatesService.deleteTeammate(userId, teammateId);
     return res.json({ message: "Teammate deleted successfully" });
 });
 exports.deleteTeammate = deleteTeammate;

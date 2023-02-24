@@ -12,9 +12,9 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BagService = void 0;
 const uuid_1 = require("uuid");
-const trip_service_1 = require("../features/trip/trip.service");
-const isValidImageFormat_1 = require("../helpers/isValidImageFormat");
-const Error_model_1 = require("../models/Error.model");
+const trip_service_1 = require("../trip.service");
+const isValidImageFormat_1 = require("../../../helpers/isValidImageFormat");
+const Error_model_1 = require("../../../models/Error.model");
 class BagService {
 }
 exports.BagService = BagService;

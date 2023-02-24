@@ -12,9 +12,9 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ActivityService = void 0;
 const uuid_1 = require("uuid");
-const notification_service_1 = require("../features/notification/notification.service");
-const trip_service_1 = require("../features/trip/trip.service");
-const Error_model_1 = require("../models/Error.model");
+const notification_service_1 = require("../../notification/notification.service");
+const trip_service_1 = require("../trip.service");
+const Error_model_1 = require("../../../models/Error.model");
 class ActivityService {
 }
 exports.ActivityService = ActivityService;

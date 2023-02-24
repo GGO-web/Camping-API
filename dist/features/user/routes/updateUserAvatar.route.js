@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUserAvatar = void 0;
 const isValidImageFormat_1 = require("../../../helpers/isValidImageFormat");
-const NotificationService_1 = require("../../../services/NotificationService");
-const UserService_1 = require("../../../services/UserService");
+const user_service_1 = require("../user.service");
+const notification_service_1 = require("../../notification/notification.service");
 const updateUserAvatar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { uid, avatar } = req.body;
     if (!(0, isValidImageFormat_1.isValidImageFormat)(avatar)) {
@@ -20,8 +20,8 @@ const updateUserAvatar = (req, res) => __awaiter(void 0, void 0, void 0, functio
             message: "Avatar format is not allowed or incorrect. Use base64 instead",
         });
     }
-    yield UserService_1.UserService.updateUserProfile({ uid, avatar });
-    yield NotificationService_1.NotificationService.createNotification({
+    yield user_service_1.UserService.updateUserProfile({ uid, avatar });
+    yield notification_service_1.NotificationService.createNotification({
         userId: uid,
         title: "User profile",
         message: "Avatar has been changed and your teammates will see it very soon",

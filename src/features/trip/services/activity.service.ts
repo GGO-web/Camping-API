@@ -1,11 +1,12 @@
 import { v4 } from "uuid";
 
-import { NotificationService } from "./NotificationService";
-import { TripService } from "./TripService";
+import { NotificationService } from "../../notification/notification.service";
+import { ITrip } from "../trip.model";
+import { TripService } from "../trip.service";
 
-import { IActivity } from "../models/Activity.model";
-import { AppError } from "../models/Error.model";
-import { ITrip } from "../models/Trip.model";
+
+import { IActivity } from "../../../models/Activity.model";
+import { AppError } from "../../../models/Error.model";
 
 export class ActivityService {
   public static getActivityItem = async (

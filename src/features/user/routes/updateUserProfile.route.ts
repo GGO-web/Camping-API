@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 
-import { IUser } from "../../../models/User.model";
+import { IUser } from "../user.model";
 
-import { NotificationService } from "../../../services/NotificationService";
-import { UserService } from "../../../services/UserService";
+import { UserService } from "../user.service";
+
+import { NotificationService } from "../../notification/notification.service";
 
 export const updateUserProfile = async (req: Request, res: Response) => {
   const { uid, fullname, occupation, bio } = req.body as IUser;

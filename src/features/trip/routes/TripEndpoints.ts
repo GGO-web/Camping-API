@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 
-import { TripService } from "../../../services/TripService";
+import { TripService } from "../trip.service";
 
-import { ITrip } from "../../../models/Trip.model";
+import { ITrip } from "../trip.model";
 
 // Trip endpoints
 export const getAllUserTrips = async (req: Request, res: Response) => {

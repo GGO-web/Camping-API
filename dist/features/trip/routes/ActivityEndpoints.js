@@ -10,25 +10,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteActivity = exports.setActivityCompleted = exports.addActivity = exports.getActivities = void 0;
-const TripService_1 = require("../../../services/TripService");
-const ActivityService_1 = require("../../../services/ActivityService");
+const trip_service_1 = require("../trip.service");
+const activity_service_1 = require("../services/activity.service");
 // Activity endpoints
 const getActivities = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
-    const trip = yield TripService_1.TripService.getActivatedTrip(userId);
+    const trip = yield trip_service_1.TripService.getActivatedTrip(userId);
     return res.json(trip.activities);
 });
 exports.getActivities = getActivities;
 const addActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     const activity = req.body;
-    yield ActivityService_1.ActivityService.addActivity(userId, activity);
+    yield activity_service_1.ActivityService.addActivity(userId, activity);
     return res.json({ message: "Activity added successfully" });
 });
 exports.addActivity = addActivity;
 const setActivityCompleted = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, activityId } = req.body;
-    yield ActivityService_1.ActivityService.setActivityCompleted(userId, activityId);
+    yield activity_service_1.ActivityService.setActivityCompleted(userId, activityId);
     return res.json({
         message: `Activity with id ${activityId} has been completed successfully`,
     });
@@ -36,7 +36,7 @@ const setActivityCompleted = (req, res) => __awaiter(void 0, void 0, void 0, fun
 exports.setActivityCompleted = setActivityCompleted;
 const deleteActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, activityId } = req.query;
-    yield ActivityService_1.ActivityService.deleteActivity(userId, activityId);
+    yield activity_service_1.ActivityService.deleteActivity(userId, activityId);
     return res.json({
         message: `Activity with id ${activityId} has been deleted successfully`,
     });

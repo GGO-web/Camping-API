@@ -1,9 +1,10 @@
-import { NotificationService } from "./NotificationService";
-import { TripService } from "./TripService";
-import { UserService } from "./UserService";
+import { AppError } from "../../../models/Error.model";
 
-import { IUser, User } from "../models/User.model";
-import { AppError } from "../models/Error.model";
+import { NotificationService } from "../../notification/notification.service";
+import { TripService } from "../trip.service";
+import { UserService } from "../../user/user.service";
+
+import { IUser } from "../../user/user.model";
 
 export class TeammatesService {
   public static getAllUserTeammates = async (userId: string) => {

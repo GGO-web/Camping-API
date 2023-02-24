@@ -10,13 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
-const notification_service_1 = require("../features/notification/notification.service");
-const User_model_1 = require("../models/User.model");
-const firebase_1 = require("../utils/firebase");
+const user_model_1 = require("./user.model");
+const firebase_1 = require("../../utils/firebase");
+const notification_service_1 = require("../notification/notification.service");
 class UserService {
     static getUser(uid) {
         return __awaiter(this, void 0, void 0, function* () {
-            const userDB = yield User_model_1.User.findOne({ uid: uid });
+            const userDB = yield user_model_1.User.findOne({ uid: uid });
             return userDB;
         });
     }
@@ -25,7 +25,7 @@ class UserService {
             const userDB = yield this.getUser(uid);
             if (!userDB && uid) {
                 const user = yield firebase_1.firebaseApp.auth().getUser(uid);
-                const createdDBUser = new User_model_1.User({
+                const createdDBUser = new user_model_1.User({
                     uid,
                     fullname: user.displayName,
                 });

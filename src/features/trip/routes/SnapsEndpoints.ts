@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { SnapsService } from "../../../services/SnapsService";
+import { SnapsService } from "../services/snaps.service";
 
 import { ISnap } from "../../../models/Snap.model";
 

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { TeammatesService } from "../../../services/TeammatesService";
+import { TeammatesService } from "../services/teammates.service";
 
 // Teammates endpoints
 export const getAllUserTeammates = async (req: Request, res: Response) => {

@@ -8,12 +8,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserById = void 0;
-const user_service_1 = require("../user.service");
-const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const user = yield user_service_1.UserService.createUser(id);
-    return res.json(user);
+exports.SnapsService = void 0;
+const Snap_model_1 = require("../../../models/Snap.model");
+class SnapsService {
+}
+exports.SnapsService = SnapsService;
+_a = SnapsService;
+SnapsService.getAllUserSnaps = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const snaps = yield Snap_model_1.Snap.find({ userId });
+    return snaps;
 });
-exports.getUserById = getUserById;
+SnapsService.createTripSnap = (snap) => __awaiter(void 0, void 0, void 0, function* () {
+    const createdSnap = yield Snap_model_1.Snap.create(snap);
+    return createdSnap;
+});

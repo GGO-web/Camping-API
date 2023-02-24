@@ -11,10 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TeammatesService = void 0;
-const UserService_1 = require("./UserService");
-const Error_model_1 = require("../models/Error.model");
-const notification_service_1 = require("../features/notification/notification.service");
-const trip_service_1 = require("../features/trip/trip.service");
+const UserService_1 = require("../../../services/UserService");
+const Error_model_1 = require("../../../models/Error.model");
+const notification_service_1 = require("../../notification/notification.service");
+const trip_service_1 = require("../trip.service");
 class TeammatesService {
 }
 exports.TeammatesService = TeammatesService;

@@ -1,7 +1,9 @@
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
-import { IUser, User } from "../models/User.model";
-import { firebaseApp } from "../utils/firebase";
-import { NotificationService } from "./NotificationService";
+
+import { User, IUser } from "./user.model";
+import { firebaseApp } from "../../utils/firebase";
+
+import { NotificationService } from "../notification/notification.service";
 
 export class UserService {
   public static async getUser(uid: string) {

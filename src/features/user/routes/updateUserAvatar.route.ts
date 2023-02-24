@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 
-import { IUser } from "../../../models/User.model";
+import { IUser } from "../user.model";
 
 import { isValidImageFormat } from "../../../helpers/isValidImageFormat";
 
-import { NotificationService } from "../../../services/NotificationService";
-import { UserService } from "../../../services/UserService";
+import { UserService } from "../user.service";
+
+import { NotificationService } from "../../notification/notification.service";
 
 
 export const updateUserAvatar = async (req: Request, res: Response) => {

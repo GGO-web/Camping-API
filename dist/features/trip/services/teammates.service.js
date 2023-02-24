@@ -11,10 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TeammatesService = void 0;
-const UserService_1 = require("./UserService");
-const Error_model_1 = require("../models/Error.model");
-const notification_service_1 = require("../features/notification/notification.service");
-const trip_service_1 = require("../features/trip/trip.service");
+const Error_model_1 = require("../../../models/Error.model");
+const notification_service_1 = require("../../notification/notification.service");
+const trip_service_1 = require("../trip.service");
+const user_service_1 = require("../../user/user.service");
 class TeammatesService {
 }
 exports.TeammatesService = TeammatesService;
@@ -26,14 +26,14 @@ TeammatesService.getAllUserTeammates = (userId) => __awaiter(void 0, void 0, voi
         if (!currentTeammate) {
             continue;
         }
-        const teammate = yield UserService_1.UserService.getUser(currentTeammate.userId);
+        const teammate = yield user_service_1.UserService.getUser(currentTeammate.userId);
         teammates.push(teammate);
     }
     return teammates;
 });
 TeammatesService.addTeammate = (userId, teammateId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield trip_service_1.TripService.getActivatedTrip(userId);
-    const teammate = yield UserService_1.UserService.getUser(teammateId);
+    const teammate = yield user_service_1.UserService.getUser(teammateId);
     if (RegExp(userId, "i").test(teammateId)) {
         throw new Error_model_1.AppError("You can't add yourself as a teammate", 400);
     }
@@ -52,7 +52,7 @@ TeammatesService.addTeammate = (userId, teammateId) => __awaiter(void 0, void 0,
         isOnline: false,
     });
     yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
-    const user = yield UserService_1.UserService.getUser(userId);
+    const user = yield user_service_1.UserService.getUser(userId);
     yield notification_service_1.NotificationService.createNotification({
         userId: userId,
         title: "Teammate added to trip",
@@ -76,7 +76,7 @@ TeammatesService.deleteTeammate = (userId, teammateId) => __awaiter(void 0, void
         teammates: activatedTrip.teammates.filter((teammate) => teammate.userId !== teammateId),
     });
     yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
-    const teammate = yield UserService_1.UserService.getUser(teammateId);
+    const teammate = yield user_service_1.UserService.getUser(teammateId);
     yield notification_service_1.NotificationService.createNotification({
         userId: userId,
         title: "Teammate deleted from trip",

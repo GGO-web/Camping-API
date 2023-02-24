@@ -1,11 +1,12 @@
 import { v4 } from "uuid";
 
-import { isValidImageFormat } from "../helpers/isValidImageFormat";
+import { ITrip } from "../trip.model";
+import { TripService } from "../trip.service";
 
-import { IBagItem } from "../models/Bag.model";
-import { AppError } from "../models/Error.model";
-import { ITrip } from "../models/Trip.model";
-import { TripService } from "./TripService";
+import { isValidImageFormat } from "../../../helpers/isValidImageFormat";
+
+import { IBagItem } from "../../../models/Bag.model";
+import { AppError } from "../../../models/Error.model";
 
 export class BagService {
   private static getBagItem = async (

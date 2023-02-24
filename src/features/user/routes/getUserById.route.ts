@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 
-import { UserService } from "../../../services/UserService";
-
+import { UserService } from "../user.service";
 
 export const getUserById = async (req: Request, res: Response) => {
   const { id } = req.params;

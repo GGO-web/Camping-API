@@ -10,11 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllNotifications = void 0;
-const NotificationService_1 = require("../../../services/NotificationService");
+const notification_service_1 = require("../notification.service");
 const getAllNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     console.log("userId", userId);
-    const notifications = yield NotificationService_1.NotificationService.getAllNotifications(userId);
+    const notifications = yield notification_service_1.NotificationService.getAllNotifications(userId);
     return res.status(200).json(notifications);
 });
 exports.getAllNotifications = getAllNotifications;

@@ -12,7 +12,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotificationService = void 0;
 const uuid_1 = require("uuid");
-const Error_model_1 = require("../models/Error.model");
+const Error_model_1 = require("../../models/Error.model");
 const notification_model_1 = require("./notification.model");
 class NotificationService {
 }

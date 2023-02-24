@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 
-import { INotification } from "../../../models/Notification.model";
+import { NotificationService } from "../notification.service";
 
-import { NotificationService } from "../../../services/NotificationService";
+import { INotification } from "../notification.model";
 
 export const createNotification = async (req: Request<any, INotification, any, any>, res: Response) => {
   const notification = req.body;

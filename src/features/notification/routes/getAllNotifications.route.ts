@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { NotificationService } from "../../../services/NotificationService";
+import { NotificationService } from "../notification.service";
 
 export const getAllNotifications = async (req: Request, res: Response) => {
   const { userId } = req.params;

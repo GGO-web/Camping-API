@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import { BagService } from "../../../services/BagService";
-import { TripService } from "../../../services/TripService";
+import { BagService } from "../services/bag.service";
+import { TripService } from "../trip.service";
 
 import { IBagItem } from "../../../models/Bag.model";
 

@@ -1,8 +1,8 @@
 import { model, Schema } from "mongoose";
 
-import { IBagItem } from "./Bag.model";
-import { IActivity } from "./Activity.model";
-import { ITeammate } from "./Teammate.model";
+import { IBagItem } from "../../models/Bag.model";
+import { IActivity } from "../../models/Activity.model";
+import { ITeammate } from "../../models/Teammate.model";
 
 export interface ITripPeriod {
   startDate: Date;

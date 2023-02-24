@@ -10,12 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUserProfile = void 0;
-const NotificationService_1 = require("../../../services/NotificationService");
-const UserService_1 = require("../../../services/UserService");
+const user_service_1 = require("../user.service");
+const notification_service_1 = require("../../notification/notification.service");
 const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { uid, fullname, occupation, bio } = req.body;
-    yield UserService_1.UserService.updateUserProfile({ uid, fullname, occupation, bio });
-    yield NotificationService_1.NotificationService.createNotification({
+    yield user_service_1.UserService.updateUserProfile({ uid, fullname, occupation, bio });
+    yield notification_service_1.NotificationService.createNotification({
         userId: uid,
         title: "User profile",
         message: "Profile successfully updated check it out",
