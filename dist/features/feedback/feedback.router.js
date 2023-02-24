@@ -36,43 +36,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const getDirectoryStructure_1 = require("./helpers/getDirectoryStructure");
-const morganMiddleware_1 = require("./middleware/morganMiddleware");
-// middlewares
-const errorMiddleware_1 = require("./middleware/errorMiddleware");
-const logger_1 = require("./utils/logger");
-// configs
-require("dotenv").config();
-require("./utils/mongoConnection");
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("../openapi.json");
-const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(express_1.default.json({ limit: "50mb" }));
-app.use(morganMiddleware_1.morganMiddleware);
-app.use(express_1.default.urlencoded({ extended: true, limit: "50mb" }));
-// swagger api documentation route: http://localhost:8080/api-docs
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-// register all features routers
-(0, getDirectoryStructure_1.getDirectories)("./src/features").map((feature) => __awaiter(void 0, void 0, void 0, function* () {
+const asyncWrapper_1 = require("../../helpers/asyncWrapper");
+const getDirectoryFiles_1 = require("../../helpers/getDirectoryFiles");
+const path_1 = __importDefault(require("path"));
+const router = express_1.default.Router();
+// register all routes
+(0, getDirectoryFiles_1.getDirectoryFiles)(path_1.default.join(__dirname, "./routes")).map((routeName) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    logger_1.logger.info(`Registering router: ${feature}`);
-    const router = yield (_a = `./features/${feature}/${feature}.router`, Promise.resolve().then(() => __importStar(require(_a))));
-    app.use(`/api/${feature}`, router.default);
+    const route = yield (_a = `./routes/${routeName}`, Promise.resolve().then(() => __importStar(require(_a))));
+    const routeConfig = route.default;
+    const method = routeConfig.method;
+    // @ts-ignore
+    router[method](routeConfig.path, (0, asyncWrapper_1.asyncWrapper)(routeConfig.route));
 }));
-// listening server startup
-(() => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const port = process.env.PORT || 9090;
-        app.listen(port, () => {
-            logger_1.logger.info({ message: `Listening on port ${port}`, port: port });
-            // console.log(`Server started on port: ${port}`);
-        });
-    }
-    catch (err) {
-        logger_1.logger.error(`Error on server startup: ${err.message}`);
-    }
-}))();
-// ERROR HANDLER
-app.use(errorMiddleware_1.errorHandler);
+exports.default = router;
