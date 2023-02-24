@@ -36,11 +36,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const getDirectoryStructure_1 = require("./helpers/getDirectoryStructure");
+const morganMiddleware_1 = require("./middleware/morganMiddleware");
 // middlewares
-const { errorHandler } = require("./middleware/errorMiddleware");
+const errorMiddleware_1 = require("./middleware/errorMiddleware");
+const logger_1 = require("./utils/logger");
 // configs
 require("dotenv").config();
 require("./utils/mongoConnection");
@@ -49,27 +50,29 @@ const swaggerDocument = require("../openapi.json");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json({ limit: "50mb" }));
-app.use((0, morgan_1.default)("dev"));
+app.use(morganMiddleware_1.morganMiddleware);
 app.use(express_1.default.urlencoded({ extended: true, limit: "50mb" }));
 // swagger api documentation route: http://localhost:8080/api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // register all features routers
 (0, getDirectoryStructure_1.getDirectories)("./src/features").map((feature) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    console.log(`Registering router: ${feature}`);
+    logger_1.logger.info(`Registering router: ${feature}`);
     const router = yield (_a = `./features/${feature}/${feature}.router`, Promise.resolve().then(() => __importStar(require(_a))));
     app.use(`/api/${feature}`, router.default);
 }));
 // listening server startup
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        app.listen(process.env.PORT || 9090, () => {
-            console.log(`Server started on port: ${process.env.PORT || 9090}`);
+        const port = process.env.PORT || 9090;
+        app.listen(port, () => {
+            logger_1.logger.info({ message: `Listening on port ${port}`, port: port });
+            // console.log(`Server started on port: ${port}`);
         });
     }
     catch (err) {
-        console.error(`Error on server startup: ${err.message}`);
+        logger_1.logger.error(`Error on server startup: ${err.message}`);
     }
 }))();
 // ERROR HANDLER
-app.use(errorHandler);
+app.use(errorMiddleware_1.errorHandler);

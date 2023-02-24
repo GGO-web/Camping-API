@@ -2,10 +2,9 @@
 
 import { Response } from "express";
 
-// eslint-disable-next-line no-unused-vars
-function errorHandler(err: any, req: any, res: Response, next: any) {
-  console.log(err);
+import { logger } from "../utils/logger";
 
+export function errorHandler(err: any, req: any, res: Response, next: any) {
   if (
     err.name === "MongoServerError" ||
     err.name === "ValidationError" ||
@@ -13,12 +12,12 @@ function errorHandler(err: any, req: any, res: Response, next: any) {
     err.name === "Error" ||
     err.name === "AppError"
   ) {
+    logger.error(err.message);
+    
     return res.status(err?.code || 400).send({ message: err.message });
   }
+  
+  logger.error("Server error");
 
   return res.status(500).send({ message: "Server error" });
 }
-
-module.exports = {
-  errorHandler,
-};
