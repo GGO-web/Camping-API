@@ -16,3 +16,8 @@ const getAllUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.json(listUsersResult.users);
 });
 exports.getAllUsers = getAllUsers;
+exports.default = {
+    route: exports.getAllUsers,
+    path: "/all",
+    method: "get",
+};

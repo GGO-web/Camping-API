@@ -133,6 +133,8 @@ export class TripService {
         if (teammate.userId === userId) {
           return { ...teammate, isOnline: true };
         }
+
+        return teammate;
       }),
     });
 
@@ -185,6 +187,8 @@ export class TripService {
         if (teammate.userId === userId) {
           return { ...teammate, isOnline: false };
         }
+
+        return teammate;
       }),
     });
 

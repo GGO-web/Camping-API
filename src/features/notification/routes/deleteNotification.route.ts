@@ -11,3 +11,9 @@ export const deleteNotification = async (req: Request, res: Response) => {
     message: "Notification has been deleted successfully",
   });
 };
+
+export default {
+  route: deleteNotification,
+  method: "delete",
+  path: "/delete/:id",
+};

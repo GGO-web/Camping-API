@@ -30,7 +30,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // register all features routers
 getDirectories("./src/features").map(async (feature) => {
-  logger.info(`Registering router: ${feature}`);
+  logger.log({ level: "info", message: `Registering router: ${feature}` });
 
   const router = await import(`./features/${feature}/${feature}.router`);
 
@@ -43,8 +43,6 @@ getDirectories("./src/features").map(async (feature) => {
     const port = process.env.PORT || 9090;
     app.listen(port, () => {
       logger.info({ message: `Listening on port ${port}`, port });
-
-      // console.log(`Server started on port: ${port}`);
     });
   } catch (err: any) {
     logger.error(`Error on server startup: ${err.message}`);

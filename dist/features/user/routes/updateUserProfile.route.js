@@ -26,3 +26,8 @@ const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, functi
     });
 });
 exports.updateUserProfile = updateUserProfile;
+exports.default = {
+    route: exports.updateUserProfile,
+    path: "/",
+    method: "patch",
+};

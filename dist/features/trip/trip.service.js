@@ -110,6 +110,7 @@ TripService.activateTrip = (userId, tripId) => __awaiter(void 0, void 0, void 0,
             if (teammate.userId === userId) {
                 return Object.assign(Object.assign({}, teammate), { isOnline: true });
             }
+            return teammate;
         }),
     });
     yield (tripAsTeammate === null || tripAsTeammate === void 0 ? void 0 : tripAsTeammate.save());
@@ -146,6 +147,7 @@ TripService.deactivateTrip = (userId) => __awaiter(void 0, void 0, void 0, funct
             if (teammate.userId === userId) {
                 return Object.assign(Object.assign({}, teammate), { isOnline: false });
             }
+            return teammate;
         }),
     });
     yield (tripAsTeammate === null || tripAsTeammate === void 0 ? void 0 : tripAsTeammate.save());

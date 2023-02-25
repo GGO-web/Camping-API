@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 
+import { IRouteConfig } from "../../../types/routeConfig.type";
+
 import { FeedbackService } from "../feedback.service";
 
 const createFeedback = async (req: Request, res: Response) => {
@@ -15,4 +17,4 @@ export default {
   route: createFeedback,
   method: "post",
   path: "/create",
-};
+} as IRouteConfig;

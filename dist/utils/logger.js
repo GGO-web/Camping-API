@@ -11,23 +11,20 @@ const levels = {
     warn: 1,
     info: 2,
     http: 3,
-    verbose: 4,
-    debug: 5,
-    silly: 6,
 };
 const getLevelColor = (level) => {
     let color = "";
     if (level === "info") {
         color = "\x1b[32m"; // green
     }
-    else if (level === "warn") {
+    else if (level === "warn" || level === "verbose") {
         color = "\x1b[33m"; // yellow
     }
     else if (level === "error") {
         color = "\x1b[31m"; // red
     }
-    else if (level === "http") {
-        color = "\x1b[35m"; // green
+    else if (level === "http" || level === "debug" || level === "silly") {
+        color = "\x1b[35m"; // magenta
     }
     else {
         color = "\x1b[37m"; // white

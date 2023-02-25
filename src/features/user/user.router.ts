@@ -1,14 +1,12 @@
 import express, { Router } from "express";
 
-import { controller } from "./user.controller";
+import path from "path";
 
-import { asyncWrapper } from "../../helpers/asyncWrapper";
+import { registerRoutes } from "../../helpers/registerRoutes";
 
 const router: Router = express.Router();
 
-// router.get("/all", asyncWrapper(controller.getAllUsers)); // only for development purposes
-router.patch("/", asyncWrapper(controller.updateUserProfile));
-router.get("/:id", asyncWrapper(controller.getUserById));
-router.patch("/avatar", asyncWrapper(controller.updateUserAvatar));
+// register all routes
+registerRoutes(router, path.join(__dirname, "./routes"));
 
 export default router;

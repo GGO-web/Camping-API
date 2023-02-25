@@ -22,3 +22,9 @@ export const updateUserProfile = async (req: Request, res: Response) => {
     message: "User profile has successfully updated",
   });
 };
+
+export default {
+  route: updateUserProfile,
+  path: "/",
+  method: "patch",
+};

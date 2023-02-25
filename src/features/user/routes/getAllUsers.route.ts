@@ -7,3 +7,9 @@ export const getAllUsers = async (_: Request, res: Response) => {
 
   return res.json(listUsersResult.users);
 };
+
+export default {
+  route: getAllUsers,
+  path: "/all",
+  method: "get",
+};

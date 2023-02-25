@@ -30,3 +30,9 @@ export const updateUserAvatar = async (req: Request, res: Response) => {
     message: "User avatar was changed",
   });
 };
+
+export default {
+  route: updateUserAvatar,
+  path: "/avatar",
+  method: "patch",
+};

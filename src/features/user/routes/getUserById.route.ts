@@ -9,3 +9,9 @@ export const getUserById = async (req: Request, res: Response) => {
 
   return res.json(user);
 };
+
+export default {
+  route: getUserById,
+  path: "/:id",
+  method: "get",
+};

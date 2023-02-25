@@ -19,3 +19,8 @@ const deleteNotification = (req, res) => __awaiter(void 0, void 0, void 0, funct
     });
 });
 exports.deleteNotification = deleteNotification;
+exports.default = {
+    route: exports.deleteNotification,
+    method: "delete",
+    path: "/delete/:id",
+};

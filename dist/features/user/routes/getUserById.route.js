@@ -17,3 +17,8 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     return res.json(user);
 });
 exports.getUserById = getUserById;
+exports.default = {
+    route: exports.getUserById,
+    path: "/:id",
+    method: "get",
+};

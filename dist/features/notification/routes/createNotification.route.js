@@ -17,3 +17,8 @@ const createNotification = (req, res) => __awaiter(void 0, void 0, void 0, funct
     return res.status(200).json(createdNotification);
 });
 exports.createNotification = createNotification;
+exports.default = {
+    route: exports.createNotification,
+    method: "post",
+    path: "/create",
+};

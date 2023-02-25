@@ -16,3 +16,9 @@ export const createNotification = async (
 
   return res.status(200).json(createdNotification);
 };
+
+export default {
+  route: createNotification,
+  method: "post",
+  path: "/create",
+};

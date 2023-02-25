@@ -1,14 +1,12 @@
 import express, { Router } from "express";
 
-import { controller } from "./notification.controller";
+import path from "path";
 
-import { asyncWrapper } from "../../helpers/asyncWrapper";
+import { registerRoutes } from "../../helpers/registerRoutes";
 
 const router: Router = express.Router();
 
-// Notification routes
-router.get("/all/:userId", asyncWrapper(controller.getAllNotifications));
-router.post("/create", asyncWrapper(controller.createNotification));
-router.delete("/delete/:id", asyncWrapper(controller.deleteNotification));
+// register all routes
+registerRoutes(router, path.join(__dirname, "./routes"));
 
 export default router;

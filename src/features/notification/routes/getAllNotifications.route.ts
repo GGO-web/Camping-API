@@ -11,3 +11,9 @@ export const getAllNotifications = async (req: Request, res: Response) => {
 
   return res.status(200).json(notifications);
 };
+
+export default {
+  route: getAllNotifications,
+  method: "get",
+  path: "/all/:userId",
+};

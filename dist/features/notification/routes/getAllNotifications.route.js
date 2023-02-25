@@ -18,3 +18,8 @@ const getAllNotifications = (req, res) => __awaiter(void 0, void 0, void 0, func
     return res.status(200).json(notifications);
 });
 exports.getAllNotifications = getAllNotifications;
+exports.default = {
+    route: exports.getAllNotifications,
+    method: "get",
+    path: "/all/:userId",
+};

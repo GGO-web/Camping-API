@@ -15,7 +15,10 @@ function statusColorClosure() {
 
     level = "http";
 
-    if (status >= 400) {
+    if (status >= 500) {
+      color = "\x1b[39m"; // red
+      level = "error";
+    } else if (status >= 400) {
       color = "\x1b[31m"; // yellow
     } else if (status >= 300) {
       color = "\x1b[36m"; // cyan
