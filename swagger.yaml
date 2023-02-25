@@ -179,8 +179,12 @@ paths:
                 description:
                   type: string
                   example: Camera
+                userId:
+                  type: string
+                  example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
             example:
               description: Camera
+              userId: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
         '500':
           description: Internal Server Error

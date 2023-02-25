@@ -12,18 +12,18 @@ import { errorHandler } from "./middleware/errorMiddleware";
 import { logger } from "./utils/logger";
 
 // configs
-require("dotenv").config();
-require("./utils/mongoConnection");
-
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("../openapi.json");
+import "./utils/config";
 
 const app: Express = express();
 
+// middlewares
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(morganMiddleware);
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("../openapi.json");
 
 // swagger api documentation route: http://localhost:8080/api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

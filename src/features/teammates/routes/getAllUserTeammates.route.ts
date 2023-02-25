@@ -13,5 +13,5 @@ export const getAllUserTeammates = async (req: Request, res: Response) => {
 export default {
   route: getAllUserTeammates,
   method: "get",
-  path: "/:userId",
+  path: "/all/:userId",
 };

@@ -20,5 +20,5 @@ exports.getAllUserTeammates = getAllUserTeammates;
 exports.default = {
     route: exports.getAllUserTeammates,
     method: "get",
-    path: "/:userId",
+    path: "/all/:userId",
 };
