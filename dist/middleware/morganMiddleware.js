@@ -7,35 +7,34 @@ exports.morganMiddleware = void 0;
 const morgan_1 = __importDefault(require("morgan"));
 const logger_1 = require("../utils/logger");
 function statusColorClosure() {
-    let color = '';
-    let level = 'info';
+    let color = "";
+    let level = "info";
     return (status) => {
         if (!status)
             return {
                 getColor: () => color,
-                getLevel: () => level
+                getLevel: () => level,
             };
-        level = 'http';
+        level = "http";
         if (status >= 400) {
-            color = '\x1b[31m'; // yellow
+            color = "\x1b[31m"; // yellow
         }
         else if (status >= 300) {
-            color = '\x1b[36m'; // cyan
+            color = "\x1b[36m"; // cyan
         }
         else if (status >= 200) {
-            color = '\x1b[32m'; // green
+            color = "\x1b[32m"; // green
         }
         else {
-            color = '\x1b[37m'; // white
-            level = 'info';
+            color = "\x1b[37m"; // white
+            level = "info";
         }
         return {
             getColor: () => color,
-            getLevel: () => level
+            getLevel: () => level,
         };
     };
 }
-;
 const statusColorTrigger = statusColorClosure();
 // Set up Morgan middleware
 exports.morganMiddleware = (0, morgan_1.default)((tokens, req, res) => {
@@ -43,12 +42,12 @@ exports.morganMiddleware = (0, morgan_1.default)((tokens, req, res) => {
     const color = statusColorTrigger(status).getColor();
     return [
         `${tokens.method(req, res)} ${tokens.url(req, res)}`,
-        `${color}${status}${'\x1b[0m'} ${tokens['response-time'](req, res)}ms`,
-    ].join(' ');
+        `${color}${status}${"\x1b[0m"} ${tokens["response-time"](req, res)}ms`,
+    ].join(" ");
 }, {
     stream: {
         write: (message) => {
             logger_1.logger.log(statusColorTrigger().getLevel(), message.trim());
-        }
-    }
+        },
+    },
 });

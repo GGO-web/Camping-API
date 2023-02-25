@@ -22,10 +22,7 @@ import {
   getActivities,
   setActivityCompleted,
 } from "./routes/ActivityEndpoints";
-import {
-  getAllUserTripSnaps,
-  createTripSnap,
-} from "./routes/SnapsEndpoints";
+import { getAllUserTripSnaps, createTripSnap } from "./routes/SnapsEndpoints";
 import {
   addTeammate,
   deleteTeammate,

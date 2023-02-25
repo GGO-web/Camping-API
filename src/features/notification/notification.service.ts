@@ -4,20 +4,19 @@ import { AppError } from "../../models/Error.model";
 
 import { INotification, Notification } from "./notification.model";
 
-
 export class NotificationService {
   private static getNotificationById = (id: string) => {
-    const notification = Notification.findOne({id: id});
+    const notification = Notification.findOne({ id });
 
     if (!notification) {
       throw new AppError("Notification has not been found");
     }
 
     return notification;
-  }
+  };
 
   public static getAllNotifications = async (userId: string) => {
-    const notifications = await Notification.find({ userId}, "-__v");
+    const notifications = await Notification.find({ userId }, "-__v");
 
     return notifications;
   };
@@ -29,7 +28,7 @@ export class NotificationService {
     });
 
     return createdNotification;
-  }
+  };
 
   public static deleteNotification = async (id: string) => {
     const notification = await this.getNotificationById(id);
@@ -38,6 +37,5 @@ export class NotificationService {
       throw new AppError("Notification has been already deleted", 404);
     }
     await notification?.delete();
-  }
+  };
 }
-

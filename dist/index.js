@@ -66,7 +66,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     try {
         const port = process.env.PORT || 9090;
         app.listen(port, () => {
-            logger_1.logger.info({ message: `Listening on port ${port}`, port: port });
+            logger_1.logger.info({ message: `Listening on port ${port}`, port });
             // console.log(`Server started on port: ${port}`);
         });
     }

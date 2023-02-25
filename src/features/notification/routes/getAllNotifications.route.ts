@@ -8,6 +8,6 @@ export const getAllNotifications = async (req: Request, res: Response) => {
   console.log("userId", userId);
 
   const notifications = await NotificationService.getAllNotifications(userId);
-  
+
   return res.status(200).json(notifications);
 };

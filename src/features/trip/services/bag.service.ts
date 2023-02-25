@@ -79,7 +79,7 @@ export class BagService {
         bagItem.id === bagItemId
           ? {
               ...bagItem,
-              image: image,
+              image,
             }
           : bagItem
       ),

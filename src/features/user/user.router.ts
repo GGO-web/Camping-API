@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 
-import {controller} from "./user.controller";
+import { controller } from "./user.controller";
 
 import { asyncWrapper } from "../../helpers/asyncWrapper";
 

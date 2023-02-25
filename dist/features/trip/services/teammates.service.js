@@ -22,7 +22,7 @@ _a = TeammatesService;
 TeammatesService.getAllUserTeammates = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const activatedTrip = yield trip_service_1.TripService.getActivatedTrip(userId);
     const teammates = [];
-    for (let currentTeammate of activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates) {
+    for (const currentTeammate of activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.teammates) {
         if (!currentTeammate) {
             continue;
         }
@@ -54,7 +54,7 @@ TeammatesService.addTeammate = (userId, teammateId) => __awaiter(void 0, void 0,
     yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
     const user = yield user_service_1.UserService.getUser(userId);
     yield notification_service_1.NotificationService.createNotification({
-        userId: userId,
+        userId,
         title: "Teammate added to trip",
         message: `You added user (${teammate === null || teammate === void 0 ? void 0 : teammate.fullname}) successfully`,
         type: "success",
@@ -78,7 +78,7 @@ TeammatesService.deleteTeammate = (userId, teammateId) => __awaiter(void 0, void
     yield (activatedTrip === null || activatedTrip === void 0 ? void 0 : activatedTrip.save());
     const teammate = yield user_service_1.UserService.getUser(teammateId);
     yield notification_service_1.NotificationService.createNotification({
-        userId: userId,
+        userId,
         title: "Teammate deleted from trip",
         message: `User (${teammate.fullname}) has been deleted from your trip`,
         type: "success",

@@ -6,17 +6,16 @@ const deleteFeedback = async (
   req: Request<any, any, any, { userId: string; feedbackId: string }>,
   res: Response
 ) => {
-  const userId = req.query.userId;
-  const feedbackId = req.query.feedbackId;
+  const { userId } = req.query;
+  const { feedbackId } = req.query;
 
   const feedback = await FeedbackService.deleteFeedback(userId, feedbackId);
 
   return res.status(200).json(feedback);
 };
 
-
 export default {
   route: deleteFeedback,
   method: "delete",
   path: "/delete",
-}
+};

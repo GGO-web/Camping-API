@@ -1,7 +1,7 @@
 import { Document, model, Schema } from "mongoose";
 
 export interface ISnap extends Document {
-  userId: string; 
+  userId: string;
   image: string; // base64 image format
 }
 

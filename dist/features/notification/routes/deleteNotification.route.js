@@ -15,7 +15,7 @@ const deleteNotification = (req, res) => __awaiter(void 0, void 0, void 0, funct
     const { id } = req.params;
     yield notification_service_1.NotificationService.deleteNotification(id);
     return res.status(200).json({
-        message: "Notification has been deleted successfully"
+        message: "Notification has been deleted successfully",
     });
 });
 exports.deleteNotification = deleteNotification;

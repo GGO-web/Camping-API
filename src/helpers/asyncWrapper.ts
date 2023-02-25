@@ -1,12 +1,19 @@
-import { Request, Response, NextFunction, Router } from "express";
+import { Request, Response, NextFunction } from "express";
+
 import { AppError } from "../models/Error.model";
+
+type middlewareType = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => Promise<void>;
 
 // middleware to handle async/await errors
 export const asyncWrapper =
-  (controller: Function) =>
+  (controller: middlewareType) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await controller(req, res, next);
+      return await controller(req, res, next);
     } catch (e) {
       if (e instanceof AppError) {
         return res.status(e.code || 400).json({ message: e.message });

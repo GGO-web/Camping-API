@@ -12,7 +12,7 @@ export class TeammatesService {
 
     const teammates: IUser[] = [];
 
-    for (let currentTeammate of activatedTrip?.teammates) {
+    for (const currentTeammate of activatedTrip?.teammates) {
       if (!currentTeammate) {
         continue;
       }
@@ -62,7 +62,7 @@ export class TeammatesService {
     const user = await UserService.getUser(userId);
 
     await NotificationService.createNotification({
-      userId: userId,
+      userId,
       title: "Teammate added to trip",
       message: `You added user (${teammate?.fullname}) successfully`,
       type: "success",
@@ -101,7 +101,7 @@ export class TeammatesService {
     const teammate = await UserService.getUser(teammateId);
 
     await NotificationService.createNotification({
-      userId: userId,
+      userId,
       title: "Teammate deleted from trip",
       message: `User (${teammate!.fullname}) has been deleted from your trip`,
       type: "success",

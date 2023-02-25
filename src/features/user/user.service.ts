@@ -4,10 +4,11 @@ import { User, IUser } from "./user.model";
 import { firebaseApp } from "../../utils/firebase";
 
 import { NotificationService } from "../notification/notification.service";
+import { logger } from "../../utils/logger";
 
 export class UserService {
   public static async getUser(uid: string) {
-    const userDB = await User.findOne({ uid: uid });
+    const userDB = await User.findOne({ uid });
 
     return userDB;
   }
@@ -35,12 +36,15 @@ export class UserService {
       return savedUser;
     }
 
-    console.log("User is already created");
+    logger.info("User is already created");
+
     return userDB;
   }
 
-  public static async updateUserProfile(userProfile: Partial<IUser>) {
-    const user = await this.getUser(userProfile.uid!);
+  public static async updateUserProfile(
+    userProfile: Partial<IUser> & { uid: string }
+  ) {
+    const user = await this.getUser(userProfile.uid);
 
     if (!user) {
       throw new Error("User is not found");

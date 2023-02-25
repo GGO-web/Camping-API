@@ -8,7 +8,7 @@ export class TripService {
   public static getTrip = async (tripId: string, userId: string) => {
     const trip = await Trip.findOne({
       _id: tripId,
-      userId: userId,
+      userId,
     });
 
     return trip;
@@ -155,7 +155,7 @@ export class TripService {
   public static deactivateTrip = async (userId: string) => {
     const trip = await Trip.findOne({
       $or: [
-        { userId: userId },
+        { userId },
         { "teammates.userId": userId, "teammates.isOnline": true },
       ],
       activated: true,

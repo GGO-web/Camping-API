@@ -14,7 +14,7 @@ const Error_model_1 = require("../models/Error.model");
 // middleware to handle async/await errors
 const asyncWrapper = (controller) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield controller(req, res, next);
+        return yield controller(req, res, next);
     }
     catch (e) {
         if (e instanceof Error_model_1.AppError) {

@@ -36,16 +36,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
 const asyncWrapper_1 = require("../../helpers/asyncWrapper");
 const getDirectoryFiles_1 = require("../../helpers/getDirectoryFiles");
-const path_1 = __importDefault(require("path"));
 const router = express_1.default.Router();
 // register all routes
 (0, getDirectoryFiles_1.getDirectoryFiles)(path_1.default.join(__dirname, "./routes")).map((routeName) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const route = yield (_a = `./routes/${routeName}`, Promise.resolve().then(() => __importStar(require(_a))));
     const routeConfig = route.default;
-    const method = routeConfig.method;
+    const { method } = routeConfig;
     // @ts-ignore
     router[method](routeConfig.path, (0, asyncWrapper_1.asyncWrapper)(routeConfig.route));
 }));

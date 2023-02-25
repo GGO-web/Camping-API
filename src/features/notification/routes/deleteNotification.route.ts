@@ -8,6 +8,6 @@ export const deleteNotification = async (req: Request, res: Response) => {
   await NotificationService.deleteNotification(id);
 
   return res.status(200).json({
-    message: "Notification has been deleted successfully"
+    message: "Notification has been deleted successfully",
   });
-}
+};

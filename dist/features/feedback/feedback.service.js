@@ -38,7 +38,10 @@ FeedbackService.createFeedback = (userId, message) => __awaiter(void 0, void 0, 
     return feedback;
 });
 FeedbackService.deleteFeedback = (userId, feedbackId) => __awaiter(void 0, void 0, void 0, function* () {
-    const feedback = yield feedback_model_1.Feedback.findOneAndDelete({ "_id": feedbackId, userId });
+    const feedback = yield feedback_model_1.Feedback.findOneAndDelete({
+        _id: feedbackId,
+        userId,
+    });
     if (!feedback) {
         throw new Error("Feedback is not found or has been already deleted");
     }

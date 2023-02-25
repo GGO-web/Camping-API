@@ -11,10 +11,7 @@ router.get("/all/:userId", asyncWrapper(controller.getAllUserTrips));
 router.post("/create", asyncWrapper(controller.createTrip));
 router.get("/activated/:userId", asyncWrapper(controller.getActivatedTrip));
 router.patch("/activate", asyncWrapper(controller.activateTrip));
-router.patch(
-  "/deactivate/:userId",
-  asyncWrapper(controller.deactivateTrip)
-);
+router.patch("/deactivate/:userId", asyncWrapper(controller.deactivateTrip));
 router.patch("/complete/:userId", asyncWrapper(controller.completeTrip));
 router.delete("/delete", asyncWrapper(controller.deleteTrip));
 

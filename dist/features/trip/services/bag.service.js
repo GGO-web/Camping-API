@@ -51,7 +51,7 @@ BagService.updateBagImage = (userId, bagItemId, image) => __awaiter(void 0, void
     // format is valid set bag image
     trip.set({
         bagItems: trip.bagItems.map((bagItem) => bagItem.id === bagItemId
-            ? Object.assign(Object.assign({}, bagItem), { image: image }) : bagItem),
+            ? Object.assign(Object.assign({}, bagItem), { image }) : bagItem),
     });
     yield trip.save();
 });

@@ -32,7 +32,10 @@ export class FeedbackService {
   };
 
   public static deleteFeedback = async (userId: string, feedbackId: string) => {
-    const feedback = await Feedback.findOneAndDelete({"_id": feedbackId, userId});
+    const feedback = await Feedback.findOneAndDelete({
+      _id: feedbackId,
+      userId,
+    });
 
     if (!feedback) {
       throw new Error("Feedback is not found or has been already deleted");

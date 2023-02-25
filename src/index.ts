@@ -20,9 +20,8 @@ const swaggerDocument = require("../openapi.json");
 
 const app: Express = express();
 
-
 app.use(cors());
-app.use(express.json({ limit: "50mb"}));
+app.use(express.json({ limit: "50mb" }));
 app.use(morganMiddleware);
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
@@ -38,13 +37,12 @@ getDirectories("./src/features").map(async (feature) => {
   app.use(`/api/${feature}`, router.default);
 });
 
-
 // listening server startup
 (async () => {
   try {
     const port = process.env.PORT || 9090;
     app.listen(port, () => {
-      logger.info({ message: `Listening on port ${port}`, port: port});
+      logger.info({ message: `Listening on port ${port}`, port });
 
       // console.log(`Server started on port: ${port}`);
     });

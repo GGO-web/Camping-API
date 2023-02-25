@@ -8,7 +8,6 @@ import { UserService } from "../user.service";
 
 import { NotificationService } from "../../notification/notification.service";
 
-
 export const updateUserAvatar = async (req: Request, res: Response) => {
   const { uid, avatar } = req.body as IUser;
 

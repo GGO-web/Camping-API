@@ -21,5 +21,5 @@ const feedbackSchema = new Schema<IFeedback>({
     default: new Date(),
   },
 });
-  
+
 export const Feedback = model<IFeedback>("Feedback", feedbackSchema);

@@ -4,7 +4,6 @@ import { NotificationService } from "../../notification/notification.service";
 import { ITrip } from "../trip.model";
 import { TripService } from "../trip.service";
 
-
 import { IActivity } from "../../../models/Activity.model";
 import { AppError } from "../../../models/Error.model";
 

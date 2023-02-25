@@ -19,7 +19,7 @@ class NotificationService {
 exports.NotificationService = NotificationService;
 _a = NotificationService;
 NotificationService.getNotificationById = (id) => {
-    const notification = notification_model_1.Notification.findOne({ id: id });
+    const notification = notification_model_1.Notification.findOne({ id });
     if (!notification) {
         throw new Error_model_1.AppError("Notification has not been found");
     }

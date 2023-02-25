@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandler = void 0;
 const logger_1 = require("../utils/logger");
-function errorHandler(err, req, res, next) {
+function errorHandler(err, req, res, _next) {
     if (err.name === "MongoServerError" ||
         err.name === "ValidationError" ||
         err.name === "TypeError" ||

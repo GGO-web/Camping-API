@@ -13,10 +13,11 @@ exports.UserService = void 0;
 const user_model_1 = require("./user.model");
 const firebase_1 = require("../../utils/firebase");
 const notification_service_1 = require("../notification/notification.service");
+const logger_1 = require("../../utils/logger");
 class UserService {
     static getUser(uid) {
         return __awaiter(this, void 0, void 0, function* () {
-            const userDB = yield user_model_1.User.findOne({ uid: uid });
+            const userDB = yield user_model_1.User.findOne({ uid });
             return userDB;
         });
     }
@@ -38,7 +39,7 @@ class UserService {
                 });
                 return savedUser;
             }
-            console.log("User is already created");
+            logger_1.logger.info("User is already created");
             return userDB;
         });
     }

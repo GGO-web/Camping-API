@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const feedback_service_1 = require("../feedback.service");
 const deleteFeedback = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.query.userId;
-    const feedbackId = req.query.feedbackId;
+    const { userId } = req.query;
+    const { feedbackId } = req.query;
     const feedback = yield feedback_service_1.FeedbackService.deleteFeedback(userId, feedbackId);
     return res.status(200).json(feedback);
 });
