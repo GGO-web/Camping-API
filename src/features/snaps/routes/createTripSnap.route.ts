@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { ISnap } from "../snap.model";
 import { SnapsService } from "../snaps.service";
@@ -22,4 +23,4 @@ export default {
   route: createTripSnap,
   method: "post",
   path: "/create",
-};
+} as IRouteConfig;

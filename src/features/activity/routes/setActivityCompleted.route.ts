@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { ActivityService } from "../activity.service";
 
@@ -16,4 +17,4 @@ export default {
   route: setActivityCompleted,
   method: "patch",
   path: "/complete",
-};
+} as IRouteConfig;

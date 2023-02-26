@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import type { IBagItem } from "../bag.model";
 
@@ -20,4 +21,4 @@ export default {
   route: addBagItem,
   method: "post",
   path: "/:tripId",
-};
+} as IRouteConfig;

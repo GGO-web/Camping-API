@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { IActivity } from "../activity.model";
 
@@ -17,4 +18,4 @@ export default {
   route: addActivity,
   method: "post",
   path: "/:userId",
-};
+} as IRouteConfig;

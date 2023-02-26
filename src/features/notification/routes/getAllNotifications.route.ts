@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { NotificationService } from "../notification.service";
 
@@ -16,4 +17,4 @@ export default {
   route: getAllNotifications,
   method: "get",
   path: "/all/:userId",
-};
+} as IRouteConfig;

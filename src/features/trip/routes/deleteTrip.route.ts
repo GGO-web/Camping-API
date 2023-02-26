@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { TripService } from "../trip.service";
 
@@ -17,4 +18,4 @@ export default {
   route: deleteTrip,
   method: "delete",
   path: "/delete",
-};
+} as IRouteConfig;

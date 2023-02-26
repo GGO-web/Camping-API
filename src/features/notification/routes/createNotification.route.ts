@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { NotificationService } from "../notification.service";
 
 import { INotification } from "../notification.model";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 export const createNotification = async (
   req: Request<any, INotification, any, any>,
@@ -21,4 +22,4 @@ export default {
   route: createNotification,
   method: "post",
   path: "/create",
-};
+} as IRouteConfig;

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { TeammatesService } from "../teammates.service";
 
@@ -14,4 +15,4 @@ export default {
   route: addTeammate,
   method: "post",
   path: "/add",
-};
+} as IRouteConfig;

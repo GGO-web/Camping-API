@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { TripService } from "../trip.service";
 
@@ -16,4 +17,4 @@ export default {
   route: completeTrip,
   method: "patch",
   path: "/complete/:userId",
-};
+} as IRouteConfig;

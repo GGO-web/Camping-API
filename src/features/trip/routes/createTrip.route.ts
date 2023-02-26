@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { ITrip } from "../trip.model";
 
@@ -16,4 +17,4 @@ export default {
   route: createTrip,
   method: "post",
   path: "/create",
-};
+} as IRouteConfig;

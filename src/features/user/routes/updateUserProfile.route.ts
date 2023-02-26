@@ -5,6 +5,7 @@ import { IUser } from "../user.model";
 import { UserService } from "../user.service";
 
 import { NotificationService } from "../../notification/notification.service";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 export const updateUserProfile = async (req: Request, res: Response) => {
   const { uid, fullname, occupation, bio } = req.body as IUser;
@@ -27,4 +28,4 @@ export default {
   route: updateUserProfile,
   path: "/",
   method: "patch",
-};
+} as IRouteConfig;

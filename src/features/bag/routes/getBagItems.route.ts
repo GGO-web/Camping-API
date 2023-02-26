@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { TripService } from "../../trip/trip.service";
 
@@ -14,4 +15,4 @@ export default {
   route: getBagItems,
   method: "get",
   path: "/all/:userId",
-};
+} as IRouteConfig;

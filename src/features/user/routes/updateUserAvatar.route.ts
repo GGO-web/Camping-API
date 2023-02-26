@@ -7,6 +7,7 @@ import { isValidImageFormat } from "../../../helpers/isValidImageFormat";
 import { UserService } from "../user.service";
 
 import { NotificationService } from "../../notification/notification.service";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 export const updateUserAvatar = async (req: Request, res: Response) => {
   const { uid, avatar } = req.body as IUser;
@@ -35,4 +36,4 @@ export default {
   route: updateUserAvatar,
   path: "/avatar",
   method: "patch",
-};
+} as IRouteConfig;

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { UserService } from "../user.service";
 
@@ -14,4 +15,4 @@ export default {
   route: getUserById,
   path: "/:id",
   method: "get",
-};
+} as IRouteConfig;

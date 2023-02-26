@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IRouteConfig } from "../../../types/routeConfig.type";
 
 import { BagService } from "../bag.service";
 
@@ -14,4 +15,4 @@ export default {
   route: updateBagItemCount,
   method: "patch",
   path: "/count",
-};
+} as IRouteConfig;
