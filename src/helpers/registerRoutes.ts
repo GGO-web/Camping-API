@@ -12,10 +12,14 @@ export const registerRoutes = (router: Router, path: string) => {
 
     const routeConfig: IRouteConfig = route.default;
 
-    const { method } = routeConfig;
+    const { method, middlewares } = routeConfig;
 
     if (routeConfig.route) {
-      router[method](routeConfig.path, asyncWrapper(routeConfig.route));
+      router[method](
+        routeConfig.path,
+        ...(middlewares || []),
+        asyncWrapper(routeConfig.route)
+      );
       // logger.info(
       //   `ROUTE ${"\x1b[33m"}${
       //     routeConfig.path

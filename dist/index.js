@@ -44,7 +44,6 @@ const errorMiddleware_1 = require("./middleware/errorMiddleware");
 const logger_1 = require("./utils/logger");
 // configs
 require("./utils/config");
-// libs and middlewares
 const app = (0, express_1.default)();
 // middlewares
 app.use((0, cors_1.default)());

@@ -41,9 +41,9 @@ const registerRoutes = (router, path) => {
         var _a;
         const route = yield (_a = `${path}/${routeName}`, Promise.resolve().then(() => __importStar(require(_a))));
         const routeConfig = route.default;
-        const { method } = routeConfig;
+        const { method, middlewares } = routeConfig;
         if (routeConfig.route) {
-            router[method](routeConfig.path, (0, asyncWrapper_1.asyncWrapper)(routeConfig.route));
+            router[method](routeConfig.path, ...(middlewares || []), (0, asyncWrapper_1.asyncWrapper)(routeConfig.route));
             // logger.info(
             //   `ROUTE ${"\x1b[33m"}${
             //     routeConfig.path

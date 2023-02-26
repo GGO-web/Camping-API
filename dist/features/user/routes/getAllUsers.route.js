@@ -18,6 +18,18 @@ const getAllUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getAllUsers = getAllUsers;
 exports.default = {
     route: exports.getAllUsers,
+    middlewares: [
+        // add middlewares here
+        (req, res, next) => {
+            const { key } = req.query;
+            if (key === process.env.FIREBASE_ACCESS_KEY) {
+                next();
+            }
+            else {
+                res.status(401).json({ message: "Unauthorized" });
+            }
+        },
+    ],
     path: "/all",
     method: "get",
 };
