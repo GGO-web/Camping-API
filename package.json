@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npx tsc --watch\" \"nodemon dist/index.js --watch\"",
+    "start": "concurrently \"npx tsc --watch\" \"node --watch dist/index.js\"",
     "build": "concurrently \"npm run lint\" \"npx tsc\"",
     "server": "node dist/index.js",
     "lint": "eslint --no-error-on-unmatched-pattern --ignore-path .gitignore --ext .js, .ts, .tsx .",
