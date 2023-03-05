@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { resolve, join } from "path";
+import { resolve, join, sep } from "path";
 import { readdirSync } from "fs";
 import { logger } from "../utils/logger";
 
@@ -12,14 +12,14 @@ export const registerRouters = async (app: Express) => {
     currentPath: string,
     baseFolderName = "index"
   ) => {
-    const pathParts = currentPath.split("/");
+    const pathParts = currentPath.split(sep);
 
     let featurePath = "";
 
     if (currentPath.includes(baseFolderName)) {
       pathParts.splice(pathParts.length - 2, 1);
 
-      featurePath = pathParts.join("/");
+      featurePath = pathParts.join(sep);
     } else {
       featurePath = currentPath;
     }
@@ -30,14 +30,17 @@ export const registerRouters = async (app: Express) => {
      */
     const feature: string = pathParts.at(-2) || "index";
 
-    return { feature, featurePath };
+    return {
+      feature,
+      featurePath: featurePath.replaceAll(sep, "/")
+    };
   };
 
   const resolveRouter = async (currentPath: string) => {
     const fullPath = join(path, currentPath);
 
     const isControllerFolder = readdirSync(fullPath, {
-      withFileTypes: true,
+      withFileTypes: true
     }).some((dirent) => dirent.isFile());
 
     if (!isControllerFolder) {
@@ -52,7 +55,7 @@ export const registerRouters = async (app: Express) => {
 
       logger.log({
         level: "info",
-        message: `Registering router at path: ${routerPath}`,
+        message: `Registering router at path: ${routerPath}`
       });
 
       app.use(routerPath, router.default);
