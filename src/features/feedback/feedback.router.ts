@@ -2,11 +2,11 @@ import express, { Router } from "express";
 
 import path from "path";
 
-import { registerRoutes } from "../../helpers/registerRoutes";
+import { registerControllers } from "../../helpers/registerControllers";
 
 const router: Router = express.Router();
 
 // register all routes
-registerRoutes(router, path.join(__dirname, "./routes"));
+registerControllers(router, path.join(__dirname, "./controllers"));
 
 export default router;

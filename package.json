@@ -10,7 +10,8 @@
     "build": "concurrently \"npm run lint\" \"npx tsc\"",
     "start": "node dist/index.js",
     "lint": "eslint --no-error-on-unmatched-pattern --ignore-path .gitignore --ext .js, .ts, .tsx .",
-    "lint:fix": "eslint --no-error-on-unmatched-pattern --ignore-path .gitignore --ext .js, .ts, .tsx . --fix"
+    "lint:fix": "npm run lint -- --fix && npm run format",
+    "format": "prettier --ignore-path .gitignore --write \"/.+(js|ts|json)\""
   },
   "author": "GGO-web",
   "license": "ISC",
