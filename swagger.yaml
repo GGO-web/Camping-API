@@ -121,7 +121,7 @@ paths:
                   message: 
                     type: string
                     example: Avatar format is not allowed or incorrect. Use base64 instead
-  /bag/all/{userId}:
+  /trip/bag/all/{userId}:
     get:
       tags:
         - Bag
@@ -156,7 +156,7 @@ paths:
                   message: 
                     type: string
                     example: User has no activated trip
-  /bag/{tripId}:
+  /trip/bag/{tripId}:
     post:
       tags:
         - Bag
@@ -198,7 +198,7 @@ paths:
                   message: 
                     type: string
                     example: Bag item added successfully
-  /bag/image:
+  /trip/bag/image:
     patch:
       tags:
         - Bag
@@ -259,7 +259,7 @@ paths:
                   message:
                     type: string
                     example: User has no activated trip
-  /bag/count:
+  /trip/bag/count:
     patch:
       tags:
         - Bag
@@ -308,7 +308,7 @@ paths:
                   message:
                     type: string
                     example: Bag item with id {BAG_ITEM_ID} is not found
-  /bag/delete:
+  /trip/bag/delete:
     delete:
       tags:
         - Bag
@@ -351,7 +351,7 @@ paths:
                     example: [
                           "Bag item with id {BAG_ITEM_ID} is not found",
                           "User has no activated trip"]
-  /activity/all/{userId}:
+  /trip/activity/all/{userId}:
     get:
       tags:
         - Activity
@@ -386,7 +386,7 @@ paths:
                   message: 
                     type: string
                     example: User has no activated trip
-  /activity/{userId}:
+  /trip/activity/{userId}:
     post:
       tags:
         - Activity
@@ -442,7 +442,7 @@ paths:
                   message:
                     type: string
                     example: User has no activated trip
-  /activity/complete:
+  /trip/activity/complete:
     patch:
       tags:
         - Activity
@@ -487,7 +487,7 @@ paths:
                   message:
                     type: string
                     example: ["Activity item with id {ACTIVITY_ITEM_ID} is not found in activated trip", "User has no activated trip"]
-  /activity/delete:
+  /trip/activity/delete:
     delete:
       tags:
         - Activity
@@ -801,7 +801,7 @@ paths:
                   message:
                     type: string
                     example: User has no activated trip
-  /snaps/{userId}:
+  /trip/snaps/{userId}:
     get:
       tags:
         - Snap
@@ -836,7 +836,7 @@ paths:
                   message:
                     type: string
                     example: User has no activated trip
-  /snaps/create:
+  /trip/snaps/create:
     post:
       tags:
         - Snap

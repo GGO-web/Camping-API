@@ -181,7 +181,7 @@
         }
       }
     },
-    "/bag/all/{userId}": {
+    "/trip/bag/all/{userId}": {
       "get": {
         "tags": [
           "Bag"
@@ -236,7 +236,7 @@
         }
       }
     },
-    "/bag/{tripId}": {
+    "/trip/bag/{tripId}": {
       "post": {
         "tags": [
           "Bag"
@@ -301,7 +301,7 @@
         }
       }
     },
-    "/bag/image": {
+    "/trip/bag/image": {
       "patch": {
         "tags": [
           "Bag"
@@ -392,7 +392,7 @@
         }
       }
     },
-    "/bag/count": {
+    "/trip/bag/count": {
       "patch": {
         "tags": [
           "Bag"
@@ -467,7 +467,7 @@
         }
       }
     },
-    "/bag/delete": {
+    "/trip/bag/delete": {
       "delete": {
         "tags": [
           "Bag"
@@ -535,7 +535,7 @@
         }
       }
     },
-    "/activity/all/{userId}": {
+    "/trip/activity/all/{userId}": {
       "get": {
         "tags": [
           "Activity"
@@ -590,7 +590,7 @@
         }
       }
     },
-    "/activity/{userId}": {
+    "/trip/activity/{userId}": {
       "post": {
         "tags": [
           "Activity"
@@ -671,7 +671,7 @@
         }
       }
     },
-    "/activity/complete": {
+    "/trip/activity/complete": {
       "patch": {
         "tags": [
           "Activity"
@@ -744,7 +744,7 @@
         }
       }
     },
-    "/activity/delete": {
+    "/trip/activity/delete": {
       "delete": {
         "tags": [
           "Activity"
@@ -1224,7 +1224,7 @@
         }
       }
     },
-    "/snaps/{userId}": {
+    "/trip/snaps/{userId}": {
       "get": {
         "tags": [
           "Snap"
@@ -1279,7 +1279,7 @@
         }
       }
     },
-    "/snaps/create": {
+    "/trip/snaps/create": {
       "post": {
         "tags": [
           "Snap"
