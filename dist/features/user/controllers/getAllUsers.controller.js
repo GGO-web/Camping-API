@@ -10,15 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllUsers = void 0;
+const asyncWrapper_1 = require("../../../helpers/asyncWrapper");
+const withController_1 = require("../../../helpers/withController");
 const firebase_1 = require("../../../utils/firebase");
 const getAllUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listUsersResult = yield firebase_1.firebaseApp.auth().listUsers();
     return res.json(listUsersResult.users);
 });
 exports.getAllUsers = getAllUsers;
-exports.default = {
-    route: exports.getAllUsers,
-    middlewares: [
+exports.default = [
+    (0, withController_1.withController)("/all", "get", (0, asyncWrapper_1.asyncWrapper)(exports.getAllUsers), [
         // add middlewares here
         (req, res, next) => {
             const { key } = req.query;
@@ -28,8 +29,6 @@ exports.default = {
             else {
                 res.status(401).json({ message: "Unauthorized" });
             }
-        },
-    ],
-    path: "/all",
-    method: "get",
-};
+        }
+    ])
+];

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+import { withController } from "../../../../helpers/withController";
 
 import { SnapsService } from "../snaps.service";
 
@@ -12,8 +13,6 @@ export const getAllUserTripSnaps = async (req: Request, res: Response) => {
   return res.json(snaps);
 };
 
-export default {
-  route: getAllUserTripSnaps,
-  method: "get",
-  path: "/:userId",
-} as IRouteConfig;
+export default [
+  withController("/:userId", "get", asyncWrapper(getAllUserTripSnaps))
+];

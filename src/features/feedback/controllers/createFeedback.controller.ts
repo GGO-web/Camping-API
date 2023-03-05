@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-
-import { IRouteConfig } from "../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../helpers/asyncWrapper";
+import { withController } from "../../../helpers/withController";
 
 import { FeedbackService } from "../feedback.service";
 
@@ -13,8 +13,6 @@ const createFeedback = async (req: Request, res: Response) => {
   return res.status(200).json(feedback);
 };
 
-export default {
-  route: createFeedback,
-  method: "post",
-  path: "/create",
-} as IRouteConfig;
+export default [
+  withController("/create", "post", asyncWrapper(createFeedback))
+];

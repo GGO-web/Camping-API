@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+import { withController } from "../../../../helpers/withController";
 
 import { BagService } from "../bag.service";
 
@@ -11,8 +12,6 @@ export const updateBagImage = async (req: Request, res: Response) => {
   return res.json({ message: "Bag item image updated successfully" });
 };
 
-export default {
-  route: updateBagImage,
-  method: "patch",
-  path: "/image",
-} as IRouteConfig;
+export default [
+  withController("/image", "patch", asyncWrapper(updateBagImage))
+];

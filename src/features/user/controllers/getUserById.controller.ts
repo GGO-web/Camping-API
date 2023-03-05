@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../helpers/asyncWrapper";
+
+import { withController } from "../../../helpers/withController";
 
 import { UserService } from "../user.service";
 
@@ -11,8 +13,4 @@ export const getUserById = async (req: Request, res: Response) => {
   return res.json(user);
 };
 
-export default {
-  route: getUserById,
-  path: "/:id",
-  method: "get",
-} as IRouteConfig;
+export default [withController("/:id", "get", asyncWrapper(getUserById))];

@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getActivatedTrip = void 0;
+const asyncWrapper_1 = require("../../../../helpers/asyncWrapper");
+const withController_1 = require("../../../../helpers/withController");
 const trip_service_1 = require("../trip.service");
 const getActivatedTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
@@ -17,8 +19,6 @@ const getActivatedTrip = (req, res) => __awaiter(void 0, void 0, void 0, functio
     return res.json(trip);
 });
 exports.getActivatedTrip = getActivatedTrip;
-exports.default = {
-    route: exports.getActivatedTrip,
-    method: "get",
-    path: "/activated/:userId",
-};
+exports.default = [
+    (0, withController_1.withController)("/activated/:userId", "get", (0, asyncWrapper_1.asyncWrapper)(exports.getActivatedTrip))
+];

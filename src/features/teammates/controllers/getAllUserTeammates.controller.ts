@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../helpers/asyncWrapper";
+
+import { withController } from "../../../helpers/withController";
 
 import { TeammatesService } from "../teammates.service";
 
@@ -11,8 +13,6 @@ export const getAllUserTeammates = async (req: Request, res: Response) => {
   return res.json(teammates);
 };
 
-export default {
-  route: getAllUserTeammates,
-  method: "get",
-  path: "/all/:userId",
-} as IRouteConfig;
+export default [
+  withController("/all/:userId", "get", asyncWrapper(getAllUserTeammates))
+];

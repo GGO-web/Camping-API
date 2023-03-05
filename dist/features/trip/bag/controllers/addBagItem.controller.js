@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addBagItem = void 0;
+const asyncWrapper_1 = require("../../../../helpers/asyncWrapper");
+const withController_1 = require("../../../../helpers/withController");
 const bag_service_1 = require("../bag.service");
 const addBagItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { tripId } = req.params;
@@ -18,8 +20,4 @@ const addBagItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     return res.json({ message: "Bag item added successfully" });
 });
 exports.addBagItem = addBagItem;
-exports.default = {
-    route: exports.addBagItem,
-    method: "post",
-    path: "/:tripId"
-};
+exports.default = [(0, withController_1.withController)("/:tripId", "post", (0, asyncWrapper_1.asyncWrapper)(exports.addBagItem))];

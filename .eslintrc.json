@@ -4,7 +4,7 @@
     "es2021": true
   },
   "extends": [
-    "airbnb-base",
+    "airbnb-typescript",
     "prettier",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript"
@@ -20,7 +20,8 @@
     "prettier/prettier": [
       "error",
       {
-        "trailingComma": "none"
+        "trailingComma": "none",
+        "endOfLine": "auto"
       }
     ],
     "import/prefer-default-export": "off",
@@ -31,11 +32,44 @@
       "error",
       "ignorePackages",
       {
-        "ts": "never"
+        "ts": "never",
+        "js": "never",
+        "d": "never"
       }
     ],
     "@typescript-eslint/ban-ts-comment": "off",
-    "no-shadow": "warn"
+    "no-shadow": "warn",
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": true,
+        "variables": true,
+        "allowNamedExports": false
+      }
+    ],
+    "no-underscore-dangle": "warn",
+    "consistent-return": "warn",
+    "no-restricted-syntax": "warn",
+    "no-continue": "warn",
+    "no-async-promise-executor": "warn",
+    "no-promise-executor-return": "warn",
+    "prefer-promise-reject-errors": "warn",
+    "no-await-in-loop": "warn",
+    "no-plusplus": "off",
+    "no-nested-ternary": "warn",
+    "class-methods-use-this": "off",
+    "prefer-regex-literals": "warn",
+    "no-param-reassign": "warn",
+    "no-case-declarations": "warn",
+    "import/no-import-module-exports": "warn",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_" }
+    ],
+    "react/jsx-filename-extension": "off",
+    "@typescript-eslint/naming-convention": "warn"
   },
   "ignorePatterns": ["node_modules", "dist"]
 }

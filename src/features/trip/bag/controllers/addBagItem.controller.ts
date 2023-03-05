@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+import { withController } from "../../../../helpers/withController";
 
 import type { IBagItem } from "../bag.model";
 
@@ -17,8 +18,4 @@ export const addBagItem = async (
   return res.json({ message: "Bag item added successfully" });
 };
 
-export default {
-  route: addBagItem,
-  method: "post",
-  path: "/:tripId"
-} as IRouteConfig;
+export default [withController("/:tripId", "post", asyncWrapper(addBagItem))];

@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserById = void 0;
+const asyncWrapper_1 = require("../../../helpers/asyncWrapper");
+const withController_1 = require("../../../helpers/withController");
 const user_service_1 = require("../user.service");
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
@@ -17,8 +19,4 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     return res.json(user);
 });
 exports.getUserById = getUserById;
-exports.default = {
-    route: exports.getUserById,
-    path: "/:id",
-    method: "get",
-};
+exports.default = [(0, withController_1.withController)("/:id", "get", (0, asyncWrapper_1.asyncWrapper)(exports.getUserById))];

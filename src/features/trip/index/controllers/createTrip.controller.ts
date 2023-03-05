@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+import { withController } from "../../../../helpers/withController";
 
 import { ITrip } from "../trip.model";
 
@@ -13,8 +14,4 @@ export const createTrip = async (req: Request, res: Response) => {
   return res.json(savedTrip);
 };
 
-export default {
-  route: createTrip,
-  method: "post",
-  path: "/create",
-} as IRouteConfig;
+export default [withController("/create", "post", asyncWrapper(createTrip))];

@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateBagItemCount = void 0;
+const asyncWrapper_1 = require("../../../../helpers/asyncWrapper");
+const withController_1 = require("../../../../helpers/withController");
 const bag_service_1 = require("../bag.service");
 const updateBagItemCount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, bagItemId, count } = req.body;
@@ -17,8 +19,6 @@ const updateBagItemCount = (req, res) => __awaiter(void 0, void 0, void 0, funct
     return res.json({ message: "Bag item count has been updated successfully" });
 });
 exports.updateBagItemCount = updateBagItemCount;
-exports.default = {
-    route: exports.updateBagItemCount,
-    method: "patch",
-    path: "/count",
-};
+exports.default = [
+    (0, withController_1.withController)("/count", "patch", (0, asyncWrapper_1.asyncWrapper)(exports.updateBagItemCount))
+];

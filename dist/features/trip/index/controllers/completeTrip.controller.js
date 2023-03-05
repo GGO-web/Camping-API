@@ -10,17 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.completeTrip = void 0;
+const asyncWrapper_1 = require("../../../../helpers/asyncWrapper");
+const withController_1 = require("../../../../helpers/withController");
 const trip_service_1 = require("../trip.service");
 const completeTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     const savedTrip = yield trip_service_1.TripService.completeTrip(userId);
     return res.json({
-        message: `Trip with id ${savedTrip === null || savedTrip === void 0 ? void 0 : savedTrip.get("_id")} completed successfully`,
+        message: `Trip with id ${savedTrip === null || savedTrip === void 0 ? void 0 : savedTrip.get("_id")} completed successfully`
     });
 });
 exports.completeTrip = completeTrip;
-exports.default = {
-    route: exports.completeTrip,
-    method: "patch",
-    path: "/complete/:userId",
-};
+exports.default = [
+    (0, withController_1.withController)("/complete/:userId", "patch", (0, asyncWrapper_1.asyncWrapper)(exports.completeTrip))
+];

@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllNotifications = void 0;
+const asyncWrapper_1 = require("../../../helpers/asyncWrapper");
+const withController_1 = require("../../../helpers/withController");
 const notification_service_1 = require("../notification.service");
 const getAllNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
@@ -18,8 +20,6 @@ const getAllNotifications = (req, res) => __awaiter(void 0, void 0, void 0, func
     return res.status(200).json(notifications);
 });
 exports.getAllNotifications = getAllNotifications;
-exports.default = {
-    route: exports.getAllNotifications,
-    method: "get",
-    path: "/all/:userId",
-};
+exports.default = [
+    (0, withController_1.withController)("/all/:userId", "get", (0, asyncWrapper_1.asyncWrapper)(exports.getAllNotifications))
+];

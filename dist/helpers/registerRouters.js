@@ -56,14 +56,14 @@ const registerRouters = (app) => __awaiter(void 0, void 0, void 0, function* () 
         const feature = pathParts.at(-2) || "index";
         return {
             feature,
-            featurePath: featurePath.replaceAll(path_1.sep, "/")
+            featurePath: featurePath.replaceAll(path_1.sep, "/"),
         };
     };
     const resolveRouter = (currentPath) => __awaiter(void 0, void 0, void 0, function* () {
         var _a;
         const fullPath = (0, path_1.join)(path, currentPath);
         const isControllerFolder = (0, fs_1.readdirSync)(fullPath, {
-            withFileTypes: true
+            withFileTypes: true,
         }).some((dirent) => dirent.isFile());
         if (!isControllerFolder) {
             (0, getDirectoryStructure_1.getDirectories)(fullPath).map((feature) => __awaiter(void 0, void 0, void 0, function* () {
@@ -76,7 +76,7 @@ const registerRouters = (app) => __awaiter(void 0, void 0, void 0, function* () 
             const routerPath = `/api${featurePath}`;
             logger_1.logger.log({
                 level: "info",
-                message: `Registering router at path: ${routerPath}`
+                message: `Registering router at path: ${routerPath}`,
             });
             app.use(routerPath, router.default);
         }

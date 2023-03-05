@@ -32,7 +32,7 @@ export const registerRouters = async (app: Express) => {
 
     return {
       feature,
-      featurePath: featurePath.replaceAll(sep, "/")
+      featurePath: featurePath.replaceAll(sep, "/"),
     };
   };
 
@@ -40,7 +40,7 @@ export const registerRouters = async (app: Express) => {
     const fullPath = join(path, currentPath);
 
     const isControllerFolder = readdirSync(fullPath, {
-      withFileTypes: true
+      withFileTypes: true,
     }).some((dirent) => dirent.isFile());
 
     if (!isControllerFolder) {
@@ -55,7 +55,7 @@ export const registerRouters = async (app: Express) => {
 
       logger.log({
         level: "info",
-        message: `Registering router at path: ${routerPath}`
+        message: `Registering router at path: ${routerPath}`,
       });
 
       app.use(routerPath, router.default);

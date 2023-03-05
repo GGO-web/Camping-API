@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../helpers/asyncWrapper";
+
+import { withController } from "../../../helpers/withController";
 
 import { firebaseApp } from "../../../utils/firebase";
 
@@ -9,11 +11,10 @@ export const getAllUsers = async (_: Request, res: Response) => {
   return res.json(listUsersResult.users);
 };
 
-export default {
-  route: getAllUsers,
-  middlewares: [
+export default [
+  withController("/all", "get", asyncWrapper(getAllUsers), [
     // add middlewares here
-    (req: Request<unknown, unknown, unknown, { key: string }>, res, next) => {
+    (req: Request<unknown, unknown, unknown, { key?: string }>, res, next) => {
       const { key } = req.query;
 
       if (key === process.env.FIREBASE_ACCESS_KEY) {
@@ -21,8 +22,6 @@ export default {
       } else {
         res.status(401).json({ message: "Unauthorized" });
       }
-    },
-  ],
-  path: "/all",
-  method: "get",
-} as IRouteConfig;
+    }
+  ])
+];

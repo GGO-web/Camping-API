@@ -11,14 +11,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createNotification = void 0;
 const notification_service_1 = require("../notification.service");
+const withController_1 = require("../../../helpers/withController");
+const asyncWrapper_1 = require("../../../helpers/asyncWrapper");
 const createNotification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const notification = req.body;
     const createdNotification = yield notification_service_1.NotificationService.createNotification(notification);
     return res.status(200).json(createdNotification);
 });
 exports.createNotification = createNotification;
-exports.default = {
-    route: exports.createNotification,
-    method: "post",
-    path: "/create",
-};
+exports.default = [
+    (0, withController_1.withController)("/create", "post", (0, asyncWrapper_1.asyncWrapper)(exports.createNotification))
+];

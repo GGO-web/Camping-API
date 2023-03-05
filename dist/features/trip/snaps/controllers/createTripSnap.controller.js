@@ -10,17 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createTripSnap = void 0;
+const asyncWrapper_1 = require("../../../../helpers/asyncWrapper");
+const withController_1 = require("../../../../helpers/withController");
 const snaps_service_1 = require("../snaps.service");
 const createTripSnap = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const snap = req.body;
     const createdSnap = yield snaps_service_1.SnapsService.createTripSnap(snap);
     return res.json({
-        message: `Snap with id ${createdSnap.get("_id")} has been created successfully`,
+        message: `Snap with id ${createdSnap.get("_id")} has been created successfully`
     });
 });
 exports.createTripSnap = createTripSnap;
-exports.default = {
-    route: exports.createTripSnap,
-    method: "post",
-    path: "/create",
-};
+exports.default = [
+    (0, withController_1.withController)("/create", "post", (0, asyncWrapper_1.asyncWrapper)(exports.createTripSnap))
+];

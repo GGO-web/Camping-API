@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+
+import { withController } from "../../../../helpers/withController";
 
 import { ActivityService } from "../activity.service";
 
@@ -12,12 +14,10 @@ export const deleteActivity = async (
   await ActivityService.deleteActivity(userId, activityId);
 
   return res.json({
-    message: `Activity with id ${activityId} has been deleted successfully`,
+    message: `Activity with id ${activityId} has been deleted successfully`
   });
 };
 
-export default {
-  route: deleteActivity,
-  method: "delete",
-  path: "/delete",
-} as IRouteConfig;
+export default [
+  withController("/delete", "delete", asyncWrapper(deleteActivity))
+];

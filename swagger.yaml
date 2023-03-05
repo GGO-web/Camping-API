@@ -4,7 +4,7 @@ info:
   version: 1.1.0
   contact: {}
 servers:
-  - url: 'http://localhost:8080/api'
+  - url: "http://localhost:8080/api"
 paths:
   /user/{userId}:
     get:
@@ -21,14 +21,14 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
   /user/:
     patch:
       tags:
@@ -42,7 +42,7 @@ paths:
             schema:
               type: object
               properties:
-                fullname: 
+                fullname:
                   type: string
                   example: Genious
                 bio:
@@ -62,16 +62,16 @@ paths:
               occupation: Web developer
               uid: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message: 
+                  message:
                     type: string
                     example: User profile updated successfully
   /user/avatar:
@@ -99,26 +99,26 @@ paths:
                 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAl/SURBVHgB1Zt/bBTHFce/s3tnbJ+Nj/oHxaXNYWhQgohNbCN+RLKRU6VN0oIKaaK6LUZq/mijClo1SipVst30j6KmBaRGTdo/sKWgVjW0RoFGbYm4SCUmmBYnFCTUBkzS4ILt+MA+Y+7X9L29H947751373Yd8kHL7u3Nzs17897Mm7djAYcZuT3gc7vVVilEvZDwCQEfIL1SCp++nBBymP4PSIlhKWPvCKEOhcPhoWUlG4fhIAIOMBoebIWCrQrktkxBrSIghqWAX8Zkb7W72Q+bsU0BV+Q57+JYZDck9kjACwdgZUQR646Go367LKNgBSyE4JlQowP0X08oFDlQqCIKUsB49AwJLroWSvBMkhZR41rfgzzJSwHxgc11kC5bcRfAigiFw1vysQbLCnCi1yeC/8OF/55CgM4zoSl4PZ9G3dJ61NU0WKkmIGPR7uqiDfutPGRJAePRwX00Te2x8sxMeAoXPvg7rtx4RxOUWbZkFTav3o6SojL0DezFxQ9PGT67hBTRuOIRtK3dCbPQNNtVqTZ3my5vtuB45OxBCdkBC5y6dAQnzvdqSjCCBUwqJReb792OxxufgXlET5WraZepkmYKUc+fo563ZI9v/KtXE94uHiKLuTbxH01h7BpsFazAbJAlDJElrJuv3nkVkE/PX74xhN++8QM4CQv/dNsvcyrBjCUoub6knu+0Kjzzj8t/gdOwJRw+vXeeUrKDx61cJbIqgEd7MvsuWIT9fYRMdSG4TANrtvElCQ/ao6HTWQduQwXwPM9THSzCvbL36NcxEngPC8XE1PyDqFDUTk0mAwwVUFSknsxnns814n/MeBOB2xzmKOBG5ExHviu4gIkpzU54AOSYwiStRq6QpgA2E1WgE3lSTIHNQtK29luWyrMrTNDiTX8vTQFFRa7dhazf71++GQtBsbsMjz/4DEWJX4RFvJFIKM0KUnFAYoFzDgXG+Mf++ZIWATrBvWX3Y3X5fWhubIe7PO9mBlTVtWKJWBfgD67kXZXSVrBhgcM9wz3EkeB8VBZVYzUJpafEVYpS1UNHaer6syU+KluVKnOLvgsjb5JW0MUfZhVAvk9zpi3kjs5m6fB9Z44C5kAxLexqWKpKZTcSCtDGAM7hFZq701P7qZVpn9tqvqQJu6myJe3++J1Rfatmj9mbceFFesQuogUrxKvlLZGwACEErTft0/Iy7yrNDTgmeHL5TrQtfVSrflNlK5lyDV4b6ZstrPVwRgWZSsi4J2xoqqCELZ38SrzuWCtsJjkjbKxqSf6ixpdrnyBr+C4aKpqxevGaxHciUUBkba7dCEXZqp0To/8V2ExyRfibxj8YF8jHt1kP9MhkbTlCZYtQKKqq+hS3221pnW+W2oQbXJq6aFwg07fn+D9mPyfPCX1JNeci1jThcGSLImXUEQVwVNhY9wgGxv3pA1zmYJcmuEx4gpgrfNpz9riEItCg0JRQD4fgceCtMT8uTV7I+CabEArMCCcVexRAuQ6fEn9X5wycuqqrqccvLnWhZ/il9GlPQ2Qc+vuJs5hbJmaTAhRFuUfhF5VwkPuWP6Sd2RLeYnfQC2ooh7Hf67+Pue0ZA6gur2JnAGREE6W1GQ5pN1W1zvVl7Rq6+9D5PXTfxa+jxS7YhZTSZ19tWeDB8IHqjdhWsx2Vi5ZmKZXF/A3K2GX+qVrHIoP2BtoGlN2YxqJbIRhHmwI5o9BUpBgvE6wqxYy38BggieMWkEKT02Skl9SJXjcJRURK7G2yEt+ZsUCIXIdInwxExjMED36RRSrsgtZAwwpvS4HTiCxSh+9QWpemxtCdZMGcR7CqBPYiAy7ek0NXjkSDaaSmNZ2/u4sBD52vv0/OWETZEMoplpTG7yuzU12YzH6mogghjxt2EovFrrqoQVfnxOB2IzHr0xDpLr+IerW2Lq6EW+PAzXHtdmhZDYKrPkdxv7At8jNgSKHGDMFpjHxbj4t69jOURPFS2svt1srE+B/5vIPCg3eiucLhqJ+Ww3Ce+QQhE6moBsorgelJCiCcbxNvw1N4W4nTM4EaMRNqJBTEvl9WAbW4Ak7C22pYdm2kkTEchUOw8K6ZGLIuiY3CYDrctyMmFZcfvPeQz3EFQPTDAViAxSO35ymldw3dIoeUwM86pQTeeJn26xQST8CmjU/nL7yLgbMD+OiDa/h5+7NZSmWGwEYhscAr/j68f/sjbHt0K+p8K2EHbP6VrqYV8esEo+G3uyg5kvd7weB0EH/z/xUDg6dx/uK7qftPbX4M3//KLmtJ54Qu9r12EL8/dTx1e2n1UrTvaMfaNQ9o1/kSg9yV3FuYUgC/NIxGI5wctWQFLHj/8X70v/4nBINBwzLLllTj2w8/iZY161HOgU4y35/WgjiTM9M4PniSBD+GkYlRw/o8Hg82Nm1C+xPt+SgiQLnAdck9hWk/b8UKWPBXel7GiTdPwAoP1q3B52tXoLy4FLVLarR7kzNBXCNh/33tCh3D2mezPNzyBWuKkOJAlbsp9YI0TQFmreBQ36GcPf5x0L7jG5oicmG0o3ROdDIaGtwjFBhuLLo+eh0vvPgCLg8v3BYYK7AV/Kxzb1Zr0Pt+EsPwjGaEk8jYB/weCf38T567q3rdCB4fWAkr70mfMfQjvx7D7CINEjRsI7VM5p7/KfW83cK/+qIfv+62NwThNj7f/ZzW5iTUywE2faPyhgpgH6HosDv5+VDfq2kV2sXvjr2MN8+8DrthJRz986xiYyRLtp3kOVcoY+Gz+4PTU7s7vrfzrjf9TNgVen7Vi9IST3e1u7krW7mcCXaeLmiO7/2kCc9wm/9Ibc8lPGNqsb1+exXvHbI9a/T0155FmacC+w7+GA4wdObI2LybpU29YuGKaMHUC5sp83jt3JeRgttqRnjGUrpl/Y6qLqo97/XCQkDCHxg8Mmr6jzos5Zg/vDjtX76m+CZ12gaaV4txF0FvegOU4/8R9XyXlefySrht2Ob1xRT1JK3ZfSiAx1qfwtT0zYKnQuoQvxqN7DrdHxiGRQrKODZ/tbKDKujMVxEcCFHP4Zs/3JLP48le73778JilP5TSU3DKla0hqqrsczvJLSwtpcs9i7XzZPCWlcc0wemtzoHSSGS/vz9Q0Isd23LOmiIUtbUQi5gPOwVP4kjSvWlHVasiZQe1uKVgZUhBWevY0agQ/WcPj/lhM44oQA9bRlhVG1QpGiBkPf2kj4Ty0rUvrSAJSveoV+UwNepqTCpDaizsz2dgs8L/AY4Kgo8iJUfVAAAAAElFTkSuQmCC
               uid: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message: 
+                  message:
                     type: string
                     example: User avatar was changed
-        '400':
-          description: 'Bad Request'
+        "400":
+          description: "Bad Request"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message: 
+                  message:
                     type: string
                     example: Avatar format is not allowed or incorrect. Use base64 instead
   /trip/bag/all/{userId}:
@@ -126,7 +126,7 @@ paths:
       tags:
         - Bag
       summary: Get bag items
-      description: Get bag items of activated trip 
+      description: Get bag items of activated trip
       operationId: getBagItems
       parameters:
         - in: path
@@ -136,24 +136,24 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
                 type: array
-                items: 
-                  "$ref": '#/components/schemas/Bag'
-        '404':
-          description: 'Not Found'
+                items:
+                  "$ref": "#/components/schemas/Bag"
+        "404":
+          description: "Not Found"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message: 
+                  message:
                     type: string
                     example: User has no activated trip
   /trip/bag/{tripId}:
@@ -161,7 +161,7 @@ paths:
       tags:
         - Bag
       summary: Add bag item
-      description: Add bag item into trip 
+      description: Add bag item into trip
       operationId: addBagItem
       parameters:
         - in: path
@@ -186,16 +186,16 @@ paths:
               description: Camera
               userId: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message: 
+                  message:
                     type: string
                     example: Bag item added successfully
   /trip/bag/image:
@@ -227,10 +227,10 @@ paths:
                 data:image/png;base64,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
               userId: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -239,7 +239,7 @@ paths:
                   message:
                     type: string
                     example: Bag item image updated successfully
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -249,7 +249,7 @@ paths:
                   message:
                     type: string
                     example: Image format is not allowed or incorrect. Use base64 instead
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -264,7 +264,7 @@ paths:
       tags:
         - Bag
       summary: Update bag item count
-      description: ''
+      description: ""
       operationId: updateBagItemCount
       requestBody:
         content:
@@ -286,10 +286,10 @@ paths:
               bagItemId: 205c24f86d4b8c79201f5d4d26c7d3c4
               count: 2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -298,7 +298,7 @@ paths:
                   message:
                     type: string
                     example: Bag item count has been updated successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -327,10 +327,10 @@ paths:
             type: string
             example: 675b736ea96c83b655516b57b8600044
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -339,7 +339,7 @@ paths:
                   message:
                     type: string
                     example: Bag item has been deleted successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -348,15 +348,17 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: [
-                          "Bag item with id {BAG_ITEM_ID} is not found",
-                          "User has no activated trip"]
+                    example:
+                      [
+                        "Bag item with id {BAG_ITEM_ID} is not found",
+                        "User has no activated trip",
+                      ]
   /trip/activity/all/{userId}:
     get:
       tags:
         - Activity
       summary: Get activities
-      description: Get activities items of activated trip 
+      description: Get activities items of activated trip
       operationId: getActivities
       parameters:
         - in: path
@@ -366,24 +368,24 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
                 type: array
-                items: 
-                  $ref: '#/components/schemas/Activity'
-        '404':
-          description: 'Not Found'
+                items:
+                  $ref: "#/components/schemas/Activity"
+        "404":
+          description: "Not Found"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message: 
+                  message:
                     type: string
                     example: User has no activated trip
   /trip/activity/{userId}:
@@ -420,10 +422,10 @@ paths:
                 we will be protected from the angry Bears.
               heading: Find a Place
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -432,7 +434,7 @@ paths:
                   message:
                     type: string
                     example: Activity added successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -465,10 +467,10 @@ paths:
               activityId: 0ecf3c37d251c0479a09d0d88775e2e9
               userId: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -477,7 +479,7 @@ paths:
                   message:
                     type: string
                     example: Activity with id {ACTIVITY_ITEM_ID} has been completed successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -486,7 +488,11 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: ["Activity item with id {ACTIVITY_ITEM_ID} is not found in activated trip", "User has no activated trip"]
+                    example:
+                      [
+                        "Activity item with id {ACTIVITY_ITEM_ID} is not found in activated trip",
+                        "User has no activated trip",
+                      ]
   /trip/activity/delete:
     delete:
       tags:
@@ -506,10 +512,10 @@ paths:
             type: string
             example: 292ed90808df312625d81dac028b1b9d
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -518,7 +524,7 @@ paths:
                   message:
                     type: string
                     example: Activity with id {ACTIVITY_ITEM_ID} has been deleted successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -527,7 +533,11 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: ["Activity item with id {ACTIVITY_ITEM_ID} is not found in activated trip", "User has no activated trip"]
+                    example:
+                      [
+                        "Activity item with id {ACTIVITY_ITEM_ID} is not found in activated trip",
+                        "User has no activated trip",
+                      ]
   /trip/all/{userId}:
     get:
       tags:
@@ -543,10 +553,10 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -558,7 +568,7 @@ paths:
       tags:
         - Trip
       summary: Get activated trip
-      description: ''
+      description: ""
       operationId: getActivatedTrip
       parameters:
         - name: userId
@@ -568,22 +578,22 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Trip"
-        '404':
-          description: 'Not Found'
+        "404":
+          description: "Not Found"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message: 
+                  message:
                     type: string
                     example: User has no activated trip
   /trip/create:
@@ -591,7 +601,7 @@ paths:
       tags:
         - Trip
       summary: Create New Trip
-      description: ''
+      description: ""
       operationId: createNewTrip
       requestBody:
         content:
@@ -633,10 +643,10 @@ paths:
                   Time)
               userId: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -646,7 +656,7 @@ paths:
       tags:
         - Trip
       summary: Delete trip
-      description: ''
+      description: ""
       operationId: deleteTrip
       parameters:
         - name: userId
@@ -660,10 +670,10 @@ paths:
             type: string
             example: 292ed90808df312625d81dac028b1b9d
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -672,7 +682,7 @@ paths:
                   message:
                     type: string
                     example: Trip deleted successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -697,10 +707,10 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -709,7 +719,7 @@ paths:
                   message:
                     type: string
                     example: Trip with id {TRIP_ID} completed successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -742,10 +752,10 @@ paths:
               tripId: 63c93dbe37daeff8aa65cc98
               userId: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -754,7 +764,7 @@ paths:
                   message:
                     type: string
                     example: Trip activated successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -779,10 +789,10 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -791,7 +801,7 @@ paths:
                   message:
                     type: string
                     example: Trip deactivated successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -816,17 +826,17 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: "#/components/schemas/Snap"
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -841,7 +851,7 @@ paths:
       tags:
         - Snap
       summary: Create trip snap
-      description: ''
+      description: ""
       operationId: createTripSnap
       requestBody:
         content:
@@ -849,7 +859,7 @@ paths:
             schema:
               type: object
               properties:
-                image: 
+                image:
                   type: string
                   example: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAl/SURBVHgB1Zt/bBTHFce/s3tnbJ
                 userId:
@@ -859,15 +869,15 @@ paths:
               image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAl/SURBVHgB1Zt/bBTHFce/s3tnbJ
               userId: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Snap"
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -882,7 +892,7 @@ paths:
       tags:
         - Teammate
       summary: Get all user teammates of activated trip
-      description: ''
+      description: ""
       operationId: getAllUserTeammates
       parameters:
         - in: path
@@ -892,10 +902,10 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -903,7 +913,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/User"
                   default: []
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -918,7 +928,7 @@ paths:
       tags:
         - Teammate
       summary: Add teammate to activated trip
-      description: ''
+      description: ""
       operationId: addTeammate
       requestBody:
         content:
@@ -936,10 +946,10 @@ paths:
               userId: RgYM60evCyfBxbYmxWg7o0Pqhpz2
               teammateId: J9h69v4MiSWNK6VdFUBAKWQac4e2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -948,7 +958,7 @@ paths:
                   message:
                     type: string
                     example: Teammate added successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -963,7 +973,7 @@ paths:
       tags:
         - Teammate
       summary: Delete teammate from activated trip
-      description: ''
+      description: ""
       operationId: deleteTeammate
       requestBody:
         content:
@@ -981,10 +991,10 @@ paths:
               userId: RgYM60evCyfBxbYmxWg7o0Pqhpz2
               teammateId: J9h69v4MiSWNK6VdFUBAKWQac4e2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -993,7 +1003,7 @@ paths:
                   message:
                     type: string
                     example: Teammate deleted successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -1008,7 +1018,7 @@ paths:
       tags:
         - Notification
       summary: Get all user notifications
-      description: ''
+      description: ""
       operationId: getAllNotifications
       parameters:
         - in: path
@@ -1018,10 +1028,10 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -1033,7 +1043,7 @@ paths:
       tags:
         - Notification
       summary: Create notification
-      description: ''
+      description: ""
       operationId: createNotification
       requestBody:
         content:
@@ -1059,15 +1069,15 @@ paths:
               message: You recieved the welcome badge
               type: badge
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Notification"
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -1082,7 +1092,7 @@ paths:
       tags:
         - Notification
       summary: Delete notification
-      description: ''
+      description: ""
       operationId: deleteNotification
       parameters:
         - in: path
@@ -1092,10 +1102,10 @@ paths:
             type: string
             example: e8e0751f-a844-4cd6-89de-8a929eae3b8e
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -1104,7 +1114,7 @@ paths:
                   message:
                     type: string
                     example: Notification has been deleted successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -1119,13 +1129,13 @@ paths:
       tags:
         - Feedback
       summary: Get all feedbacks
-      description: ''
+      description: ""
       operationId: getAllFeedbacks
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -1137,7 +1147,7 @@ paths:
       tags:
         - Feedback
       summary: Get all user feedbacks
-      description: ''
+      description: ""
       operationId: getAllUserFeedbacks
       parameters:
         - in: path
@@ -1147,10 +1157,10 @@ paths:
             type: string
             example: RgYM60evCyfBxbYmxWg7o0Pqhpz2
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -1162,7 +1172,7 @@ paths:
       tags:
         - Feedback
       summary: Create feedback
-      description: ''
+      description: ""
       operationId: createFeedback
       requestBody:
         content:
@@ -1180,15 +1190,15 @@ paths:
               userId: RgYM60evCyfBxbYmxWg7o0Pqhpz2
               message: Write your feedback here
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Feedback"
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -1203,7 +1213,7 @@ paths:
       tags:
         - Feedback
       summary: Delete feedback
-      description: ''
+      description: ""
       operationId: deleteFeedback
       parameters:
         - name: userId
@@ -1217,10 +1227,10 @@ paths:
             type: string
             example: 63f8d789ada2dbd6f642a81c
       responses:
-        '500':
+        "500":
           description: Internal Server Error
-        '200':
-          description: 'OK'
+        "200":
+          description: "OK"
           content:
             application/json:
               schema:
@@ -1229,7 +1239,7 @@ paths:
                   message:
                     type: string
                     example: Feedback has been deleted successfully
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
@@ -1239,7 +1249,7 @@ paths:
                   message:
                     type: string
                     example: Feedback is not found or has been already deleted
-  
+
 tags:
   - name: User
   - name: Trip
@@ -1338,7 +1348,7 @@ components:
         locations:
           type: array
           default: []
-          items: 
+          items:
             "$ref": "#/components/schemas/TripLocation"
           description: Array of camping locations (from Front-end external API)
         teammates:
@@ -1430,7 +1440,7 @@ components:
             * `info` - information about app states
             * `success` - successfull action
             * `invitation` - invitation user to trip (or any else)
-          enum: 
+          enum:
             - badge
             - info
             - success
@@ -1444,7 +1454,7 @@ components:
     Teammate:
       type: object
       properties:
-        userId: 
+        userId:
           type: string
           description: User uid
         isOnline:

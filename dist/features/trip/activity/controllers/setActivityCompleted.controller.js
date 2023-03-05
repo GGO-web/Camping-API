@@ -10,17 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setActivityCompleted = void 0;
+const asyncWrapper_1 = require("../../../../helpers/asyncWrapper");
+const withController_1 = require("../../../../helpers/withController");
 const activity_service_1 = require("../activity.service");
 const setActivityCompleted = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, activityId } = req.body;
     yield activity_service_1.ActivityService.setActivityCompleted(userId, activityId);
     return res.json({
-        message: `Activity with id ${activityId} has been completed successfully`,
+        message: `Activity with id ${activityId} has been completed successfully`
     });
 });
 exports.setActivityCompleted = setActivityCompleted;
-exports.default = {
-    route: exports.setActivityCompleted,
-    method: "patch",
-    path: "/complete",
-};
+exports.default = [
+    (0, withController_1.withController)("/complete", "patch", (0, asyncWrapper_1.asyncWrapper)(exports.setActivityCompleted))
+];

@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../helpers/asyncWrapper";
+
+import { withController } from "../../../helpers/withController";
 
 import { NotificationService } from "../notification.service";
 
@@ -13,8 +15,6 @@ export const deleteNotification = async (req: Request, res: Response) => {
   });
 };
 
-export default {
-  route: deleteNotification,
-  method: "delete",
-  path: "/delete/:id"
-} as IRouteConfig;
+export default [
+  withController("/delete/:id", "delete", asyncWrapper(deleteNotification))
+];

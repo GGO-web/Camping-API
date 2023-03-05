@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../helpers/asyncWrapper";
+
+import { withController } from "../../../helpers/withController";
 
 import { FeedbackService } from "../feedback.service";
 
@@ -15,8 +17,6 @@ const deleteFeedback = async (
   return res.status(200).json(feedback);
 };
 
-export default {
-  route: deleteFeedback,
-  method: "delete",
-  path: "/delete"
-} as IRouteConfig;
+export default [
+  withController("/delete", "delete", asyncWrapper(deleteFeedback))
+];

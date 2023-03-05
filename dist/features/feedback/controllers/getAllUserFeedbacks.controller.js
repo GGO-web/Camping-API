@@ -9,14 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const asyncWrapper_1 = require("../../../helpers/asyncWrapper");
+const withController_1 = require("../../../helpers/withController");
 const feedback_service_1 = require("../feedback.service");
 const getAllUserFeedbacks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     const userFeedbacks = yield feedback_service_1.FeedbackService.getAllUserFeedbacks(userId);
     return res.status(200).json(userFeedbacks);
 });
-exports.default = {
-    route: getAllUserFeedbacks,
-    method: "get",
-    path: "/:userId",
-};
+exports.default = [
+    (0, withController_1.withController)("/:userId", "get", (0, asyncWrapper_1.asyncWrapper)(getAllUserFeedbacks))
+];

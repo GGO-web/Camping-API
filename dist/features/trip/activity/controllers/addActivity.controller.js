@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addActivity = void 0;
+const asyncWrapper_1 = require("../../../../helpers/asyncWrapper");
+const withController_1 = require("../../../../helpers/withController");
 const activity_service_1 = require("../activity.service");
 const addActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
@@ -18,8 +20,4 @@ const addActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     return res.json({ message: "Activity added successfully" });
 });
 exports.addActivity = addActivity;
-exports.default = {
-    route: exports.addActivity,
-    method: "post",
-    path: "/:userId"
-};
+exports.default = [(0, withController_1.withController)("/:userId", "post", (0, asyncWrapper_1.asyncWrapper)(exports.addActivity))];

@@ -7,14 +7,16 @@ import { isValidImageFormat } from "../../../helpers/isValidImageFormat";
 import { UserService } from "../user.service";
 
 import { NotificationService } from "../../notification/notification.service";
-import { IRouteConfig } from "../../../types/routeConfig.type";
+
+import { withController } from "../../../helpers/withController";
+import { asyncWrapper } from "../../../helpers/asyncWrapper";
 
 export const updateUserAvatar = async (req: Request, res: Response) => {
   const { uid, avatar } = req.body as IUser;
 
   if (!isValidImageFormat(avatar)) {
     return res.status(400).json({
-      message: "Avatar format is not allowed or incorrect. Use base64 instead",
+      message: "Avatar format is not allowed or incorrect. Use base64 instead"
     });
   }
 
@@ -24,16 +26,14 @@ export const updateUserAvatar = async (req: Request, res: Response) => {
     userId: uid,
     title: "User profile",
     message: "Avatar has been changed and your teammates will see it very soon",
-    type: "success",
+    type: "success"
   });
 
   return res.json({
-    message: "User avatar was changed",
+    message: "User avatar was changed"
   });
 };
 
-export default {
-  route: updateUserAvatar,
-  path: "/avatar",
-  method: "patch",
-} as IRouteConfig;
+export default [
+  withController("/avatar", "patch", asyncWrapper(updateUserAvatar))
+];

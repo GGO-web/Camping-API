@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllUserTeammates = void 0;
+const asyncWrapper_1 = require("../../../helpers/asyncWrapper");
+const withController_1 = require("../../../helpers/withController");
 const teammates_service_1 = require("../teammates.service");
 const getAllUserTeammates = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
@@ -17,8 +19,6 @@ const getAllUserTeammates = (req, res) => __awaiter(void 0, void 0, void 0, func
     return res.json(teammates);
 });
 exports.getAllUserTeammates = getAllUserTeammates;
-exports.default = {
-    route: exports.getAllUserTeammates,
-    method: "get",
-    path: "/all/:userId",
-};
+exports.default = [
+    (0, withController_1.withController)("/all/:userId", "get", (0, asyncWrapper_1.asyncWrapper)(exports.getAllUserTeammates))
+];

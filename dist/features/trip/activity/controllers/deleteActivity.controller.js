@@ -10,17 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteActivity = void 0;
+const asyncWrapper_1 = require("../../../../helpers/asyncWrapper");
+const withController_1 = require("../../../../helpers/withController");
 const activity_service_1 = require("../activity.service");
 const deleteActivity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, activityId } = req.query;
     yield activity_service_1.ActivityService.deleteActivity(userId, activityId);
     return res.json({
-        message: `Activity with id ${activityId} has been deleted successfully`,
+        message: `Activity with id ${activityId} has been deleted successfully`
     });
 });
 exports.deleteActivity = deleteActivity;
-exports.default = {
-    route: exports.deleteActivity,
-    method: "delete",
-    path: "/delete",
-};
+exports.default = [
+    (0, withController_1.withController)("/delete", "delete", (0, asyncWrapper_1.asyncWrapper)(exports.deleteActivity))
+];

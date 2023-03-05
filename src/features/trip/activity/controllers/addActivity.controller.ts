@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+
+import { withController } from "../../../../helpers/withController";
 
 import { IActivity } from "../activity.model";
 
@@ -14,8 +16,4 @@ export const addActivity = async (req: Request, res: Response) => {
   return res.json({ message: "Activity added successfully" });
 };
 
-export default {
-  route: addActivity,
-  method: "post",
-  path: "/:userId"
-} as IRouteConfig;
+export default [withController("/:userId", "post", asyncWrapper(addActivity))];

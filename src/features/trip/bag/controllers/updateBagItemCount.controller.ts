@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+import { withController } from "../../../../helpers/withController";
 
 import { BagService } from "../bag.service";
 
@@ -11,8 +12,6 @@ export const updateBagItemCount = async (req: Request, res: Response) => {
   return res.json({ message: "Bag item count has been updated successfully" });
 };
 
-export default {
-  route: updateBagItemCount,
-  method: "patch",
-  path: "/count",
-} as IRouteConfig;
+export default [
+  withController("/count", "patch", asyncWrapper(updateBagItemCount))
+];

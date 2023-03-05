@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllUserTripSnaps = void 0;
+const asyncWrapper_1 = require("../../../../helpers/asyncWrapper");
+const withController_1 = require("../../../../helpers/withController");
 const snaps_service_1 = require("../snaps.service");
 // Snaps endpoints
 const getAllUserTripSnaps = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -18,8 +20,6 @@ const getAllUserTripSnaps = (req, res) => __awaiter(void 0, void 0, void 0, func
     return res.json(snaps);
 });
 exports.getAllUserTripSnaps = getAllUserTripSnaps;
-exports.default = {
-    route: exports.getAllUserTripSnaps,
-    method: "get",
-    path: "/:userId",
-};
+exports.default = [
+    (0, withController_1.withController)("/:userId", "get", (0, asyncWrapper_1.asyncWrapper)(exports.getAllUserTripSnaps))
+];

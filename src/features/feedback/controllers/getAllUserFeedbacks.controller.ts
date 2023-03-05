@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../helpers/asyncWrapper";
+
+import { withController } from "../../../helpers/withController";
 
 import { FeedbackService } from "../feedback.service";
 
@@ -14,8 +16,6 @@ const getAllUserFeedbacks = async (
   return res.status(200).json(userFeedbacks);
 };
 
-export default {
-  route: getAllUserFeedbacks,
-  method: "get",
-  path: "/:userId",
-} as IRouteConfig;
+export default [
+  withController("/:userId", "get", asyncWrapper(getAllUserFeedbacks))
+];

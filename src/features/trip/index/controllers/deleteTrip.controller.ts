@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+import { withController } from "../../../../helpers/withController";
 
 import { TripService } from "../trip.service";
 
@@ -14,8 +15,4 @@ export const deleteTrip = async (
   return res.json({ message: "Trip deleted successfully" });
 };
 
-export default {
-  route: deleteTrip,
-  method: "delete",
-  path: "/delete",
-} as IRouteConfig;
+export default [withController("/delete", "delete", asyncWrapper(deleteTrip))];

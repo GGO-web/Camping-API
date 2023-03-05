@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+import { withController } from "../../../../helpers/withController";
 
 import { TripService } from "../trip.service";
 
@@ -9,12 +10,10 @@ export const completeTrip = async (req: Request, res: Response) => {
   const savedTrip = await TripService.completeTrip(userId);
 
   return res.json({
-    message: `Trip with id ${savedTrip?.get("_id")} completed successfully`,
+    message: `Trip with id ${savedTrip?.get("_id")} completed successfully`
   });
 };
 
-export default {
-  route: completeTrip,
-  method: "patch",
-  path: "/complete/:userId",
-} as IRouteConfig;
+export default [
+  withController("/complete/:userId", "patch", asyncWrapper(completeTrip))
+];

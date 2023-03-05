@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../helpers/asyncWrapper";
+
+import { withController } from "../../../helpers/withController";
 
 import { TeammatesService } from "../teammates.service";
 
@@ -11,8 +13,4 @@ export const addTeammate = async (req: Request, res: Response) => {
   return res.json({ message: "Teammate added successfully" });
 };
 
-export default {
-  route: addTeammate,
-  method: "post",
-  path: "/add"
-} as IRouteConfig;
+export default [withController("/add", "post", asyncWrapper(addTeammate))];

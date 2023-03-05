@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivateTrip = void 0;
+const asyncWrapper_1 = require("../../../../helpers/asyncWrapper");
+const withController_1 = require("../../../../helpers/withController");
 const trip_service_1 = require("../trip.service");
 const deactivateTrip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
@@ -17,8 +19,6 @@ const deactivateTrip = (req, res) => __awaiter(void 0, void 0, void 0, function*
     return res.json({ message: "Trip deactivated successfully" });
 });
 exports.deactivateTrip = deactivateTrip;
-exports.default = {
-    route: exports.deactivateTrip,
-    method: "patch",
-    path: "/deactivate/:userId",
-};
+exports.default = [
+    (0, withController_1.withController)("/deactivate/:userId", "patch", (0, asyncWrapper_1.asyncWrapper)(exports.deactivateTrip))
+];

@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addTeammate = void 0;
+const asyncWrapper_1 = require("../../../helpers/asyncWrapper");
+const withController_1 = require("../../../helpers/withController");
 const teammates_service_1 = require("../teammates.service");
 const addTeammate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, teammateId } = req.body;
@@ -17,8 +19,4 @@ const addTeammate = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     return res.json({ message: "Teammate added successfully" });
 });
 exports.addTeammate = addTeammate;
-exports.default = {
-    route: exports.addTeammate,
-    method: "post",
-    path: "/add"
-};
+exports.default = [(0, withController_1.withController)("/add", "post", (0, asyncWrapper_1.asyncWrapper)(exports.addTeammate))];

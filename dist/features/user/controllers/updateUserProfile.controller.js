@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUserProfile = void 0;
 const user_service_1 = require("../user.service");
 const notification_service_1 = require("../../notification/notification.service");
+const withController_1 = require("../../../helpers/withController");
+const asyncWrapper_1 = require("../../../helpers/asyncWrapper");
 const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { uid, fullname, occupation, bio } = req.body;
     yield user_service_1.UserService.updateUserProfile({ uid, fullname, occupation, bio });
@@ -19,15 +21,11 @@ const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, functi
         userId: uid,
         title: "User profile",
         message: "Profile successfully updated check it out",
-        type: "success",
+        type: "success"
     });
     return res.json({
-        message: "User profile has successfully updated",
+        message: "User profile has successfully updated"
     });
 });
 exports.updateUserProfile = updateUserProfile;
-exports.default = {
-    route: exports.updateUserProfile,
-    path: "/",
-    method: "patch",
-};
+exports.default = [(0, withController_1.withController)("/", "patch", (0, asyncWrapper_1.asyncWrapper)(exports.updateUserProfile))];

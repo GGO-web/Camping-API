@@ -13,9 +13,7 @@
   "paths": {
     "/user/{userId}": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "GET User by UID",
         "description": "Get User from Camping DB using firebase registered user UID",
         "operationId": "getUserById",
@@ -49,9 +47,7 @@
     },
     "/user/": {
       "patch": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Update User Profile",
         "description": "Update User profile to tell about yourself for other teammates",
         "operationId": "updateUserProfile",
@@ -113,9 +109,7 @@
     },
     "/user/avatar": {
       "patch": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Update User Avatar",
         "description": "Update User avatar image as base64 format",
         "operationId": "updateUserAvatar",
@@ -183,9 +177,7 @@
     },
     "/trip/bag/all/{userId}": {
       "get": {
-        "tags": [
-          "Bag"
-        ],
+        "tags": ["Bag"],
         "summary": "Get bag items",
         "description": "Get bag items of activated trip",
         "operationId": "getBagItems",
@@ -238,9 +230,7 @@
     },
     "/trip/bag/{tripId}": {
       "post": {
-        "tags": [
-          "Bag"
-        ],
+        "tags": ["Bag"],
         "summary": "Add bag item",
         "description": "Add bag item into trip",
         "operationId": "addBagItem",
@@ -303,9 +293,7 @@
     },
     "/trip/bag/image": {
       "patch": {
-        "tags": [
-          "Bag"
-        ],
+        "tags": ["Bag"],
         "summary": "Update bag image",
         "description": "Update bag item image as base64 format",
         "operationId": "updateBagImage",
@@ -394,9 +382,7 @@
     },
     "/trip/bag/count": {
       "patch": {
-        "tags": [
-          "Bag"
-        ],
+        "tags": ["Bag"],
         "summary": "Update bag item count",
         "description": "",
         "operationId": "updateBagItemCount",
@@ -469,9 +455,7 @@
     },
     "/trip/bag/delete": {
       "delete": {
-        "tags": [
-          "Bag"
-        ],
+        "tags": ["Bag"],
         "summary": "Remove bag item",
         "description": "Remove bag item",
         "operationId": "removeBagItem",
@@ -537,9 +521,7 @@
     },
     "/trip/activity/all/{userId}": {
       "get": {
-        "tags": [
-          "Activity"
-        ],
+        "tags": ["Activity"],
         "summary": "Get activities",
         "description": "Get activities items of activated trip",
         "operationId": "getActivities",
@@ -592,9 +574,7 @@
     },
     "/trip/activity/{userId}": {
       "post": {
-        "tags": [
-          "Activity"
-        ],
+        "tags": ["Activity"],
         "summary": "Add activity",
         "description": "Add Activity to active trip by userId",
         "operationId": "addActivity",
@@ -673,9 +653,7 @@
     },
     "/trip/activity/complete": {
       "patch": {
-        "tags": [
-          "Activity"
-        ],
+        "tags": ["Activity"],
         "summary": "Set activity completed",
         "description": "Set activity completed",
         "operationId": "setActivityCompleted",
@@ -746,9 +724,7 @@
     },
     "/trip/activity/delete": {
       "delete": {
-        "tags": [
-          "Activity"
-        ],
+        "tags": ["Activity"],
         "summary": "Delete activity",
         "description": "Delete activity",
         "operationId": "deleteActivity",
@@ -814,9 +790,7 @@
     },
     "/trip/all/{userId}": {
       "get": {
-        "tags": [
-          "Trip"
-        ],
+        "tags": ["Trip"],
         "summary": "Get all trips",
         "description": "Get all trips from Camping DB",
         "operationId": "getAllTrips",
@@ -853,9 +827,7 @@
     },
     "/trip/activated/{userId}": {
       "get": {
-        "tags": [
-          "Trip"
-        ],
+        "tags": ["Trip"],
         "summary": "Get activated trip",
         "description": "",
         "operationId": "getActivatedTrip",
@@ -905,9 +877,7 @@
     },
     "/trip/create": {
       "post": {
-        "tags": [
-          "Trip"
-        ],
+        "tags": ["Trip"],
         "summary": "Create New Trip",
         "description": "",
         "operationId": "createNewTrip",
@@ -975,9 +945,7 @@
     },
     "/trip/delete": {
       "delete": {
-        "tags": [
-          "Trip"
-        ],
+        "tags": ["Trip"],
         "summary": "Delete trip",
         "description": "",
         "operationId": "deleteTrip",
@@ -1040,9 +1008,7 @@
     },
     "/trip/complete/{userId}": {
       "patch": {
-        "tags": [
-          "Trip"
-        ],
+        "tags": ["Trip"],
         "summary": "Complete trip",
         "description": "Set Trip completed after filling initial data",
         "operationId": "completeTrip",
@@ -1098,9 +1064,7 @@
     },
     "/trip/activate": {
       "patch": {
-        "tags": [
-          "Trip"
-        ],
+        "tags": ["Trip"],
         "summary": "Activate trip",
         "description": "Set activated field for given Trip and User",
         "operationId": "activateTrip",
@@ -1168,9 +1132,7 @@
     },
     "/trip/deactivate/{userId}": {
       "patch": {
-        "tags": [
-          "Trip"
-        ],
+        "tags": ["Trip"],
         "summary": "Deactivate trip",
         "description": "Turn off activated field for current Trip",
         "operationId": "deactivateTrip",
@@ -1226,9 +1188,7 @@
     },
     "/trip/snaps/{userId}": {
       "get": {
-        "tags": [
-          "Snap"
-        ],
+        "tags": ["Snap"],
         "summary": "Get trip snaps",
         "description": "Get all user snaps for all trips",
         "operationId": "getAllUserTripSnaps",
@@ -1281,9 +1241,7 @@
     },
     "/trip/snaps/create": {
       "post": {
-        "tags": [
-          "Snap"
-        ],
+        "tags": ["Snap"],
         "summary": "Create trip snap",
         "description": "",
         "operationId": "createTripSnap",
@@ -1345,9 +1303,7 @@
     },
     "/teammates/all/{userId}": {
       "get": {
-        "tags": [
-          "Teammate"
-        ],
+        "tags": ["Teammate"],
         "summary": "Get all user teammates of activated trip",
         "description": "",
         "operationId": "getAllUserTeammates",
@@ -1401,9 +1357,7 @@
     },
     "/teammates/add": {
       "post": {
-        "tags": [
-          "Teammate"
-        ],
+        "tags": ["Teammate"],
         "summary": "Add teammate to activated trip",
         "description": "",
         "operationId": "addTeammate",
@@ -1471,9 +1425,7 @@
     },
     "/teammates/delete": {
       "post": {
-        "tags": [
-          "Teammate"
-        ],
+        "tags": ["Teammate"],
         "summary": "Delete teammate from activated trip",
         "description": "",
         "operationId": "deleteTeammate",
@@ -1541,9 +1493,7 @@
     },
     "/notification/all/{userId}": {
       "get": {
-        "tags": [
-          "Notification"
-        ],
+        "tags": ["Notification"],
         "summary": "Get all user notifications",
         "description": "",
         "operationId": "getAllNotifications",
@@ -1580,9 +1530,7 @@
     },
     "/notification/create": {
       "post": {
-        "tags": [
-          "Notification"
-        ],
+        "tags": ["Notification"],
         "summary": "Create notification",
         "description": "",
         "operationId": "createNotification",
@@ -1654,9 +1602,7 @@
     },
     "/notification/delete/{id}": {
       "delete": {
-        "tags": [
-          "Notification"
-        ],
+        "tags": ["Notification"],
         "summary": "Delete notification",
         "description": "",
         "operationId": "deleteNotification",
@@ -1712,9 +1658,7 @@
     },
     "/feedback/all": {
       "get": {
-        "tags": [
-          "Feedback"
-        ],
+        "tags": ["Feedback"],
         "summary": "Get all feedbacks",
         "description": "",
         "operationId": "getAllFeedbacks",
@@ -1740,9 +1684,7 @@
     },
     "/feedback/{userId}": {
       "get": {
-        "tags": [
-          "Feedback"
-        ],
+        "tags": ["Feedback"],
         "summary": "Get all user feedbacks",
         "description": "",
         "operationId": "getAllUserFeedbacks",
@@ -1779,9 +1721,7 @@
     },
     "/feedback/create": {
       "post": {
-        "tags": [
-          "Feedback"
-        ],
+        "tags": ["Feedback"],
         "summary": "Create feedback",
         "description": "",
         "operationId": "createFeedback",
@@ -1843,9 +1783,7 @@
     },
     "/feedback/delete/": {
       "delete": {
-        "tags": [
-          "Feedback"
-        ],
+        "tags": ["Feedback"],
         "summary": "Delete feedback",
         "description": "",
         "operationId": "deleteFeedback",
@@ -1958,9 +1896,7 @@
             "description": "Info about user"
           }
         },
-        "required": [
-          "fullname"
-        ]
+        "required": ["fullname"]
       },
       "Bag": {
         "type": "object",
@@ -1988,9 +1924,7 @@
             "description": "User uid (server side)"
           }
         },
-        "required": [
-          "description"
-        ]
+        "required": ["description"]
       },
       "Activity": {
         "type": "object",
@@ -2018,10 +1952,7 @@
             "description": "User uid (server side)"
           }
         },
-        "required": [
-          "heading",
-          "description"
-        ]
+        "required": ["heading", "description"]
       },
       "Snap": {
         "type": "object",
@@ -2039,10 +1970,7 @@
             "description": "User uid (server side)"
           }
         },
-        "required": [
-          "image",
-          "userId"
-        ]
+        "required": ["image", "userId"]
       },
       "Trip": {
         "type": "object",
@@ -2095,11 +2023,7 @@
             "description": "Trip is activated and user gets access to it"
           }
         },
-        "required": [
-          "tripName",
-          "tripPeriod",
-          "userId"
-        ]
+        "required": ["tripName", "tripPeriod", "userId"]
       },
       "TripPeriod": {
         "type": "object",
@@ -2119,11 +2043,7 @@
             "description": "Trip formatted period of start-finish dates"
           }
         },
-        "required": [
-          "startDate",
-          "endDate",
-          "formatted"
-        ]
+        "required": ["startDate", "endDate", "formatted"]
       },
       "TripLocation": {
         "type": "object",
@@ -2187,12 +2107,7 @@
           "type": {
             "type": "string",
             "description": "Notification type (badge, info, success): * `badge` - user action reward * `info` - information about app states * `success` - successfull action * `invitation` - invitation user to trip (or any else)\n",
-            "enum": [
-              "badge",
-              "info",
-              "success",
-              "invitation"
-            ],
+            "enum": ["badge", "info", "success", "invitation"],
             "default": "success"
           },
           "datetime": {
@@ -2201,11 +2116,7 @@
             "description": "Notification datetime UTC format (autogenerated)"
           }
         },
-        "required": [
-          "title",
-          "message",
-          "type"
-        ]
+        "required": ["title", "message", "type"]
       },
       "Teammate": {
         "type": "object",
@@ -2220,9 +2131,7 @@
             "default": false
           }
         },
-        "required": [
-          "userId"
-        ]
+        "required": ["userId"]
       },
       "Feedback": {
         "type": "object",
@@ -2245,10 +2154,7 @@
             "description": "Feedback datetime UTC format (autogenerated)"
           }
         },
-        "required": [
-          "userId",
-          "message"
-        ]
+        "required": ["userId", "message"]
       },
       "AppError": {
         "type": "object",

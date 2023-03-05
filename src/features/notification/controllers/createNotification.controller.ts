@@ -3,7 +3,9 @@ import { Request, Response } from "express";
 import { NotificationService } from "../notification.service";
 
 import { INotification } from "../notification.model";
-import { IRouteConfig } from "../../../types/routeConfig.type";
+
+import { withController } from "../../../helpers/withController";
+import { asyncWrapper } from "../../../helpers/asyncWrapper";
 
 export const createNotification = async (
   req: Request<any, INotification, any, any>,
@@ -18,8 +20,6 @@ export const createNotification = async (
   return res.status(200).json(createdNotification);
 };
 
-export default {
-  route: createNotification,
-  method: "post",
-  path: "/create",
-} as IRouteConfig;
+export default [
+  withController("/create", "post", asyncWrapper(createNotification))
+];

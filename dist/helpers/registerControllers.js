@@ -34,28 +34,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerControllers = void 0;
 const logger_1 = require("../utils/logger");
-const asyncWrapper_1 = require("./asyncWrapper");
 const getDirectoryFiles_1 = require("./getDirectoryFiles");
 const registerControllers = (router, path) => {
     (0, getDirectoryFiles_1.getDirectoryFiles)(path).map((routeName) => __awaiter(void 0, void 0, void 0, function* () {
         var _a;
-        const route = yield (_a = `${path}/${routeName}`, Promise.resolve().then(() => __importStar(require(_a))));
-        const routeConfig = route.default;
-        const { method, middlewares } = routeConfig;
-        if (routeConfig.route) {
-            router[method](routeConfig.path, ...(middlewares || []), (0, asyncWrapper_1.asyncWrapper)(routeConfig.route));
-            // logger.info(
-            //   `ROUTE ${"\x1b[33m"}${
-            //     routeConfig.path
-            //   }${"\x1b[0m"} registered with method ${"\x1b[33m"}${routeName.replace(
-            //     ".route.js",
-            //     ""
-            //   )}${"\x1b[0m"}`
-            // );
-        }
-        else {
-            logger_1.logger.error(`Route ${routeConfig.path} is not defined in ${routeName} file`);
-        }
+        const controller = yield (_a = `${path}/${routeName}`, Promise.resolve().then(() => __importStar(require(_a))));
+        const controllerConfigs = controller.default;
+        controllerConfigs.map((controllerConfig) => {
+            const { method, middlewares } = controllerConfig;
+            if (controllerConfig.controller) {
+                router[method](controllerConfig.path, ...(middlewares || []), controllerConfig.controller);
+                // logger.info(
+                //   `ROUTE ${"\x1b[33m"}${
+                //     controllerConfig.path
+                //   }${"\x1b[0m"} registered with method ${"\x1b[33m"}${routeName.replace(
+                //     ".route.js",
+                //     ""
+                //   )}${"\x1b[0m"}`
+                // );
+            }
+            else {
+                logger_1.logger.error(`Route ${controllerConfig.path} is not defined in ${routeName} file`);
+            }
+        });
     }));
 };
 exports.registerControllers = registerControllers;

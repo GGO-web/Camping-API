@@ -24,14 +24,14 @@ npm install
 
 3. Define 2 private files before execution:
 
-- ```.env``` in the root folder:
+- `.env` in the root folder:
 
 ```
 PORT=8080
 MONGODB_CONNECTION=MONGODB_CONNECTION_STRING
 ```
 
-- Create "private" folder in the root and create firebase admin sdk json credentials ``` camping-app-66565-firebase-adminsdk-y5t5h-cff9822bb7.json ``` with similar structure:
+- Create "private" folder in the root and create firebase admin sdk json credentials `camping-app-66565-firebase-adminsdk-y5t5h-cff9822bb7.json` with similar structure:
 
 ```json
 {
@@ -58,7 +58,7 @@ How to create firebase admin SDK account?
 npm run server
 ```
 
-If you have any troubles try to modify **src/index.ts** file to get your created *private/firebase-admin-sdk.json* config instead of a predefined name (camping-app-66565-firebase-adminsdk-y5t5h-cff9822bb7.json) and rebuild the app using ```npm run build``` command
+If you have any troubles try to modify **src/index.ts** file to get your created _private/firebase-admin-sdk.json_ config instead of a predefined name (camping-app-66565-firebase-adminsdk-y5t5h-cff9822bb7.json) and rebuild the app using `npm run build` command
 
 ## Documentation
 

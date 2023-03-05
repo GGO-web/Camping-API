@@ -13,11 +13,13 @@ exports.updateUserAvatar = void 0;
 const isValidImageFormat_1 = require("../../../helpers/isValidImageFormat");
 const user_service_1 = require("../user.service");
 const notification_service_1 = require("../../notification/notification.service");
+const withController_1 = require("../../../helpers/withController");
+const asyncWrapper_1 = require("../../../helpers/asyncWrapper");
 const updateUserAvatar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { uid, avatar } = req.body;
     if (!(0, isValidImageFormat_1.isValidImageFormat)(avatar)) {
         return res.status(400).json({
-            message: "Avatar format is not allowed or incorrect. Use base64 instead",
+            message: "Avatar format is not allowed or incorrect. Use base64 instead"
         });
     }
     yield user_service_1.UserService.updateUserProfile({ uid, avatar });
@@ -25,15 +27,13 @@ const updateUserAvatar = (req, res) => __awaiter(void 0, void 0, void 0, functio
         userId: uid,
         title: "User profile",
         message: "Avatar has been changed and your teammates will see it very soon",
-        type: "success",
+        type: "success"
     });
     return res.json({
-        message: "User avatar was changed",
+        message: "User avatar was changed"
     });
 });
 exports.updateUserAvatar = updateUserAvatar;
-exports.default = {
-    route: exports.updateUserAvatar,
-    path: "/avatar",
-    method: "patch",
-};
+exports.default = [
+    (0, withController_1.withController)("/avatar", "patch", (0, asyncWrapper_1.asyncWrapper)(exports.updateUserAvatar))
+];

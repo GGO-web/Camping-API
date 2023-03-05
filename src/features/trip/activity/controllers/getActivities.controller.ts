@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+
+import { withController } from "../../../../helpers/withController";
 
 import { TripService } from "../../index/trip.service";
 
@@ -14,8 +16,6 @@ const getActivities = async (
   return res.json(trip.activities);
 };
 
-export default {
-  route: getActivities,
-  method: "get",
-  path: "/all/:userId",
-} as IRouteConfig;
+export default [
+  withController("/all/:userId", "get", asyncWrapper(getActivities))
+];

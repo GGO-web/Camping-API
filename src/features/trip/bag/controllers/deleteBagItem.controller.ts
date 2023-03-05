@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { IRouteConfig } from "../../../../types/routeConfig.type";
+import { asyncWrapper } from "../../../../helpers/asyncWrapper";
+import { withController } from "../../../../helpers/withController";
 
 import { BagService } from "../bag.service";
 
@@ -14,8 +15,6 @@ export const deleteBagItem = async (
   return res.json({ message: "Bag item has been deleted successfully" });
 };
 
-export default {
-  route: deleteBagItem,
-  method: "delete",
-  path: "/delete",
-} as IRouteConfig;
+export default [
+  withController("/delete", "delete", asyncWrapper(deleteBagItem))
+];
