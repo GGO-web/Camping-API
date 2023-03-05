@@ -1,7 +1,7 @@
 import { AppError } from "../../models/Error.model";
 
 import { NotificationService } from "../notification/notification.service";
-import { TripService } from "../trip/trip.service";
+import { TripService } from "../trip/index/trip.service";
 
 import { IUser } from "../user/user.model";
 

@@ -2,8 +2,6 @@ import express, { Express } from "express";
 
 import cors from "cors";
 
-import { getDirectories } from "./helpers/getDirectoryStructure";
-
 import { morganMiddleware } from "./middleware/morganMiddleware";
 
 // middlewares
@@ -13,6 +11,7 @@ import { logger } from "./utils/logger";
 
 // configs
 import "./utils/config";
+import { registerRouters } from "./helpers/registerRouters";
 
 const app: Express = express();
 
@@ -29,13 +28,7 @@ const swaggerDocument = require("../openapi.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // register all features routers
-getDirectories("./src/features").map(async (feature) => {
-  logger.log({ level: "info", message: `Registering router: ${feature}` });
-
-  const router = await import(`./features/${feature}/${feature}.router`);
-
-  app.use(`/api/${feature}`, router.default);
-});
+registerRouters(app);
 
 // listening server startup
 (async () => {
@@ -44,8 +37,9 @@ getDirectories("./src/features").map(async (feature) => {
     app.listen(port, () => {
       logger.info({ message: `Listening on port ${port}`, port });
     });
-  } catch (err: any) {
-    logger.error(`Error on server startup: ${err.message}`);
+  } catch (err) {
+    const error = err as Error;
+    logger.error(`Error on server startup: ${error.message}`);
   }
 })();
 

@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TeammatesService = void 0;
 const Error_model_1 = require("../../models/Error.model");
 const notification_service_1 = require("../notification/notification.service");
-const trip_service_1 = require("../trip/trip.service");
+const trip_service_1 = require("../trip/index/trip.service");
 const user_service_1 = require("../user/user.service");
 class TeammatesService {
 }
